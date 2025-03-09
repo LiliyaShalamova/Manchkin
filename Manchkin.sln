@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manchkin", "Manchkin\Manchkin.csproj", "{C38410EA-232B-4C10-B21A-AE7AEAA59E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manchkin.Core", "Manchkin.Core\Manchkin.Core.csproj", "{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C38410EA-232B-4C10-B21A-AE7AEAA59E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C38410EA-232B-4C10-B21A-AE7AEAA59E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C38410EA-232B-4C10-B21A-AE7AEAA59E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C38410EA-232B-4C10-B21A-AE7AEAA59E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
