@@ -1,9 +1,9 @@
 ﻿namespace Manchkin.Core;
 
 /// <summary>
-/// Класс Проклятие
+/// Заклинания
 /// </summary>
-public class Curse:Door
+public class Spell : Treasure
 {
     
 }

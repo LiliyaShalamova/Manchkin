@@ -1,9 +1,9 @@
 ﻿namespace Manchkin.Core;
 
 /// <summary>
-/// Класс шмотки
+/// Класс Проклятие
 /// </summary>
-public class Сlothes : Treasure
+public class Curse : Door
 {
     
 }

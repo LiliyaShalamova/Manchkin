@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Manchkin.Core\Manchkin.Core.csproj" />
+    </ItemGroup>
+
 </Project>

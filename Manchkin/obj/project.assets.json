@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net9.0": {
+      "Manchkin.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Manchkin.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Manchkin.Core.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Manchkin.Core/1.0.0": {
+      "type": "project",
+      "path": "../Manchkin.Core/Manchkin.Core.csproj",
+      "msbuildProject": "../Manchkin.Core/Manchkin.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net9.0": [
+      "Manchkin.Core >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\shala\\.nuget\\packages\\": {}
@@ -33,7 +52,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\shala\\source\\repos\\Манчкин\\Manchkin\\Manchkin.Core\\Manchkin.Core.csproj": {
+              "projectPath": "C:\\Users\\shala\\source\\repos\\Манчкин\\Manchkin\\Manchkin.Core\\Manchkin.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -3,7 +3,7 @@
 /// <summary>
 /// Класс сокровищ
 /// </summary>
-public abstract class Treasure:Card
+public abstract class Treasure : Card
 {
     
 }

@@ -1,5 +1,8 @@
 ﻿namespace Manchkin.Core;
 
+/// <summary>
+/// Цвет игрока
+/// </summary>
 public enum Color
 {
     Blue,

@@ -1,9 +1,9 @@
 ﻿namespace Manchkin.Core;
 
 /// <summary>
-/// Класс дверей
+/// Класс игрока
 /// </summary>
-public abstract class Door:Card
+public class PlayerClass : Door
 {
     
 }

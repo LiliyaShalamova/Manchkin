@@ -15,12 +15,54 @@ public class Player
     /// </summary>
     public int Level { get; private set; }
     
+    /// <summary>
+    /// Основной класс
+    /// </summary>
+    public PlayerClass? MainClass { get; private set; }
     
-    public Class? MainClass { get; private set; }
-    public Class? AdditionalClass { get; private set; }
+    /// <summary>
+    /// Дополнительный класс, если игрок - супеманчкин
+    /// </summary>
+    public PlayerClass? AdditionalClass { get; private set; }
+    
+    /// <summary>
+    /// Раса
+    /// </summary>
     public Race? Race { get; private set; }
+    
+    /// <summary>
+    /// Цвет
+    /// </summary>
     public Color Color { get; private set; }
-    public bool IsSuperManchkin { get; private set; }
-    public Curse[] Curses { get; private set; }
+    
+    /// <summary>
+    /// Проклятия
+    /// </summary>
+    public List<Curse> Curses { get; private set; }
+    
+    /// <summary>
+    /// Инвентарь
+    /// </summary>
     public Inventory Inventory { get; private set; }
+    
+    /// <summary>
+    /// Карты на руках
+    /// </summary>
+    public Card[] Cards { get; private set; }
+
+    /// <summary>
+    /// Боевая сила
+    /// </summary>
+    public int FightingStrength => Level + Inventory.GetCommonBonus();
+
+    public Player(Sex sex, Color color)
+    {
+        Sex = sex;
+        Color = color;
+        Level = 1;
+        Inventory = new Inventory();
+        Curses = [];
+        Cards = new Card[5];
+        
+    }
 }
