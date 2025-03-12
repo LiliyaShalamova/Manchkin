@@ -7,8 +7,8 @@ public class Weapon : Clothes
 {
     public int HandsAmount { get; }
 
-    public Weapon(int bonus, int price, string title, bool isBig = false, int wash = 0, int handsAmount = 0) 
-        : base(bonus, price, title, isBig, wash)
+    public Weapon(int bonus, int price, string title, bool isBig = false, int washBonus = 0, int handsAmount = 0) 
+        : base(bonus, price, title, isBig, washBonus)
     {
         HandsAmount = handsAmount;
     }

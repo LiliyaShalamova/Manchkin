@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization.Metadata;
+using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Spells;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Manchkin.Core;
@@ -8,7 +10,8 @@ namespace Manchkin.Core;
 /// </summary>
 public class Game
 {
-    private Random _random = new Random();
+    private Random _random = new();
+    private CardsParser _cardsParser = new();
 
     /// <summary>
     /// Количество уровней в игре
@@ -47,16 +50,46 @@ public class Game
 
     public Game(int playersCount)
     {
-        Players = new Player[playersCount];
-        GeneratePlayers();
         DoorsReset = [];
         TreasuresReset = [];
         GenerateDoors();
         GenerateTreasures();
+        Players = new Player[playersCount];
+        GeneratePlayers();
     }
 
     private void GenerateDoors()
     {
+        Doors = [];
+        GenerateCurses();
+        GenerateRaces();
+        GeneratePlayerClasses();
+        GenerateMonsters();
+        //Перемешать двери()
+    }
+
+    private void GenerateCurses()
+    {
+        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Curses.txt";
+        Doors.AddRange(_cardsParser.ParseByDelimiters<Curse>(clothesPath, ";", ["/*"]));
+    }
+    
+    private void GenerateRaces()
+    {
+        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Races.txt";
+        Doors.AddRange(_cardsParser.ParseByDelimiters<Race>(clothesPath, ";", ["/*"]));
+    }
+    
+    private void GeneratePlayerClasses()
+    {
+        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\PlayerClasses.txt";
+        Doors.AddRange(_cardsParser.ParseByDelimiters<PlayerClass>(clothesPath, ";", ["/*"]));
+    }
+    
+    private void GenerateMonsters()
+    {
+        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Monsters.txt";
+        Doors.AddRange(_cardsParser.ParseByDelimiters<Monster>(clothesPath, ";", ["/*"]));
     }
 
     private void GenerateTreasures()
@@ -64,61 +97,39 @@ public class Game
         Treasures = [];
         GenerateClothes();
         GenerateSpells();
+        //Перемешать сокровища()
     }
 
     private void GenerateClothes()
     {
-        var clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
-        using var parser = new TextFieldParser(clothesPath);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(";");
-        parser.CommentTokens = ["/*"];
-        while (!parser.EndOfData)
-        {
-            var fields = parser.ReadFields();
-            var clothesType = fields![0];
-            var bonus = int.Parse(fields[1]);
-            var price = int.Parse(fields[2]);
-            var title = fields[3];
-            var isBig = Convert.ToBoolean(int.Parse(fields[4]));
-            var wash = int.Parse(fields[5]);
-            switch (clothesType)
-            {
-                case "Additional":
-                    Treasures.Add(new Clothes(bonus, price, title, isBig, wash));
-                    break;
-                case "Weapon":
-                    var handsAmount = int.Parse(fields[6]);
-                    Treasures.Add(new Weapon(bonus, price, title, isBig, wash, handsAmount));
-                    break;
-                case "Shoes":
-                    Treasures.Add(new Shoes(bonus, price, title, isBig, wash));
-                    break;
-                case "BulletproofVest":
-                    Treasures.Add(new BulletproofVest(bonus, price, title, isBig, wash));
-                    break;
-                case "Smut":
-                    Treasures.Add(new Smut(bonus, price, title, isBig, wash));
-                    break;
-            }
-        }
+        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
+        Treasures.AddRange(_cardsParser.ParseByDelimiters<Clothes>(clothesPath, ";", ["/*"]));
     }
     
     private void GenerateSpells()
     {
-            
+        const string spellsPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Spells.txt";
+        Treasures.AddRange(_cardsParser.ParseByDelimiters<Spell>(spellsPath, ";", ["/*"]));
     }
 
     private void GeneratePlayers()
     {
-        for (var i = 0; i < Players.Length; i++)
+        var playersCount = Players.Length;
+        var colors = new HashSet<Color>();
+        while (colors.Count < playersCount)
         {
-            Players[i] = CreatePlayer();
+            colors.Add((Color)_random.Next(0, 5));
+        }
+        
+        for (var i = 0; i < playersCount; i++)
+        {
+            Players[i] = CreatePlayer(colors.ElementAt(i));
         }
     }
 
-    private Player CreatePlayer()
+    private Player CreatePlayer(Color color)
     {
-        return new Player((Sex)_random.Next(0, 1), (Color)_random.Next(0, 5));
+        //Взять по 4 карты из каждой колоды
+        return new Player((Sex)_random.Next(0, 1), color);
     }
 }

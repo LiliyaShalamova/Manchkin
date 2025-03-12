@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Monsters;
+﻿using Manchkin.Core.Cards.Doors.Monsters;
 
 namespace Manchkin.Core;
 
