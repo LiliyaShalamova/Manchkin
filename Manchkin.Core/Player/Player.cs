@@ -48,21 +48,25 @@ public class Player
     /// <summary>
     /// Карты на руках
     /// </summary>
-    public Card[] Cards { get; private set; }
+    public List<Card> Cards { get; private set; }
 
     /// <summary>
     /// Боевая сила
     /// </summary>
     public int FightingStrength => Level + Inventory.GetCommonBonus();
 
-    public Player(Sex sex, Color color)
+    public Player(Sex sex, Color color, List<Card> cards)
     {
         Sex = sex;
         Color = color;
         Level = 1;
         Inventory = new Inventory();
         Curses = [];
-        Cards = new Card[5];
-        
+        Cards = cards;
+    }
+
+    public void IncreaseLevel(int levelsCount)
+    {
+        Level += levelsCount;
     }
 }

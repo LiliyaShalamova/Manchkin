@@ -14,5 +14,9 @@ public class PlayerClass : Door
     /// Равенство сил в боюь
     /// </summary>
     public bool ForcesEquality { get; }
-    
+
+    public override void Print()
+    {
+        Console.WriteLine("Класс");
+    }
 }

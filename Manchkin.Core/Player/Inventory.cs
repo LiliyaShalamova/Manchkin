@@ -8,32 +8,32 @@ public class Inventory
     /// <summary>
     /// Голова
     /// </summary>
-    public Clothes? Head { get; set; }
+    public Smut? Head { get; set; }
     
     /// <summary>
     /// Левая рука
     /// </summary>
-    public Clothes? LeftHand { get; set; }
+    public Weapon? LeftHand { get; set; }
     
     /// <summary>
     /// Правая рука
     /// </summary>
-    public Clothes? RightHand { get; set; }
+    public Weapon? RightHand { get; set; }
     
     /// <summary>
     /// Торс
     /// </summary>
-    public Clothes? Torso  { get; set; }
+    public BulletproofVest? Torso  { get; set; }
     
     /// <summary>
     /// Ноги
     /// </summary>
-    public Clothes? Legs{ get; set; }
+    public Shoes? Legs{ get; set; }
     
     /// <summary>
     /// Дополнительные вещи, например, титул
     /// </summary>
-    public Clothes[]? Additional { get; set; }
+    public List<Clothes>? Additional { get; set; }
     
     public int GetCommonBonus()
     {

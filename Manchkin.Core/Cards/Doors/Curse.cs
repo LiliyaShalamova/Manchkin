@@ -49,4 +49,9 @@ public class Curse : Door
         ArmorLoss = armorLoss;
         LevelLossCount = levelLossCount;
     }
+
+    public override void Print()
+    {
+        Console.WriteLine($"Карта Проклятие. {Title}");
+    }
 }

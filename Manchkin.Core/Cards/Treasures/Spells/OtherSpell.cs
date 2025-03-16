@@ -26,4 +26,13 @@ public class OtherSpell : Spell
         Title = title;
         WashBonus = washBonus;
     }
+
+    public override void Print()
+    {
+        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : "";
+        var level = LevelBonus != 0 ? $" Получи уровень: {LevelBonus}" : "";
+        var curse = CurseBonus ? $" Снимает проклятие" : "";
+        var treasures = TreasuresBonus != 0 ? $" Возьми сокровища {TreasuresBonus}" : "";
+        Console.WriteLine($"{Title} Цена {Price}{wash}{level}{curse}{treasures}");
+    }
 }

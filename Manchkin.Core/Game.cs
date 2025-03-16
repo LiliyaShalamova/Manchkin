@@ -1,6 +1,8 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Diagnostics;
+using System.Text.Json.Serialization.Metadata;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Generators;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Manchkin.Core;
@@ -11,7 +13,8 @@ namespace Manchkin.Core;
 public class Game
 {
     private Random _random = new();
-    private CardsParser _cardsParser = new();
+    private CardsGenerator<Door> _doorGenerator = new();
+    private CardsGenerator<Treasure> _treasureGenerator = new();
 
     /// <summary>
     /// Количество уровней в игре
@@ -21,27 +24,17 @@ public class Game
     /// <summary>
     /// Массив игроков
     /// </summary>
-    private Player[] Players { get; set; }
-
-    /// <summary>
-    /// Массив дверей
-    /// </summary>
-    private List<Door> Doors { get; set; }
-
-    /// <summary>
-    /// Массив сокровищ
-    /// </summary>
-    private List<Treasure> Treasures { get; set; }
+    public Player[] Players { get; init; }
 
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    private List<Door> DoorsReset { get; set; }
+    private Stack<Door> DoorsReset { get; set; }
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    private List<Treasure> TreasuresReset { get; set; }
+    private Stack<Treasure> TreasuresReset { get; set; }
 
     /// <summary>
     /// Текущий бой
@@ -52,84 +45,111 @@ public class Game
     {
         DoorsReset = [];
         TreasuresReset = [];
-        GenerateDoors();
-        GenerateTreasures();
-        Players = new Player[playersCount];
-        GeneratePlayers();
+        Players = new PlayersGenerator().Generate(playersCount);
     }
 
-    private void GenerateDoors()
+    public void FillInventory(Player player, int[] numbers)
     {
-        Doors = [];
-        GenerateCurses();
-        GenerateRaces();
-        GeneratePlayerClasses();
-        GenerateMonsters();
-        //Перемешать двери()
-    }
-
-    private void GenerateCurses()
-    {
-        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Curses.txt";
-        Doors.AddRange(_cardsParser.ParseByDelimiters<Curse>(clothesPath, ";", ["/*"]));
-    }
-    
-    private void GenerateRaces()
-    {
-        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Races.txt";
-        Doors.AddRange(_cardsParser.ParseByDelimiters<Race>(clothesPath, ";", ["/*"]));
-    }
-    
-    private void GeneratePlayerClasses()
-    {
-        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\PlayerClasses.txt";
-        Doors.AddRange(_cardsParser.ParseByDelimiters<PlayerClass>(clothesPath, ";", ["/*"]));
-    }
-    
-    private void GenerateMonsters()
-    {
-        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Monsters.txt";
-        Doors.AddRange(_cardsParser.ParseByDelimiters<Monster>(clothesPath, ";", ["/*"]));
-    }
-
-    private void GenerateTreasures()
-    {
-        Treasures = [];
-        GenerateClothes();
-        GenerateSpells();
-        //Перемешать сокровища()
-    }
-
-    private void GenerateClothes()
-    {
-        const string clothesPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
-        Treasures.AddRange(_cardsParser.ParseByDelimiters<Clothes>(clothesPath, ";", ["/*"]));
-    }
-    
-    private void GenerateSpells()
-    {
-        const string spellsPath = @"C:\Users\shala\source\repos\Манчкин\Manchkin\Manchkin.Core\Cards\CardsFiles\Spells.txt";
-        Treasures.AddRange(_cardsParser.ParseByDelimiters<Spell>(spellsPath, ";", ["/*"]));
-    }
-
-    private void GeneratePlayers()
-    {
-        var playersCount = Players.Length;
-        var colors = new HashSet<Color>();
-        while (colors.Count < playersCount)
+        foreach (var number in numbers)
         {
-            colors.Add((Color)_random.Next(0, 5));
+            var card = player.Cards[number - 1];
+            switch (card)
+            {
+                case Smut smut:
+                    player.Inventory.Head = smut;
+                    break;
+                case Shoes shoes:
+                    player.Inventory.Legs = shoes;
+                    break;
+                case BulletproofVest vest:
+                    player.Inventory.Torso = vest;
+                    break;
+                case Weapon weapon:
+                {
+                    if (player.Inventory.LeftHand == null || player.Inventory.LeftHand != null && player.Inventory.RightHand != null)
+                    {
+                        if (weapon.HandsAmount == 2)
+                        {
+                            player.Inventory.LeftHand = weapon;
+                            player.Inventory.RightHand = weapon;
+                        }
+                        else
+                        {
+                            player.Inventory.LeftHand = weapon;
+                        }
+                    }
+                    else if (player.Inventory.RightHand == null)
+                    {
+                        if (weapon.HandsAmount == 2)
+                        {
+                            player.Inventory.LeftHand = weapon;
+                            player.Inventory.RightHand = weapon;
+                        }
+                        else
+                        {
+                            player.Inventory.RightHand = weapon;
+                        }
+                    }
+                    break;
+                }
+                case Clothes clothes:
+                    player.Inventory.Additional?.Add(clothes);
+                    break;
+            }
         }
-        
-        for (var i = 0; i < playersCount; i++)
+
+        foreach (var index in numbers.OrderByDescending(n => n))
         {
-            Players[i] = CreatePlayer(colors.ElementAt(i));
+            var card = player.Cards[index - 1];
+            TreasuresReset.Push((Treasure)card);
+            player.Cards.RemoveAt(index - 1);
         }
     }
 
-    private Player CreatePlayer(Color color)
+    public void ResetCards(Player player, int[] numbers)
     {
-        //Взять по 4 карты из каждой колоды
-        return new Player((Sex)_random.Next(0, 1), color);
+        foreach (var index in numbers.OrderByDescending(n => n))
+        {
+            var card = player.Cards[index - 1];
+            player.Cards.RemoveAt(index - 1);
+            if (card is Treasure treasure)
+            {
+                TreasuresReset.Push(treasure);
+            }
+            else
+            {
+                DoorsReset.Push((Door)card);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Возвращаю результат продажи - успешно/не успешно
+    /// </summary>
+    /// <returns></returns>
+    public bool Sell(Player player, int[] numbers)
+    {
+        var sum = numbers.Select(number => ((Treasure)player.Cards[number - 1]).Price).Sum();
+        if (sum < 1000)
+        {
+            return false;
+        }
+        else
+        {
+            ResetCards(player, numbers);
+            player.IncreaseLevel(sum / 1000);
+            return true;
+        }
+    }
+
+    public void Curse(Player player, string whomCurses, int curseCardNumber)
+    {
+        var curse = player.Cards[curseCardNumber - 1];
+        var whomCursesPlayer = Players.Where(p => p.Color.ToString() == whomCurses);
+    }
+
+    public void CastASpell(Player player, int spellCardNumber)
+    {
+        var spell = player.Cards[spellCardNumber - 1];
     }
 }

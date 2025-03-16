@@ -12,4 +12,11 @@ public class Weapon : Clothes
     {
         HandsAmount = handsAmount;
     }
+
+    public override void Print()
+    {
+        var big = IsBig ? " Большая" : string.Empty;
+        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : string.Empty;
+        Console.WriteLine($"{Title} Бонус {Bonus} Количество рук {HandsAmount} Цена {Price}{big}{wash}");
+    }
 }

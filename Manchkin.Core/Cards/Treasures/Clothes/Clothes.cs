@@ -23,4 +23,11 @@ public class Clothes : Treasure
         IsBig = isBig;
         WashBonus = washBonus;
     }
+
+    public override void Print()
+    {
+        var big = IsBig ? " Большая" : string.Empty;
+        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : string.Empty;
+        Console.WriteLine($"{Title} Бонус {Bonus} Цена {Price}{big}{wash}");
+    }
 }
