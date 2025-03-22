@@ -43,7 +43,7 @@ public class Player
     /// <summary>
     /// Инвентарь
     /// </summary>
-    public Inventory Inventory { get; private set; }
+    public Inventory Inventory { get; private set; } = new();
     
     /// <summary>
     /// Карты на руках
@@ -68,5 +68,26 @@ public class Player
     public void IncreaseLevel(int levelsCount)
     {
         Level += levelsCount;
+    }
+
+    public void DecreaseLevel(int levelsCount)
+    {
+        Level -= levelsCount;
+    }
+
+    public void RemoveCurses()
+    {
+        Curses.Clear();
+    }
+
+    public void AddCurse(Curse curse)
+    {
+        
+    }
+
+    public void LoseClass()
+    {
+        MainClass = null;
+        AdditionalClass = null;
     }
 }

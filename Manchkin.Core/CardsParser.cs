@@ -1,37 +1,40 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using System.Security.AccessControl;
+using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Manchkin.Core;
 
-public class CardsParser
+public interface ICardParser<T>
 {
-    public List<T> ParseByDelimiters<T>(string path, string? delimiters, string[]? commentTokens = null) where T : Card
+    public List<T> Parse();
+}
+
+public abstract class CardParser
+{
+    private readonly string _delimiters = ";";
+    private readonly string[] _commentTokens = ["/*"];
+    private protected string CurrentDirectory = Directory.GetCurrentDirectory();
+
+    protected TextFieldParser GetTextFieldParser(string path)
     {
-        using var parser = new TextFieldParser(path);
-        if (delimiters != null)
-        {
-            parser.TextFieldType = FieldType.Delimited;
-            parser.SetDelimiters(delimiters);
-        }
+        var parser = new TextFieldParser(path);
+        parser.TextFieldType = FieldType.Delimited;
+        parser.SetDelimiters(_delimiters);
+        parser.CommentTokens = _commentTokens;
 
-        if (commentTokens != null)
-        {
-            parser.CommentTokens = commentTokens;
-        }
-
-        return typeof(T).Name switch
-        {
-            "Clothes" => (ParseClothes(parser) as List<T>)!,
-            "Spell" => (ParseSpells(parser) as List<T>)!,
-            "Monster" => (ParseMonsters(parser) as List<T>)!,
-            "Curse" => (ParseCurses(parser) as List<T>)!,
-            _ => throw new Exception($"Unknown card type: {typeof(T).Name}")
-        };
+        return parser;
     }
+}
 
-    private List<Clothes> ParseClothes(TextFieldParser parser)
+public class ClothesParser : CardParser, ICardParser<Clothes>
+{
+    private string _clothesPath = @"\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
+
+    public List<Clothes> Parse()
     {
+        var fullCursesPath = $"{CurrentDirectory}{_clothesPath}";
+        var parser = GetTextFieldParser(fullCursesPath);
         var clothes = new List<Clothes>();
         while (!parser.EndOfData)
         {
@@ -56,9 +59,16 @@ public class CardsParser
 
         return clothes;
     }
+}
 
-    private List<Spell> ParseSpells(TextFieldParser parser)
+public class SpellParser : CardParser, ICardParser<Spell>
+{
+    private string _spellsPath = @"\Manchkin.Core\Cards\CardsFiles\Spells.txt";
+
+    public List<Spell> Parse()
     {
+        var fullCursesPath = $"{CurrentDirectory}{_spellsPath}";
+        var parser = GetTextFieldParser(fullCursesPath);
         var spells = new List<Spell>();
         while (!parser.EndOfData)
         {
@@ -69,10 +79,8 @@ public class CardsParser
             var washBonus = int.Parse(fields[3]);
             Spell spellItem = spellType switch
             {
-                "Other" => new OtherSpell(price, title, washBonus, int.Parse(fields[4]),
-                    Convert.ToBoolean(int.Parse(fields[7])), int.Parse(fields[6])),
-                "Fighting" => new FightingSpell(price, title, washBonus, int.Parse(fields[5]),
-                    Convert.ToBoolean(int.Parse(fields[8]))),
+                "Other" => GetOtherSpell(price, title, washBonus, fields),
+                "Fighting" => GetFightingSpell(price, title, washBonus, fields),
                 _ => throw new Exception($"Unknown card type: {spellType}")
             };
             spells.Add(spellItem);
@@ -80,9 +88,53 @@ public class CardsParser
 
         return spells;
     }
-    
-    private List<Monster> ParseMonsters(TextFieldParser parser)
+
+    private Spell GetOtherSpell(int price, string title, int washBonus, string[] fields)
     {
+        Spell? spell = null;
+        if (int.Parse(fields[4]) != 0)
+        {
+            spell = new LevelOtherSpell(price, title, washBonus, int.Parse(fields[4]));
+        }
+        else if (int.Parse(fields[6]) != 0)
+        {
+            spell = new TreasuresBonusOtherSpell(price, title, washBonus, int.Parse(fields[6]));
+        }
+        else if (int.Parse(fields[7]) != 0)
+        {
+            spell = new CurseBonusOtherSpell(price, title, washBonus);
+        }
+        return spell;
+    }
+
+    private Spell GetFightingSpell(int price, string title, int washBonus, string[] fields)
+    {
+        Spell? spell = null;
+        if (washBonus != 0)
+        {
+            spell = new WashBonusOtherSpell(price, title, washBonus);
+        }
+        else if (int.Parse(fields[5]) != 0)
+        {
+            spell = new DamageBonusOtherSpell(price, title, washBonus, int.Parse(fields[5]));
+        }
+        else if (int.Parse(fields[8]) != 0)
+        {
+            spell = new MonstersDeathOtherSpell(price, title, washBonus);
+        }
+        
+        return spell;
+    }
+}
+
+public class MonsterParser : CardParser, ICardParser<Monster>
+{
+    private string _monstersPath = @"\Manchkin.Core\Cards\CardsFiles\Monsters.txt";
+
+    public List<Monster> Parse()
+    {
+        var fullCursesPath = $"{CurrentDirectory}{_monstersPath}";
+        var parser = GetTextFieldParser(fullCursesPath);
         var monsters = new List<Monster>();
         while (!parser.EndOfData)
         {
@@ -91,7 +143,7 @@ public class CardsParser
             var name = fields[1];
             var treasuresCount = int.Parse(fields[2]);
             var levelsCount = int.Parse(fields[3]);
-            var death =Convert.ToBoolean(int.Parse(fields[4]));
+            var death = Convert.ToBoolean(int.Parse(fields[4]));
             var doesNotFightLevel = int.Parse(fields[5]);
             var levelLossCount = int.Parse(fields[6]);
             var playerClassLoss = Convert.ToBoolean(int.Parse(fields[7]));
@@ -104,9 +156,16 @@ public class CardsParser
 
         return monsters;
     }
-    
-    private List<Curse> ParseCurses(TextFieldParser parser)
+}
+
+public class CurseParser : CardParser, ICardParser<Curse>
+{
+    private string _cursesPath = @"\Manchkin.Core\Cards\CardsFiles\Curses.txt";
+
+    public List<Curse> Parse()
     {
+        var fullCursesPath = $"{CurrentDirectory}{_cursesPath}";
+        var parser = GetTextFieldParser(fullCursesPath);
         var curses = new List<Curse>();
         while (!parser.EndOfData)
         {
@@ -117,10 +176,40 @@ public class CardsParser
             var shoesLoss = Convert.ToBoolean(int.Parse(fields[3]));
             var armorLoss = Convert.ToBoolean(int.Parse(fields[4]));
             var levelLossCount = int.Parse(fields[5]);
-            var curse = new Curse(title, clothesWithHighestBonusLoss, playersClassLoss, shoesLoss, armorLoss, levelLossCount);
+            Curse curse = null;
+            if (clothesWithHighestBonusLoss)
+            {
+                curse = new CurseClothesWithHighestBonusLoss(title);
+            }
+            else if (playersClassLoss)
+            {
+                curse = new CursePlayersClassLoss(title);
+            }
+            else if (shoesLoss)
+            {
+                curse = new CurseShoesLoss(title);
+            }
+            else if (armorLoss)
+            {
+                curse = new CurseArmorLoss(title);
+            }
+            else if (levelLossCount != 0)
+            {
+                curse = new CurseLevelLoss(title, levelLossCount);
+            }
+
             curses.Add(curse);
         }
 
         return curses;
     }
 }
+
+/*public class CardsParser // TODO сделать интерфейс. done кроме тестов
+{
+
+     * Выделить общую часть парсинга в какой-то абстрактный класс
+     * Сделать для каждой карты свой парсер, который парсит только один тип карты
+     * Сделать интерфейс ICardParser с методом Parse()
+     * Каждый парсер покрыть unit тестами (после показа мне)
+     */

@@ -3,15 +3,13 @@ using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators;
 
-public class CardsGenerator<T>
+internal class CardsGenerator<T> : ICardsGenerator<T>
 {
     private readonly Random _random = new();
-    private readonly CardsParser _cardsParser = new();
-    private readonly string _currentDirectory = Directory.GetCurrentDirectory();
-    private string _clothesPath = @"\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
-    private string _cursesPath = @"\Manchkin.Core\Cards\CardsFiles\Curses.txt";
-    private string _spellsPath = @"\Manchkin.Core\Cards\CardsFiles\Spells.txt";
-    private string _monstersPath = @"\Manchkin.Core\Cards\CardsFiles\Monsters.txt";
+    private readonly ICardParser<Clothes> _clothesParser = new ClothesParser();
+    private readonly ICardParser<Spell> _spellParser = new SpellParser();
+    private readonly ICardParser<Monster> _monsterParser = new MonsterParser();
+    private readonly ICardParser<Curse> _curseParser = new CurseParser();
     private List<T> Deck { get; }
 
     public CardsGenerator()
@@ -20,7 +18,12 @@ public class CardsGenerator<T>
         GenerateDeck();
     }
 
-    public IEnumerable<T> GetCard()
+    public T GetCard()
+    {
+        return GetGenerator().First();
+    }
+
+    private IEnumerable<T> GetGenerator()
     {
         while (true)
         {
@@ -51,8 +54,7 @@ public class CardsGenerator<T>
 
     private void GenerateCurses()
     {
-        var fullCursesPath = $"{_currentDirectory}{_cursesPath}";
-        Deck.AddRange((IEnumerable<T>)_cardsParser.ParseByDelimiters<Curse>(fullCursesPath, ";", ["/*"]));
+        Deck.AddRange((IEnumerable<T>)_curseParser.Parse());
     }
     
     private void GenerateRaces()
@@ -69,8 +71,7 @@ public class CardsGenerator<T>
     
     private void GenerateMonsters()
     {
-        var fullMonstersPath = $"{_currentDirectory}{_monstersPath}";
-        Deck.AddRange((IEnumerable<T>)_cardsParser.ParseByDelimiters<Monster>(fullMonstersPath, ";", ["/*"]));
+        Deck.AddRange((IEnumerable<T>)_monsterParser.Parse());
     }
     
     private void GenerateTreasures()
@@ -81,13 +82,11 @@ public class CardsGenerator<T>
 
     private void GenerateClothes()
     {
-        var fullClothesPath = $"{_currentDirectory}{_clothesPath}";
-        Deck.AddRange((IEnumerable<T>)_cardsParser.ParseByDelimiters<Clothes>(fullClothesPath, ";", ["/*"]));
+        Deck.AddRange((IEnumerable<T>)_clothesParser.Parse());
     }
     
     private void GenerateSpells()
     {
-        var fullSpellsPath = $"{_currentDirectory}{_spellsPath}";
-        Deck.AddRange((IEnumerable<T>)_cardsParser.ParseByDelimiters<Spell>(fullSpellsPath, ";", ["/*"]));
+        Deck.AddRange((IEnumerable<T>)_spellParser.Parse());
     }
 }

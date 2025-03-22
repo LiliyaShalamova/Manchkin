@@ -1,6 +1,6 @@
 ﻿namespace Manchkin.Core.Generators;
 
-public class PlayersGenerator
+internal class PlayersGenerator : IPlayersGenerator
 {
     private readonly Random _random = new Random();
     private CardsGenerator<Door> _doorGenerator = new();
@@ -30,15 +30,10 @@ public class PlayersGenerator
     private Player CreatePlayer(Color color)
     {
         var cards = new List<Card>();
-        foreach (var card in _doorGenerator.GetCard())
+        for (var i = 0; i < 4; i++)
         {
-            cards.Add(card);
-            if (cards.Count == 4) break;
-        }
-        foreach (var card in _treasureGenerator.GetCard())
-        {
-            cards.Add(card);
-            if (cards.Count == 8) break;
+            cards.Add(_doorGenerator.GetCard());
+            cards.Add(_treasureGenerator.GetCard());
         }
         
         return new Player((Sex)_random.Next(0, 1), color, cards);

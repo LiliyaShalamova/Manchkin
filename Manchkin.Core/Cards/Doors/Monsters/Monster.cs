@@ -70,7 +70,7 @@ public class Monster : Door
         ArmorLoss = armorLoss;
     }
 
-    public override void Print()
+    /*public override void Print()
     {
         var victoryReward =
             $"награда за победу: количество сокровищ {TreasuresCount}, количество уровней {LevelsCount}";
@@ -80,5 +80,5 @@ public class Monster : Door
                    (ShoesLoss ? "потеря обувки" : "") +
                    (ArmorLoss ? "потеря броника" : "");
         Console.WriteLine($"Карта Монстр. Имя: {Name}, уровень {Level}, не сражается с игроками {DoesNotFightLevel} уровня и ниже, {victoryReward}, при проигрыше: {loss}");
-    }
+    }*/
 }

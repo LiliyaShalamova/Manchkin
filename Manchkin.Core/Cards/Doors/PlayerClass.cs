@@ -15,8 +15,8 @@ public class PlayerClass : Door
     /// </summary>
     public bool ForcesEquality { get; }
 
-    public override void Print()
+    /*public override void Print()
     {
         Console.WriteLine("Класс");
-    }
+    }*/
 }
