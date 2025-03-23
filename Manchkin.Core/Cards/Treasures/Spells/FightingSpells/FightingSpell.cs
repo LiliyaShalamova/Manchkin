@@ -11,10 +11,4 @@ public class FightingSpell : Spell
         Price = price;
         Title = title;
     }
-
-    /*public override void Print()
-    {
-        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : "";
-        Console.Write($"{Title} Цена {Price}{wash}");
-    }*/
 }

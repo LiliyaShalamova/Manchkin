@@ -13,11 +13,4 @@ public class MonstersDeathOtherSpell : FightingSpell, IFightingSpell
     {
         fight.Monsters.Clear();
     }
-
-    /*public override void Print()
-    {
-        base.Print();
-        var death = " Смерть монстра";
-        Console.WriteLine(death);
-    }*/
 }

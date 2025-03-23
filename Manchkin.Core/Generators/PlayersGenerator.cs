@@ -2,13 +2,9 @@
 
 internal class PlayersGenerator : IPlayersGenerator
 {
-    private readonly Random _random = new Random();
+    private readonly Random _random = new();
     private CardsGenerator<Door> _doorGenerator = new();
     private CardsGenerator<Treasure> _treasureGenerator = new();
-    
-    public PlayersGenerator()
-    {
-    }
 
     public Player[] Generate(int playersCount)
     {

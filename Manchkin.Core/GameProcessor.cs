@@ -9,52 +9,48 @@ public class GameProcessor
     /// <summary>
     /// Генератор дверей
     /// </summary>
-    private CardsGenerator<Door> _doorGenerator = new();
+    private readonly CardsGenerator<Door> _doorGenerator = new();
     
     /// <summary>
     /// Генератор сокровищ
     /// </summary>
-    private CardsGenerator<Treasure> _treasureGenerator = new();
+    private readonly CardsGenerator<Treasure> _treasureGenerator = new();
     
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    private Stack<Door> DoorsReset { get; set; }
+    private Stack<Door> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    private Stack<Treasure> TreasuresReset { get; set; }
-    
+    private Stack<Treasure> TreasuresReset { get; } = [];
+
     /// <summary>
     /// Текущий бой
     /// </summary>
-    private Fight? CurrentFight { get; set; }
+    public Fight? CurrentFight { get; private set; }
 
-    public GameProcessor()
-    {
-        DoorsReset = [];
-        TreasuresReset = [];
-    }
     public void FillInventory(Player player, Clothes[] clothes)
     {
         foreach (var c in clothes)
         {
-            player.Inventory.PutOn(c);
+            var returnedClothes = player.Inventory.PutOn(c);
+            player.Cards.AddRange(returnedClothes);
         }
 
         Reset(player, clothes);
+            // TODO вернуть в руку карту, которая была надета раньше DONE
     }
     
-    public void ResetCards(Player player, int[] numbers)
+    public void ResetCards(Player player, Card[] cards) // TODO избавиться от индексов DONE
     {
-        Reset(player, numbers);
+        Reset(player, cards);
     }
     
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
-    /// <returns></returns>
     public bool Sell(Player player, Treasure[] treasures)
     {
         var sum = treasures.Select(treasure => treasure.Price).Sum();
@@ -77,9 +73,6 @@ public class GameProcessor
     /// <summary>
     /// Удалось наложить заклинание или нет
     /// </summary>
-    /// <param name="player"></param>
-    /// <param name="spellCardNumber"></param>
-    /// <returns></returns>
     public bool CastSpell(Player player, Spell spell)
     {
         switch (CurrentFight)
@@ -89,7 +82,7 @@ public class GameProcessor
                 return false;
             case null when spell is OtherSpell:
             {
-                var otherSpell = (IOtherSpell)spell;
+                var otherSpell = (IOtherSpell)spell; // TODO Оставить только использование интерфейса
                 otherSpell.Cast(player, _treasureGenerator);
                 Reset(player, [spell]);
                 return true;
@@ -99,19 +92,16 @@ public class GameProcessor
                 fightingSpell.Cast(CurrentFight);
                 Reset(player, [spell]);
                 return true;
-            default:
-                break;
         }
 
         return false;
     }
-    
-    private void Reset(Player player, int[] numbers)
+
+    private void Reset(Player player, Card[] cards) // TODO переделать чтобы не было варнингов выше при вызове этого метода
     {
-        foreach (var index in numbers.OrderByDescending(n => n))
+        foreach (var card in cards)
         {
-            var card = player.Cards[index - 1];
-            player.Cards.RemoveAt(index - 1);
+            player.Cards.Remove(card);
             switch (card)
             {
                 case Treasure treasure:
@@ -123,14 +113,7 @@ public class GameProcessor
                 default:
                     throw new ArgumentException("Invalid card type");
             }
-        }
-    }
-
-    private void Reset(Player player, Card[] clothes)
-    {
-        foreach (var c in clothes)
-        {
-            player.Cards.Remove(c);
+            // TODO помещать обратно в резет DONE
         }
     }
     
@@ -142,22 +125,44 @@ public class GameProcessor
 
     public bool Fight(Player player, Monster monster)
     {
+        // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
         CurrentFight = new Fight(player, monster);
-        var playerWin = player.FightingStrength > monster.Level;
+        var playerWin = player.FightingStrength + CurrentFight.FightingStrengthBonus > monster.Level;
         if (playerWin)
         {
             CurrentFight = null;
             GetReward(player, monster);
         }
+        
+        Reset(player, [monster]);
         return playerWin;
     }
 
-    public void GetReward(Player player, Monster monster)
+    private void GetReward(Player player, Monster monster)
     {
         for (var i = 0; i < monster.TreasuresCount; i++)
         {
-            player.Cards.Add(_treasureGenerator.GetCard() as Treasure);
+            player.Cards.Add(_treasureGenerator.GetCard());
         }
         player.IncreaseLevel(monster.LevelsCount);
+    }
+    
+    public bool IsNextMoveAllowed(Player player)
+    {
+        return player.Cards.Count <= 5;
+    }
+
+    public bool GetAway()
+    {
+        var value = Cube.Throw();
+        return value >= CurrentFight.WashBonus;
+    }
+
+    public void GetPunished()
+    {
+        foreach (var monster in CurrentFight.Monsters)
+        {
+            ((IPunish)monster).Punish(CurrentFight.Player);
+        }
     }
 }

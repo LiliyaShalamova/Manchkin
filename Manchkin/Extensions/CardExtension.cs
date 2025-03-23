@@ -8,46 +8,50 @@ public static class CardExtension
 {
     public static void Print(this Card card)
     {
-        if (card is Monster monster)
+        switch (card)
         {
-            monster.Print();
-        }
-
-        else if (card is Weapon weapon)
-        {
-            weapon.Print();
-        }
-        else if (card is Clothes clothes)
-        {
-            clothes.Print();
-        }
-        else if (card is Curse curse)
-        {
-            curse.Print();
-        }
-        else if (card is DamageBonusOtherSpell damageBonusOtherSpell)
-        {
-            damageBonusOtherSpell.Print();
-        }
-        else if (card is MonstersDeathOtherSpell monstersDeathOtherSpell)
-        {
-            monstersDeathOtherSpell.Print();
-        }
-        else if (card is WashBonusOtherSpell washBonusOtherSpell)
-        {
-            washBonusOtherSpell.Print();
-        }
-        else if (card is CurseBonusOtherSpell curseBonusOtherSpell)
-        {
-            curseBonusOtherSpell.Print();
-        }
-        else if (card is LevelOtherSpell levelOtherSpell)
-        {
-            levelOtherSpell.Print();
-        }
-        else if (card is TreasuresBonusOtherSpell treasuresBonusOtherSpell)
-        {
-            treasuresBonusOtherSpell.Print();
+            case ArmorLossMonster armorLossMonster:
+                armorLossMonster.Print();
+                break;
+            case DeathMonster deathMonster:
+                deathMonster.Print();
+                break;
+            case LevelLossMonster levelLossMonster:
+                levelLossMonster.Print();
+                break;
+            case PlayerClassLossMonster playerClassLossMonster:
+                playerClassLossMonster.Print();
+                break;
+            case ShoesLossMonster shoesLossMonster:
+                shoesLossMonster.Print();
+                break;
+            case Weapon weapon:
+                weapon.Print();
+                break;
+            case Clothes clothes:
+                clothes.Print();
+                break;
+            case Curse curse:
+                curse.Print();
+                break;
+            case DamageBonusOtherSpell damageBonusOtherSpell:
+                damageBonusOtherSpell.Print();
+                break;
+            case MonstersDeathOtherSpell monstersDeathOtherSpell:
+                monstersDeathOtherSpell.Print();
+                break;
+            case WashBonusOtherSpell washBonusOtherSpell:
+                washBonusOtherSpell.Print();
+                break;
+            case CurseBonusOtherSpell curseBonusOtherSpell:
+                curseBonusOtherSpell.Print();
+                break;
+            case LevelOtherSpell levelOtherSpell:
+                levelOtherSpell.Print();
+                break;
+            case TreasuresBonusOtherSpell treasuresBonusOtherSpell:
+                treasuresBonusOtherSpell.Print();
+                break;
         }
     }
 }

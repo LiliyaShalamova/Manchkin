@@ -28,7 +28,11 @@ public class Game
     {
         Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
     }
-    
+
+    public bool IsGameOver()
+    {
+        return Players.Max(player => player.Level) == 10;
+    }
     /*
      * TODO
      * Оставить в Core как можно меньше кастов. Вынести всё в консоль по возможности

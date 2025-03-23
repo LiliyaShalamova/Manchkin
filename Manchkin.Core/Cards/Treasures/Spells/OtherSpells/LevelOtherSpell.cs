@@ -18,11 +18,4 @@ public class LevelOtherSpell : OtherSpell, IOtherSpell
     {
         player.IncreaseLevel(LevelBonus);
     }
-
-    /*public override void Print()
-    {
-        base.Print();
-        var level = $" Получи уровень: {LevelBonus}";
-        Console.WriteLine(level);
-    }*/
 }

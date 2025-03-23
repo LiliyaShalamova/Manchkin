@@ -5,8 +5,4 @@
 /// </summary>
 public abstract class Card
 {
-    /*public virtual void Print()
-    {
-        
-    }*/
 }

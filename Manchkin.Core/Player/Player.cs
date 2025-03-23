@@ -55,6 +55,8 @@ public class Player
     /// </summary>
     public int FightingStrength => Level + Inventory.GetCommonBonus();
 
+    public bool Dead = false;
+
     public Player(Sex sex, Color color, List<Card> cards)
     {
         Sex = sex;
@@ -72,7 +74,7 @@ public class Player
 
     public void DecreaseLevel(int levelsCount)
     {
-        Level -= levelsCount;
+        Level = Level - levelsCount >= 1 ? Level - levelsCount : 1;
     }
 
     public void RemoveCurses()
@@ -89,5 +91,12 @@ public class Player
     {
         MainClass = null;
         AdditionalClass = null;
+    }
+
+    public void Die()
+    {
+        Dead = true;
+        Inventory.Clear();
+        Cards.Clear();
     }
 }

@@ -15,11 +15,4 @@ public class CurseBonusOtherSpell : OtherSpell, IOtherSpell
     {
         player.RemoveCurses();
     }
-
-    /*public override void Print()
-    {
-        base.Print();
-        var curse = " Снимает проклятие";
-        Console.WriteLine(curse);
-    }*/
 }

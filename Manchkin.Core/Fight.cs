@@ -19,7 +19,7 @@ public class Fight
     /// </summary>
     public int WashBonus = 5;
     
-    public int FightingStrength;
+    public int FightingStrengthBonus = 0;
 
     public Fight(Player player, Monster monster)
     {
@@ -28,7 +28,6 @@ public class Fight
         [
             monster
         ];
-        FightingStrength = player.FightingStrength;
     }
 
     public void AddMonster(Monster monster)
@@ -38,6 +37,6 @@ public class Fight
 
     public void AddFightingStrength(int strength)
     {
-        FightingStrength += strength;
+        FightingStrengthBonus += strength;
     }
 }

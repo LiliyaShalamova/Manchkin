@@ -8,10 +8,4 @@ public class OtherSpell : Spell
         Title = title;
         WashBonus = washBonus;
     }
-
-    /*public override void Print()
-    {
-        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : "";
-        Console.Write($"{Title} Цена {Price}{wash}");
-    }*/
 }

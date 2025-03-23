@@ -3,7 +3,7 @@
 /// <summary>
 /// Класс шмотки
 /// </summary>
-public class Clothes : Treasure // TODO сделать абстрактным!
+public abstract class Clothes : Treasure // TODO сделать абстрактным! DONE
 {
     /// <summary>
     /// Бонус к боевой силе
@@ -23,11 +23,4 @@ public class Clothes : Treasure // TODO сделать абстрактным!
         IsBig = isBig;
         WashBonus = washBonus;
     }
-
-    /*public override void Print() // TODO вынести методы Print из Core в консольное приложение. Попробовать сделать extension методы
-    {
-        var big = IsBig ? " Большая" : string.Empty;
-        var wash = WashBonus != 0 ? $" Бонус на смывку {WashBonus}" : string.Empty;
-        Console.WriteLine($"{Title} Бонус {Bonus} Цена {Price}{big}{wash}");
-    }*/
 }

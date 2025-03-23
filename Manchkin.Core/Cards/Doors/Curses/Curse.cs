@@ -19,9 +19,4 @@ public abstract class Curse : Door
     {
         Title = title;
     }
-
-    /*public override void Print()
-    {
-        Console.WriteLine($"Карта Проклятие. {Title}");
-    }*/
 }

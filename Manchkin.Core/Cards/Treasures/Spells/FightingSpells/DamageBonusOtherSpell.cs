@@ -19,11 +19,4 @@ public class DamageBonusOtherSpell : FightingSpell, IFightingSpell
     {
         fight.AddFightingStrength(DamageBonus);
     }
-    
-    /*public override void Print()
-    {
-        base.Print();
-        var damage = DamageBonus != 0 ? $" Бонус против монстра {DamageBonus}" : "";
-        Console.WriteLine(damage);
-    }*/
 }

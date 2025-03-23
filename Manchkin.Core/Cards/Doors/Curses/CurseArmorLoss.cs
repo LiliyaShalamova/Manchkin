@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core;
 
-public class CurseArmorLoss : Curse, ICurse // TODO наследуем от curse или door?
+public class CurseArmorLoss : Curse, ICurse
 {
     public CurseArmorLoss(string title) : base(title)
     {

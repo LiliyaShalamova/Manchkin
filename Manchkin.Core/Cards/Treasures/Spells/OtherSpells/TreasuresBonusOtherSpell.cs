@@ -11,6 +11,7 @@ public class TreasuresBonusOtherSpell : OtherSpell, IOtherSpell
     
     public TreasuresBonusOtherSpell(int price, string title, int washBonus, int treasuresBonus) : base(price, title, washBonus)
     {
+        TreasuresBonus = treasuresBonus;
     }
 
     public void Cast(Player player, ICardsGenerator<Treasure> generator)
@@ -20,11 +21,4 @@ public class TreasuresBonusOtherSpell : OtherSpell, IOtherSpell
             player.Cards.Add(generator.GetCard());
         }
     }
-
-    /*public override void Print()
-    {
-        base.Print();
-        var treasures = $" Возьми сокровища {TreasuresBonus}";
-        Console.WriteLine(treasures);
-    }*/
 }

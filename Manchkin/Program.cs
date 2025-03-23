@@ -6,14 +6,14 @@ using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Extensions;
 
 namespace Manchkin;
-
+//TODO добавить в командах, что если игрок мертв, надо снова выдать 8 карт
 public class Program
 {
     public static void Main(string[] args)
     {
         Console.WriteLine("Введите количество игроков для начала игры");
         var playersCount = int.Parse(Console.ReadLine());
-        var gameConfig = new GameConfig() {PlayersCount = playersCount};
+        var gameConfig = new GameConfig { PlayersCount = playersCount };
         var game = new Game(gameConfig);
         PhaseOne(game);
         PhaseTwo(game);
@@ -33,54 +33,81 @@ public class Program
     private static void PhaseTwo(Game game)
     {
         Console.WriteLine("Фаза 2. Игра");
-        while (game.Players.Max(player => player.Level) != 10)
+        while (!game.IsGameOver())
         {
             foreach (var player in game.Players)
             {
                 Console.WriteLine($"Игрок {player.Color}, ваш ход");
-                Console.WriteLine(
-                    $"Доступные команды: надеть/продать/сбросить/проклятие/заклинание <№ карты>, вытянуть дверь");
-                ExecuteCommand(game, player);
+                PrintPlayerInfo(player);
+                FirstMove(game, player);
+                SecondMove(game, player);
             }
         }
     }
 
-    private static void ExecuteCommand(Game game, Player player)
+    private static void FirstMove(Game game, Player player)
+    {
+        Console.WriteLine(
+            "Доступные команды: надеть/продать/сбросить/проклятие/заклинание <№ карты>, дверь");
+        ExecuteCommand(game, player, 1);
+    }
+
+    private static void SecondMove(Game game, Player player)
+    {
+        Console.WriteLine(
+            "Доступные команды: надеть/продать/сбросить/проклятие/заклинание <№ карты>, дверь, монстр");
+        ExecuteCommand(game, player, 1);
+    }
+    
+    private static void ExecuteCommand(Game game, Player player, int moveNumber = 0)
     {
         string command;
-        while ((command = Console.ReadLine()) != "далее" || player.Cards.Count > 5) // TODO вынести в Core
+        while ((command = Console.ReadLine()) != "далее" ||
+               !game.GameProcessor.IsNextMoveAllowed(player))
         {
             var commandArray = command.Split(" ");
             switch (commandArray[0])
             {
                 case "надеть":
-                    var clothes = commandArray.Skip(1).Select(int.Parse).Select(number => (Clothes)player.Cards[number - 1])
+                    var clothes = commandArray
+                        .Skip(1)
+                        .Select(str => (Clothes)player.Cards[int.Parse(str) - 1])
                         .ToArray();
                     game.GameProcessor.FillInventory(player, clothes);
                     PrintPlayerInfo(player);
                     break;
                 case "сбросить":
-                    game.GameProcessor.ResetCards(player, commandArray.Skip(1).Select(int.Parse).ToArray());
+                    var cards = commandArray
+                        .Skip(1)
+                        .Select(str => player.Cards[int.Parse(str) - 1])
+                        .ToArray();
+                    game.GameProcessor.ResetCards(player, cards);
                     PrintPlayerInfo(player);
                     break;
                 case "продать":
-                    var treasures = commandArray.Skip(1).Select(int.Parse).Select(number => (Treasure)player.Cards[number - 1]).ToArray();
+                    var treasures = commandArray
+                        .Skip(1)
+                        .Select(str => (Treasure)player.Cards[int.Parse(str) - 1])
+                        .ToArray();
                     if (!game.GameProcessor.Sell(player, treasures))
                     {
                         Console.WriteLine("Недостаточно карт для продажи. Сумма карт должна быть не менее 1000");
                     }
+
                     PrintPlayerInfo(player);
                     break;
                 case "далее":
-                    if (player.Cards.Count > 5)
+                    if (!game.GameProcessor.IsNextMoveAllowed(player))
                     {
                         Console.WriteLine(
                             "У вас на руках больше 5 карт. Доступные команды: надеть/продать/сбросить/проклятие/заклинание <№ карты>, далее ");
                     }
+
                     break;
                 case "проклятие":
-                    var to = game.Players.FirstOrDefault(p => p.Color.ToString() == commandArray[1]);
-                    ICurse? curse = player.Cards[int.Parse(commandArray[2]) - 1] as ICurse;
+                    var to = game.Players
+                        .FirstOrDefault(p => p.Color.ToString() == commandArray[1]);
+                    var curse = player.Cards[int.Parse(commandArray[2]) - 1] as ICurse;
                     game.GameProcessor.Curse(player, to, curse);
                     PrintPlayerInfo(player);
                     break;
@@ -95,29 +122,51 @@ public class Program
                     {
                         PrintPlayerInfo(player);
                     }
+
                     break;
-                case "вытянуть дверь":
+                case "дверь":
                     var door = game.GameProcessor.PullDoor();
                     door.Print();
-                    if (door is Monster)
+                    switch (door)
                     {
-                        if (!game.GameProcessor.Fight(player, door as Monster))
+                        case Monster monster:
                         {
-                            Console.WriteLine($"Доступные команды: заклинание <№ карты>/смыться");
+                            if (!game.GameProcessor.Fight(player, monster))
+                            {
+                                Console.WriteLine("Не хватает боевой силы для победы. Доступные команды: заклинание <№ карты>/смыться");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Победа!"); //TODO добавить обработку, что после открытия первой двери - монстра вторая дверь не тянется
+                                PrintPlayerInfo(player);
+                            }
+                            break;
                         }
-                        else
-                        {
-                            Console.WriteLine("Победа!");
+                        
+                        case Curse:
+                            if (moveNumber == 1)
+                            {
+                                game.GameProcessor.Curse(player, player, (ICurse)door);
+                            }
+                            else
+                            {
+                                player.Cards.Add(door);
+                            }
                             PrintPlayerInfo(player);
-                            Console.WriteLine($"Доступные команды: заклинание <№ карты>/смыться");
-                        }
+                            break;
                     }
-
-                    if (door is Curse)
+                    break;
+                case "смыться":
+                    if (game.GameProcessor.GetAway())
                     {
-                        //game.Curse();
+                        Console.WriteLine("Удалось смыться от монстра!");
                     }
-
+                    else
+                    {
+                        game.GameProcessor.GetPunished();
+                    }
+                    break;
+                case "монстр":
                     break;
             }
         }
@@ -133,7 +182,7 @@ public class Program
         }
 
         Console.WriteLine();
-        Console.WriteLine($"Для начала игры необходимо иметь на руках не более 5 карт"); // убрать все выводы в програм
+        Console.WriteLine($"Для начала игры необходимо иметь на руках не более 5 карт");
         Console.WriteLine($"Доступные команды: надеть/продать/сбросить/проклятие/заклинание <№ карты>, далее");
     }
 

@@ -45,9 +45,9 @@ public class ClothesParser : CardParser, ICardParser<Clothes>
             var title = fields[3];
             var isBig = Convert.ToBoolean(int.Parse(fields[4]));
             var wash = int.Parse(fields[5]);
-            var clothesItem = clothesType switch
+            Clothes clothesItem = clothesType switch
             {
-                "Additional" => new Clothes(bonus, price, title, isBig, wash),
+                "Additional" => new Additional(bonus, price, title, isBig, wash),
                 "Weapon" => new Weapon(bonus, price, title, isBig, wash, int.Parse(fields[6])),
                 "Shoes" => new Shoes(bonus, price, title, isBig, wash),
                 "BulletproofVest" => new BulletproofVest(bonus, price, title, isBig, wash),
@@ -149,8 +149,28 @@ public class MonsterParser : CardParser, ICardParser<Monster>
             var playerClassLoss = Convert.ToBoolean(int.Parse(fields[7]));
             var shoesLoss = Convert.ToBoolean(int.Parse(fields[8]));
             var armorLoss = Convert.ToBoolean(int.Parse(fields[9]));
-            var monster = new Monster(level, name, treasuresCount, levelsCount, death, doesNotFightLevel,
-                levelLossCount, playerClassLoss, shoesLoss, armorLoss);
+            Monster monster = null;
+            if (death)
+            {
+                monster = new DeathMonster(level, name, treasuresCount, levelsCount, doesNotFightLevel);
+            }
+            else if (levelLossCount != 0)
+            {
+                monster = new LevelLossMonster(level, name, treasuresCount, levelsCount, doesNotFightLevel, levelLossCount);
+            }
+            else if (shoesLoss)
+            {
+                monster = new ShoesLossMonster(level, name, treasuresCount, levelsCount, doesNotFightLevel);
+            }
+            else if (armorLoss)
+            {
+                monster = new ArmorLossMonster(level, name, treasuresCount, levelsCount, doesNotFightLevel);
+            }
+            else if (playerClassLoss)
+            {
+                monster = new PlayerClassLossMonster(level, name, treasuresCount, levelsCount, doesNotFightLevel);
+            }
+            
             monsters.Add(monster);
         }
 
@@ -204,12 +224,3 @@ public class CurseParser : CardParser, ICardParser<Curse>
         return curses;
     }
 }
-
-/*public class CardsParser // TODO сделать интерфейс. done кроме тестов
-{
-
-     * Выделить общую часть парсинга в какой-то абстрактный класс
-     * Сделать для каждой карты свой парсер, который парсит только один тип карты
-     * Сделать интерфейс ICardParser с методом Parse()
-     * Каждый парсер покрыть unit тестами (после показа мне)
-     */
