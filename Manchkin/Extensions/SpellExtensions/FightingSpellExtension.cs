@@ -7,6 +7,6 @@ public static class FightingSpellExtension
     public static void Print(this FightingSpell fightingSpell)
     {
         var wash = fightingSpell.WashBonus != 0 ? $" Бонус на смывку {fightingSpell.WashBonus}" : "";
-        Console.Write($"{fightingSpell.Title} Цена {fightingSpell.Price}{wash}");
+        Console.Write($"{fightingSpell.Title} Цена {fightingSpell.Price}{wash} ");
     }
 }

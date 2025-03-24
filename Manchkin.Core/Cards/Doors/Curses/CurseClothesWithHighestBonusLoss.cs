@@ -80,7 +80,7 @@ public class CurseClothesWithHighestBonusLoss : Curse, ICurse
             highestBonus = player.Inventory.Legs.Bonus;
         }
         
-        var additionalMaxBonus = player.Inventory.Additional.Max(add => add.Bonus);
+        var additionalMaxBonus = player.Inventory.Additional.Count > 0 ? player.Inventory.Additional.Max(add => add.Bonus) : 0;
         if (additionalMaxBonus > highestBonus)
         {
             highestBonus = additionalMaxBonus;

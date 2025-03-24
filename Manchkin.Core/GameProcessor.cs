@@ -155,6 +155,10 @@ public class GameProcessor
     public bool GetAway()
     {
         var value = Cube.Throw();
+        if (value >= CurrentFight.WashBonus)
+        {
+            CurrentFight = null;
+        }
         return value >= CurrentFight.WashBonus;
     }
 
@@ -164,5 +168,36 @@ public class GameProcessor
         {
             ((IPunish)monster).Punish(CurrentFight.Player);
         }
+        CurrentFight = null;
+        
+    }
+
+    public bool IsCommandAllowed(Player player, Command command, int phase, int move) //доступна ли команда для игрока в определенной фазе на определённом ходе
+    {
+        return false;
+    }
+
+    public List<Command> GetAllowCommands(int phase, int move)
+    {
+        var fightingCommands = new List<Command>() { Command.Cast, Command.GetAway};
+        var commandsBetweenMoves = new List<Command>() { Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Next };
+        var firstMoveCommands = new List<Command>() { Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door };
+        var secondMoveCommands = new List<Command>() { Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster };
+        if (CurrentFight != null)
+        {
+            return fightingCommands;
+        }
+
+        if (phase == 1)
+        {
+            return commandsBetweenMoves;
+        }
+
+        return move switch
+        {
+            1 => firstMoveCommands,
+            2 => secondMoveCommands,
+            _ => []
+        };
     }
 }

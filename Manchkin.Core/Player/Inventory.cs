@@ -37,8 +37,13 @@ public class Inventory
 
     public int GetCommonBonus()
     {
-        return (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +
-               (Torso?.Bonus ?? 0) + (Legs?.Bonus ?? 0) + Additional.Sum(clothes => clothes.Bonus);
+        var bonus = (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +
+                    (Torso?.Bonus ?? 0) + (Legs?.Bonus ?? 0) + Additional.Sum(clothes => clothes.Bonus);
+        if (LeftHand is { IsBig: true })
+        {
+            bonus -= LeftHand.Bonus;
+        }
+        return bonus;
     }
 
     public List<Clothes> PutOn(Clothes clothes)
