@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manchkin", "Manchkin\Manchk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manchkin.Core", "Manchkin.Core\Manchkin.Core.csproj", "{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManchkinCoreTests", "ManchkinCoreTests\ManchkinCoreTests.csproj", "{9DD28AE7-CBB6-4775-9805-53F456B168DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E5DEF6A-8667-4B3D-A1E8-4FE2770FD170}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DD28AE7-CBB6-4775-9805-53F456B168DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DD28AE7-CBB6-4775-9805-53F456B168DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DD28AE7-CBB6-4775-9805-53F456B168DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DD28AE7-CBB6-4775-9805-53F456B168DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

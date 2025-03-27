@@ -13,5 +13,6 @@ public enum Command
     Monster,
     GetAway,
     Door,
-    Next
+    Next,
+    Finish
 }

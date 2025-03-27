@@ -67,7 +67,7 @@ public class Player
         Cards = cards;
     }
 
-    public void IncreaseLevel(int levelsCount)
+    public void IncreaseLevel(int levelsCount) // TODO, если уровень 9, то повышать карточкой уровня нельзя
     {
         Level += levelsCount;
     }

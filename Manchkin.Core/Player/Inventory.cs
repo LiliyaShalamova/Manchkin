@@ -35,11 +35,12 @@ public class Inventory
     /// </summary>
     public List<Additional> Additional { get; set; } = [];
 
+    // TODO Добавить обработку большой шмотки, большая может быть только одна
     public int GetCommonBonus()
     {
         var bonus = (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +
                     (Torso?.Bonus ?? 0) + (Legs?.Bonus ?? 0) + Additional.Sum(clothes => clothes.Bonus);
-        if (LeftHand is { IsBig: true })
+        if (LeftHand is { HandsAmount: 2 })
         {
             bonus -= LeftHand.Bonus;
         }

@@ -6,6 +6,13 @@ namespace Manchkin.Core;
 
 public class GameProcessor
 {
+    public IState State { get; set; }
+
+    public GameProcessor()
+    {
+        State = new StartState(this);
+    }
+    /*
     /// <summary>
     /// Генератор дверей
     /// </summary>
@@ -29,9 +36,9 @@ public class GameProcessor
     /// <summary>
     /// Текущий бой
     /// </summary>
-    public Fight? CurrentFight { get; private set; }
+    public Fight? CurrentFight { get; private set; }*/
 
-    public void FillInventory(Player player, Clothes[] clothes)
+    /*public void FillInventory(Player player, Clothes[] clothes)
     {
         foreach (var c in clothes)
         {
@@ -41,13 +48,13 @@ public class GameProcessor
 
         Reset(player, clothes);
             // TODO вернуть в руку карту, которая была надета раньше DONE
-    }
+    }*/
     
-    public void ResetCards(Player player, Card[] cards) // TODO избавиться от индексов DONE
+    /*public void ResetCards(Player player, Card[] cards) // TODO избавиться от индексов DONE
     {
         Reset(player, cards);
-    }
-    
+    }*/
+    /*
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
@@ -62,14 +69,14 @@ public class GameProcessor
         Reset(player, treasures);
         player.IncreaseLevel(sum / 1000);
         return true;
-    }
-    
+    }*/
+    /*
     public void Curse(Player from, Player to, ICurse curse)
     {
         curse.Curse(to);
         Reset(from, [(Curse)curse]);
-    }
-    
+    }*/
+    /*
     /// <summary>
     /// Удалось наложить заклинание или нет
     /// </summary>
@@ -95,8 +102,8 @@ public class GameProcessor
         }
 
         return false;
-    }
-
+    }*/
+/*
     private void Reset(Player player, Card[] cards) // TODO переделать чтобы не было варнингов выше при вызове этого метода
     {
         foreach (var card in cards)
@@ -116,13 +123,13 @@ public class GameProcessor
             // TODO помещать обратно в резет DONE
         }
     }
-    
-    public Door PullDoor()
+    */
+    /*public Door PullDoor()
     {
         var door = _doorGenerator.GetCard();
         return door;
-    }
-
+    }*/
+/*
     public bool Fight(Player player, Monster monster)
     {
         // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
@@ -136,8 +143,8 @@ public class GameProcessor
         
         Reset(player, [monster]);
         return playerWin;
-    }
-
+    }*/
+/*
     private void GetReward(Player player, Monster monster)
     {
         for (var i = 0; i < monster.TreasuresCount; i++)
@@ -145,38 +152,34 @@ public class GameProcessor
             player.Cards.Add(_treasureGenerator.GetCard());
         }
         player.IncreaseLevel(monster.LevelsCount);
-    }
-    
+    }*/
+    /*
     public bool IsNextMoveAllowed(Player player)
     {
         return player.Cards.Count <= 5;
-    }
-
+    }*/
+/*
     public bool GetAway()
     {
         var value = Cube.Throw();
-        if (value >= CurrentFight.WashBonus)
+        var washed = value >= CurrentFight!.WashBonus;
+        if (washed)
         {
             CurrentFight = null;
         }
-        return value >= CurrentFight.WashBonus;
-    }
+        return washed;
+    }*/
 
-    public void GetPunished()
+    /*public void GetPunished()
     {
-        foreach (var monster in CurrentFight.Monsters)
+        foreach (var monster in CurrentFight!.Monsters)
         {
             ((IPunish)monster).Punish(CurrentFight.Player);
         }
         CurrentFight = null;
         
-    }
-
-    public bool IsCommandAllowed(Player player, Command command, int phase, int move) //доступна ли команда для игрока в определенной фазе на определённом ходе
-    {
-        return false;
-    }
-
+    }*/
+/*
     public List<Command> GetAllowCommands(int phase, int move)
     {
         var fightingCommands = new List<Command>() { Command.Cast, Command.GetAway};
@@ -199,5 +202,10 @@ public class GameProcessor
             2 => secondMoveCommands,
             _ => []
         };
+    }*/
+
+    internal void ChangeState(IState newState)
+    {
+        State = newState;
     }
 }

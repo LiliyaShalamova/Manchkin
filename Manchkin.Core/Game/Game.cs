@@ -7,7 +7,7 @@ namespace Manchkin.Core;
 /// </summary>
 public class Game
 {
-    public GameProcessor GameProcessor { get; set; } = new();
+    public GameProcessor GameProcessor { get; set; }
 
     /// <summary>
     /// Количество уровней в игре
@@ -26,6 +26,7 @@ public class Game
 
     public Game(GameConfig gameConfig)
     {
+        GameProcessor = new GameProcessor();
         Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
     }
 
