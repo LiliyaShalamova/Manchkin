@@ -40,7 +40,12 @@ public class StartState : GameState, IState
 
     public bool Cast(Player player, Spell spell)
     {
-        return CastSpell(player, spell);
+        if (spell is FightingSpell)
+        {
+            return false;
+        }
+        var otherSpell = (IOtherSpell)spell;
+        return CastOtherSpell(player, otherSpell);
     }
 
     public bool Monster(Player player, Monster monster)
@@ -62,7 +67,12 @@ public class StartState : GameState, IState
     {
         
     }
-    
+
+    public bool Fight(Player player)
+    {
+        return false;
+    }
+
     public List<Command> GetAllowCommands()
     {
         return [Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Next];

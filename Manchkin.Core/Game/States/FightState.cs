@@ -36,7 +36,12 @@ public class FightState : GameState, IState
 
     public bool Cast(Player player, Spell spell)
     {
-        return CastSpell(player, spell);
+        if (spell is OtherSpell)
+        {
+            return false;
+        }
+        var fightingSpell = (IFightingSpell)spell;
+        return CastFightingSpell(player, fightingSpell);
     }
 
     public bool Monster(Player player, Monster monster)
@@ -52,36 +57,37 @@ public class FightState : GameState, IState
     public bool GetAway(Player player)
     {
         var value = Cube.Throw();
-        var washed = value >= CurrentFight!.WashBonus;
+        var washed = value >= _gameProcessor.CurrentFight!.WashBonus;
         if (washed)
         {
             GetReward(player);
-            CurrentFight = null;
+            _gameProcessor.CurrentFight = null;
         }
         else
         {
             GetPunished();
         }
+        _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
         return washed;
     }
 
     public List<Command> GetAllowCommands()
     {
-        return [Command.Cast, Command.GetAway];
+        return [Command.Cast, Command.GetAway, Command.Fight];
     }
 
     private void GetPunished()
     {
-        foreach (var monster in CurrentFight!.Monsters)
+        foreach (var monster in _gameProcessor.CurrentFight!.Monsters)
         {
-            ((IPunish)monster).Punish(CurrentFight.Player);
+            ((IPunish)monster).Punish(_gameProcessor.CurrentFight.Player);
         }
-        CurrentFight = null;
+        _gameProcessor.CurrentFight = null;
     }
     
     private void GetReward(Player player)
     {
-        var monster = CurrentFight.Monsters[0];
+        var monster = _gameProcessor.CurrentFight!.Monsters[0];
         for (var i = 0; i < monster.TreasuresCount; i++)
         {
             player.Cards.Add(TreasureGenerator.GetCard());
@@ -94,20 +100,25 @@ public class FightState : GameState, IState
         
     }
     
-    public bool Fight(Player player, Monster monster)
+    public bool Fight(Player player)
     {
         // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
-        CurrentFight = new Fight(player, monster);
-        var playerWin = player.FightingStrength + CurrentFight.FightingStrengthBonus > monster.Level;
+        var playerWin = player.FightingStrength + _gameProcessor.CurrentFight!.FightingStrengthBonus > _gameProcessor.CurrentFight.Monsters.Sum(monster => monster.Level);
         if (playerWin)
         {
-            CurrentFight = null;
             GetReward(player);
+            _gameProcessor.CurrentFight = null;
+            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
         }
         
-        Reset(player, [monster]);
+        Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
         return playerWin;
     }
     
-    
+    private bool CastFightingSpell(Player player, IFightingSpell fightingSpell)
+    {
+        fightingSpell.Cast(_gameProcessor.CurrentFight!);
+        Reset(player, [(Card)fightingSpell]);
+        return true;
+    }
 }

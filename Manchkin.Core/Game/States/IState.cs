@@ -17,4 +17,6 @@ public interface IState
     public List<Command> GetAllowCommands();
     
     public void Finish(Player player);
+    
+    public bool Fight(Player player);
 }

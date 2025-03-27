@@ -12,6 +12,12 @@ public class GameProcessor
     {
         State = new StartState(this);
     }
+    
+    /// <summary>
+    /// Текущий бой
+    /// </summary>
+    internal Fight? CurrentFight { get; set; }
+    
     /*
     /// <summary>
     /// Генератор дверей

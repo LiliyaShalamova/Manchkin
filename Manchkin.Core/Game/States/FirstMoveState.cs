@@ -39,7 +39,12 @@ public class FirstMoveState : GameState, IState
 
     public bool Cast(Player player, Spell spell)
     {
-        return CastSpell(player, spell);
+        if (spell is FightingSpell)
+        {
+            return false;
+        }
+        var otherSpell = (IOtherSpell)spell;
+        return CastOtherSpell(player, otherSpell);
     }
 
     public bool Monster(Player player, Monster monster)
@@ -54,6 +59,7 @@ public class FirstMoveState : GameState, IState
         {
             case Monster monster:
                 _gameProcessor.ChangeState(new FightState(_gameProcessor));
+                _gameProcessor.CurrentFight = new Fight(player, monster);
                 break;
             case Core.Curse:
                 Curse(player, player, (ICurse)door);
@@ -78,17 +84,19 @@ public class FirstMoveState : GameState, IState
     {
     }
 
+    public bool Fight(Player player)
+    {
+        return false;
+    }
+
     private Door PullDoor()
     {
         var door = DoorGenerator.GetCard();
         return door;
     }
 
-    private bool Fight(Player player, Monster monster)
+    public bool Fight(Player player, Monster monster)
     {
-        CurrentFight = new Fight(player, monster);
-        var playerWin = player.FightingStrength + CurrentFight.FightingStrengthBonus > monster.Level;
-
-        return playerWin;
+        return false;
     }
 }

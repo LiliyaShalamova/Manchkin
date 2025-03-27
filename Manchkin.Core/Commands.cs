@@ -14,5 +14,6 @@ public enum Command
     GetAway,
     Door,
     Next,
-    Finish
+    Finish,
+    Fight
 }

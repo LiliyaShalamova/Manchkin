@@ -44,13 +44,19 @@ public class SecondMoveState : GameState, IState
 
     public bool Cast(Player player, Spell spell)
     {
-        return CastSpell(player, spell);
+        if (spell is FightingSpell)
+        {
+            return false;
+        }
+        var otherSpell = (IOtherSpell)spell;
+        return CastOtherSpell(player, otherSpell);
     }
 
     public bool Monster(Player player, Monster monster)
     {
         _gameProcessor.ChangeState(new FightState(_gameProcessor));
-        throw new NotImplementedException();
+        _gameProcessor.CurrentFight = new Fight(player, monster);
+        return true;
     }
 
     public Door Door(Player player)
@@ -69,6 +75,11 @@ public class SecondMoveState : GameState, IState
     public void Finish(Player player)
     {
         
+    }
+
+    public bool Fight(Player player)
+    {
+        return false;
     }
 
     public List<Command> GetAllowCommands()

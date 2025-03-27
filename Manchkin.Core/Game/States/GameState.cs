@@ -18,19 +18,14 @@ public abstract class GameState
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    internal Stack<Door> DoorsReset { get; } = [];
+    private Stack<Door> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    internal Stack<Treasure> TreasuresReset { get; } = [];
+    private Stack<Treasure> TreasuresReset { get; } = [];
     
-    /// <summary>
-    /// Текущий бой
-    /// </summary>
-    internal Fight? CurrentFight { get; set; }
-    
-    internal void Reset(Player player, Card[] cards) // TODO переделать чтобы не было варнингов выше при вызове этого метода
+    internal void Reset<T>(Player player, T[] cards) where T : Card// TODO переделать чтобы не было варнингов выше при вызове этого метода DONE
     {
         foreach (var card in cards)
         {
@@ -46,7 +41,7 @@ public abstract class GameState
                 default:
                     throw new ArgumentException("Invalid card type");
             }
-            // TODO помещать обратно в резет DONE
+            // TODO помещать в резет DONE
         }
     }
     
@@ -89,28 +84,12 @@ public abstract class GameState
         Reset(player, cards);
     }
     
-    internal bool CastSpell(Player player, Spell spell)
+    internal bool CastOtherSpell(Player player, IOtherSpell otherSpell)
     {
-        switch (CurrentFight)
-        {
-            case null when spell is FightingSpell:
-            case not null when spell is OtherSpell:
-                return false;
-            case null when spell is OtherSpell:
-            {
-                var otherSpell = (IOtherSpell)spell; // TODO Оставить только использование интерфейса
-                otherSpell.Cast(player, TreasureGenerator);
-                Reset(player, [spell]);
-                return true;
-            }
-            case not null when spell is FightingSpell:
-                var fightingSpell = (IFightingSpell)spell;
-                fightingSpell.Cast(CurrentFight);
-                Reset(player, [spell]);
-                return true;
-        }
-
-        return false;
+        // TODO Оставить только использование интерфейса
+        otherSpell.Cast(player, TreasureGenerator);
+        Reset(player, [(Card)otherSpell]);
+        return true;
     }
     
     internal bool IsNextMoveAllowed(Player player)

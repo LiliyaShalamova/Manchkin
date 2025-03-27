@@ -25,7 +25,8 @@ public static class Program
             { Command.Next, ExecuteCommandNext },
             { Command.Cast, ExecuteCommandCast },
             { Command.Door, ExecuteCommandDoor },
-            { Command.Monster, ExecuteCommandMonster}
+            { Command.Monster, ExecuteCommandMonster},
+            { Command.Fight, ExecuteCommandFight }
         };
     }
     
@@ -124,7 +125,7 @@ public static class Program
 
                 case "Door" when allowedCommands.Contains(commandName):
                     ExecuteByCommand(Command.Door, game, player, commandArray, lastPlayer);
-                    break;
+                    continue;
 
                 case "GetAway" when allowedCommands.Contains(commandName):
                     if (game.GameProcessor.State.GetAway(player))
@@ -134,13 +135,15 @@ public static class Program
                     else
                     {
                         Console.WriteLine("Не удалось смыться. Получи наказание");
-                        break;
                     }
-                    continue;
+                    return;
 
                 case "Monster" when allowedCommands.Contains(commandName):
                     ExecuteByCommand(Command.Monster, game, player, commandArray, lastPlayer);
-                    break;
+                    continue;
+                case "Fight" when allowedCommands.Contains(commandName):
+                    ExecuteByCommand(Command.Fight, game, player, commandArray, lastPlayer);
+                    continue;
                 default:
                     Console.WriteLine("Недоступная команда.");
                     continue;
@@ -236,16 +239,24 @@ public static class Program
 
     private static void ExecuteCommandMonster(Game game, Player player, string[] commandsArray, bool lastPlayer)
     {
-        var m = (Monster)player.Cards[int.Parse(commandsArray[1]) - 1];
-        m.Print();
-        if (!game.GameProcessor.State.Monster(player, m))
+        var monster = (Monster)player.Cards[int.Parse(commandsArray[1]) - 1];
+        monster.Print();
+        game.GameProcessor.State.Monster(player, monster);
+
+    }
+
+    private static void ExecuteCommandFight(Game game, Player player, string[] commandsArray, bool lastPlayer)
+    {
+        if (!game.GameProcessor.State.Fight(player))
         {
             Console.WriteLine("Не хватает боевой силы для победы.");
         }
-
-        Console.WriteLine("Победа!");
-        PrintPlayerInfo(player);
-        CheckCardsCount(game, player, lastPlayer); //если стало > 5
+        else
+        {
+            Console.WriteLine("Победа!");
+            PrintPlayerInfo(player);
+            CheckCardsCount(game, player, lastPlayer); //если стало > 5
+        }
     }
     
     private static void PrintCards(Player player)
