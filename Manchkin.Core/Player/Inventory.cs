@@ -117,6 +117,10 @@ public class Inventory
             RightHand = weapon;
             if (weapon.HandsAmount == 2)
             {
+                if (LeftHand != null)
+                {
+                    clothesToReturn.Add(LeftHand);
+                }
                 LeftHand = weapon;
             }
         }

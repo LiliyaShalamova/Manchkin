@@ -84,7 +84,7 @@ public class Player
 
     public void AddCurse(Curse curse)
     {
-        
+        Curses.Add(curse);
     }
 
     public void LoseClass()

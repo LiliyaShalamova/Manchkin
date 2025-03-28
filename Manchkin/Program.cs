@@ -40,7 +40,7 @@ public static class Program
             Console.WriteLine("Введите количество игроков для начала игры");
         }
         var gameConfig = new GameConfig { PlayersCount = playersCount };
-        var game = new Game(gameConfig);
+        var game = new Game(gameConfig, new MyCube());
         PhaseOne(game);
         PhaseTwo(game);
     }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Manchkin.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40eb64f31589f132487c4d7f61f65aa65ffff6d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42f492d80a0e7a3af01597a4501462d1110dd164")]
 [assembly: System.Reflection.AssemblyProductAttribute("Manchkin.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Manchkin.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

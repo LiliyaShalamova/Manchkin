@@ -56,8 +56,9 @@ public class FightState : GameState, IState
 
     public bool GetAway(Player player)
     {
-        var value = Cube.Throw();
+        var value = _gameProcessor.Cube.Throw(1, 7);
         var washed = value >= _gameProcessor.CurrentFight!.WashBonus;
+        Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
         if (washed)
         {
             GetReward(player);
@@ -107,11 +108,12 @@ public class FightState : GameState, IState
         if (playerWin)
         {
             GetReward(player);
+            Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
             _gameProcessor.CurrentFight = null;
-            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
+            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));// TODO после победы карт стало больше, состояние игры - первый ход, получаем лишнюю доступную команду дверь
         }
         
-        Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
+        //Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
         return playerWin;
     }
     

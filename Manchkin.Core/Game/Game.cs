@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Generators;
+﻿using Manchkin.Core.Cube;
+using Manchkin.Core.Generators;
 
 namespace Manchkin.Core;
 //TODO сделать класс GameProcessor
@@ -19,14 +20,14 @@ public class Game
     /// </summary>
     public Player[] Players { get; init; }
 
-    public Game(GameConfig gameConfig, IPlayersGenerator playersGenerator)
+    public Game(GameConfig gameConfig, IPlayersGenerator playersGenerator, ICube cube)
     {
         Players = playersGenerator.Generate(gameConfig.PlayersCount);
     }
 
-    public Game(GameConfig gameConfig)
+    public Game(GameConfig gameConfig, ICube cube)
     {
-        GameProcessor = new GameProcessor();
+        GameProcessor = new GameProcessor(cube);
         Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
     }
 

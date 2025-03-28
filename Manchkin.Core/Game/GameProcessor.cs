@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cube;
 using Manchkin.Core.Generators;
 
 namespace Manchkin.Core;
@@ -7,10 +8,13 @@ namespace Manchkin.Core;
 public class GameProcessor
 {
     public IState State { get; set; }
+    
+    public ICube Cube { get; set; }
 
-    public GameProcessor()
+    public GameProcessor(ICube cube)
     {
         State = new StartState(this);
+        Cube = cube;
     }
     
     /// <summary>
