@@ -4,6 +4,9 @@ using Xunit;
 
 namespace ManchkinCoreTests.PlayerTests;
 
+// TODO починить тесты. Надо чтоб можно было вызвать dotnet test
+// TODO именовать тесты в паттерне GIVEN WHEN THEN
+// TODO использовать autofixture в тестах
 public class PlayerTests
 {
     private Random _random = new();

@@ -13,30 +13,27 @@ public class Game
     /// <summary>
     /// Количество уровней в игре
     /// </summary>
-    public int LevelsCount => 10;
+    private int _levelsCount = 10;
 
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player[] Players { get; init; }
+    public Player[] Players { get; }
 
     public Game(GameConfig gameConfig, IPlayersGenerator playersGenerator, ICube cube)
     {
         Players = playersGenerator.Generate(gameConfig.PlayersCount);
+        GameProcessor = new GameProcessor(cube, Players);
     }
 
     public Game(GameConfig gameConfig, ICube cube)
     {
-        GameProcessor = new GameProcessor(cube);
         Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
+        GameProcessor = new GameProcessor(cube, Players);
     }
 
     public bool IsGameOver()
     {
-        return Players.Max(player => player.Level) == 10;
+        return Players.Max(player => player.Level) == _levelsCount;
     }
-    /*
-     * TODO
-     * Оставить в Core как можно меньше кастов. Вынести всё в консоль по возможности
-     */
 }

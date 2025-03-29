@@ -10,65 +10,71 @@ public class StartState : GameState, IState
     {
         _gameProcessor = game;
     }
-    public void PutOn(Player player, Clothes[] clothes)
+    public void PutOn(Clothes[] clothes)
     {
-        FillInventory(player, clothes);
+        FillInventory(_gameProcessor.CurrentPlayer, clothes);
     }
 
-    public void Drop(Player player, Card[] cards)
+    public void Drop(Card[] cards)
     {
-        ResetCards(player, cards);
+        ResetCards(_gameProcessor.CurrentPlayer, cards);
     }
 
-    public bool Sell(Player player, Treasure[] treasures)
+    public bool Sell(Treasure[] treasures)
     {
-        return SellTreasures(player, treasures);
+        return SellTreasures(_gameProcessor.CurrentPlayer, treasures);
     }
 
-    public bool Next(Player player, bool lastPlayer)
+    public bool Next()
     {
-        if (!IsNextMoveAllowed(player)) return false;
-        if (!lastPlayer) return true;
+        var lastPlayer = _gameProcessor.CurrentPlayer == _gameProcessor.Players.Last();
+        if (!IsNextMoveAllowed(_gameProcessor.CurrentPlayer)) return false;
+        if (!lastPlayer)
+        {
+            _gameProcessor.ChangeCurrentPlayer();
+            return true;
+        }
         _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
+        _gameProcessor.ChangeCurrentPlayer();
         return true;
     }
 
-    public new void Curse(Player from, Player to, ICurse curse)
+    public new void Curse(Player to, ICurse curse)
     {
-        base.Curse(from, to, curse);
+        base.Curse(_gameProcessor.CurrentPlayer, to, curse);
     }
 
-    public bool Cast(Player player, Spell spell)
+    public bool Cast(Spell spell)
     {
         if (spell is FightingSpell)
         {
             return false;
         }
         var otherSpell = (IOtherSpell)spell;
-        return CastOtherSpell(player, otherSpell);
+        return CastOtherSpell(_gameProcessor.CurrentPlayer, otherSpell);
     }
 
-    public bool Monster(Player player, Monster monster)
+    public bool Monster(Monster monster)
     {
         return false;
     }
 
-    public Door Door(Player player)
+    public Door Door() // TODO возвращать результат операции (должен быть единый подход абсолютно во всех командах)
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException(); // TODO все недопустимые команды НЕ ПЕРЕОПРЕДЕЛЯТЬ!!!!!
     }
 
-    public bool GetAway(Player player)
+    public bool GetAway()
     {
         return false;
     }
 
-    public void Finish(Player player)
+    public void Finish()
     {
         
     }
 
-    public bool Fight(Player player)
+    public bool Fight()
     {
         return false;
     }

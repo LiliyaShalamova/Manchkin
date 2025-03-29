@@ -12,56 +12,64 @@ public class FightState : GameState, IState
         _gameProcessor = gameProcessor;
     }
     
-    public void PutOn(Player player, Clothes[] clothes)
+    public void PutOn(Clothes[] clothes)
     {
     }
 
-    public void Drop(Player player, Card[] cards)
+    public void Drop(Card[] cards)
     {
     }
 
-    public bool Sell(Player player, Treasure[] treasures)
-    {
-        return false;
-    }
-
-    public bool Next(Player player, bool lastPlayer)
+    public bool Sell(Treasure[] treasures)
     {
         return false;
     }
 
-    public new void Curse(Player from, Player to, ICurse curse)
+    public bool Next()
+    {
+        return false;
+    }
+
+    public new void Curse(Player to, ICurse curse)
     {
     }
 
-    public bool Cast(Player player, Spell spell)
+    public bool Cast(Spell spell)//если заклинание на убийство монстра, пока состояние игры не меняется, надо выполнить fight
     {
         if (spell is OtherSpell)
         {
             return false;
         }
         var fightingSpell = (IFightingSpell)spell;
-        return CastFightingSpell(player, fightingSpell);
+        CastFightingSpell(_gameProcessor.CurrentPlayer, fightingSpell);
+        if (_gameProcessor.CurrentFight!.Monsters.Count == 0)
+        {
+            _gameProcessor.CurrentFight = null;
+            _gameProcessor.ChangeCurrentPlayer();
+            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
+        }
+        return true;
     }
 
-    public bool Monster(Player player, Monster monster)
+    public bool Monster(Monster monster)
     {
         return false;
     }
 
-    public Door Door(Player player)
+    public Door Door()
     {
         throw new NotImplementedException();
     }
 
-    public bool GetAway(Player player)
+    public bool GetAway()
     {
+        var currentPlayer = _gameProcessor.CurrentPlayer;
         var value = _gameProcessor.Cube.Throw(1, 7);
         var washed = value >= _gameProcessor.CurrentFight!.WashBonus;
-        Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
+        Reset(currentPlayer, _gameProcessor.CurrentFight!.Monsters.ToArray());
         if (washed)
         {
-            GetReward(player);
+            GetReward(currentPlayer);
             _gameProcessor.CurrentFight = null;
         }
         else
@@ -76,7 +84,30 @@ public class FightState : GameState, IState
     {
         return [Command.Cast, Command.GetAway, Command.Fight];
     }
-
+    
+    public void Finish()
+    {
+        
+    }
+    
+    public bool Fight()
+    {
+        var currentPlayer = _gameProcessor.CurrentPlayer;
+        // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
+        var playerWin = currentPlayer.FightingStrength + _gameProcessor.CurrentFight!.FightingStrengthBonus > _gameProcessor.CurrentFight.Monsters.Sum(monster => monster.Level);
+        if (playerWin)
+        {
+            GetReward(currentPlayer);
+            Reset(currentPlayer, _gameProcessor.CurrentFight!.Monsters.ToArray());
+            _gameProcessor.CurrentFight = null;
+            _gameProcessor.ChangeCurrentPlayer();
+            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));// TODO после победы карт стало больше, состояние игры - первый ход, получаем лишнюю доступную команду дверь
+        }
+        
+        //Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
+        return playerWin;
+    }
+    
     private void GetPunished()
     {
         foreach (var monster in _gameProcessor.CurrentFight!.Monsters)
@@ -94,27 +125,6 @@ public class FightState : GameState, IState
             player.Cards.Add(TreasureGenerator.GetCard());
         }
         player.IncreaseLevel(monster.LevelsCount);
-    }
-    
-    public void Finish(Player player)
-    {
-        
-    }
-    
-    public bool Fight(Player player)
-    {
-        // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
-        var playerWin = player.FightingStrength + _gameProcessor.CurrentFight!.FightingStrengthBonus > _gameProcessor.CurrentFight.Monsters.Sum(monster => monster.Level);
-        if (playerWin)
-        {
-            GetReward(player);
-            Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
-            _gameProcessor.CurrentFight = null;
-            _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));// TODO после победы карт стало больше, состояние игры - первый ход, получаем лишнюю доступную команду дверь
-        }
-        
-        //Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
-        return playerWin;
     }
     
     private bool CastFightingSpell(Player player, IFightingSpell fightingSpell)

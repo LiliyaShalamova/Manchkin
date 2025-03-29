@@ -5,18 +5,16 @@ namespace Manchkin.Core;
 
 public interface IState
 {
-    public void PutOn(Player player, Clothes[] clothes);
-    public void Drop(Player player, Card[] cards);
-    public bool Sell(Player player, Treasure[] treasures);
-    public bool Next(Player player, bool lastPlayer);
-    public void Curse(Player from, Player to, ICurse curse);
-    public bool Cast(Player player, Spell spell);
-    public bool Monster(Player player, Monster monster);
-    public Door Door(Player player);
-    public bool GetAway(Player player);
+    public void PutOn(Clothes[] clothes);
+    public void Drop(Card[] cards);
+    public bool Sell(Treasure[] treasures);
+    public bool Next();
+    public void Curse(Player to, ICurse curse);
+    public bool Cast(Spell spell);
+    public bool Monster(Monster monster);
+    public Door Door();
+    public bool GetAway();
     public List<Command> GetAllowCommands();
-    
-    public void Finish(Player player);
-    
-    public bool Fight(Player player);
+    public void Finish();
+    public bool Fight();
 }

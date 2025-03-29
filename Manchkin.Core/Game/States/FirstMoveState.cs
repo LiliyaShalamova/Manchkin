@@ -12,57 +12,57 @@ public class FirstMoveState : GameState, IState
         _gameProcessor = gameProcessor;
     }
 
-    public void PutOn(Player player, Clothes[] clothes)
+    public void PutOn(Clothes[] clothes)
     {
-        FillInventory(player, clothes);
+        FillInventory(_gameProcessor.CurrentPlayer, clothes);
     }
 
-    public void Drop(Player player, Card[] cards)
+    public void Drop(Card[] cards)
     {
-        ResetCards(player, cards);
+        ResetCards(_gameProcessor.CurrentPlayer, cards);
     }
 
-    public bool Sell(Player player, Treasure[] treasures)
+    public bool Sell(Treasure[] treasures)
     {
-        return SellTreasures(player, treasures);
+        return SellTreasures(_gameProcessor.CurrentPlayer, treasures);
     }
 
-    public bool Next(Player player, bool lastPlayer)
+    public bool Next()
     {
         return false;
     }
 
-    public new void Curse(Player from, Player to, ICurse curse)
+    public void Curse(Player to, ICurse curse)
     {
-        base.Curse(from, to, curse);
+        base.Curse(_gameProcessor.CurrentPlayer, to, curse);
     }
 
-    public bool Cast(Player player, Spell spell)
+    public bool Cast(Spell spell)
     {
         if (spell is FightingSpell)
         {
             return false;
         }
         var otherSpell = (IOtherSpell)spell;
-        return CastOtherSpell(player, otherSpell);
+        return CastOtherSpell(_gameProcessor.CurrentPlayer, otherSpell);
     }
 
-    public bool Monster(Player player, Monster monster)
+    public bool Monster(Monster monster)
     {
         return false;
     }
 
-    public Door Door(Player player)
+    public Door Door()
     {
         var door = PullDoor();
         switch (door)
         {
             case Monster monster:
                 _gameProcessor.ChangeState(new FightState(_gameProcessor));
-                _gameProcessor.CurrentFight = new Fight(player, monster);
+                _gameProcessor.CurrentFight = new Fight(_gameProcessor.CurrentPlayer, monster);
                 break;
             case Core.Curse:
-                Curse(player, player, (ICurse)door);
+                Curse(_gameProcessor.CurrentPlayer, _gameProcessor.CurrentPlayer, (ICurse)door);
                 _gameProcessor.ChangeState(new SecondMoveState(_gameProcessor));
                 break;
         }
@@ -70,7 +70,7 @@ public class FirstMoveState : GameState, IState
         return door;
     }
 
-    public bool GetAway(Player player)
+    public bool GetAway()
     {
         return false;
     }
@@ -80,11 +80,11 @@ public class FirstMoveState : GameState, IState
         return [Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door];
     }
 
-    public void Finish(Player player)
+    public void Finish()
     {
     }
 
-    public bool Fight(Player player)
+    public bool Fight()
     {
         return false;
     }
@@ -94,9 +94,9 @@ public class FirstMoveState : GameState, IState
         var door = DoorGenerator.GetCard();
         return door;
     }
-
+/*
     public bool Fight(Player player, Monster monster)
     {
         return false;
-    }
+    }*/
 }
