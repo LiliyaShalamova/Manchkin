@@ -5,7 +5,7 @@ using Manchkin.Core.Generators;
 namespace Manchkin.Core.Game.States;
 
 // TODO переименовать в GameStateBase DONE
-// TODO здесь все команды должны быть недоступные, а в наследниках переопределять только доступные
+// TODO здесь все команды должны быть недоступные, а в наследниках переопределять только доступные DONE
 internal abstract class GameStateBase : IState
 {
     /// <summary>
@@ -21,12 +21,12 @@ internal abstract class GameStateBase : IState
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    internal Stack<Door> DoorsReset { get; } = [];
+    private Stack<Door> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    internal Stack<Treasure> TreasuresReset { get; } = [];
+    private Stack<Treasure> TreasuresReset { get; } = [];
     
     internal readonly GameProcessor GameProcessor;
 
@@ -35,85 +35,49 @@ internal abstract class GameStateBase : IState
         GameProcessor = gameProcessor;
     }
     
-    public virtual CommandResult<Void> PutOn(Clothes[] clothes)
+    public virtual CommandResult<Void> Dress(Clothes[] clothes)
     {
-        return new CommandResult<Void>
-        {
-            IsAvailable = false,
-            Result = new Void()
-        };
+        return new CommandResult<Void>(false, new Void());
     }
 
     public virtual CommandResult<Void> Drop(Card[] cards)
     {
-        return new CommandResult<Void>
-        {
-            IsAvailable = false,
-            Result = new Void()
-        };
+        return new CommandResult<Void>(false, new Void());
     }
 
     public virtual CommandResult<bool> Sell(Treasure[] treasures)
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
-    public virtual CommandResult<bool> Next()
+    public virtual CommandResult<bool> Finish()
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
     public virtual CommandResult<bool> Curse(Player to, ICurse curse)
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
     public virtual CommandResult<bool> Cast(Spell spell)
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
     public virtual CommandResult<bool> Monster(Monster monster)
     {
-        return new CommandResult<bool>()
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
     public virtual CommandResult<Door> Door()
     {
-        return new CommandResult<Door>
-        {
-            IsAvailable = false,
-            Result = null
-        };
+        return new CommandResult<Door>(false, null);
     }
 
-    public virtual CommandResult<bool> GetAway()
+    public virtual CommandResult<bool> Run()
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
 
     public virtual List<Command> GetAllowCommands()
@@ -123,11 +87,7 @@ internal abstract class GameStateBase : IState
 
     public virtual CommandResult<bool> Fight()
     {
-        return new CommandResult<bool>
-        {
-            IsAvailable = false,
-            Result = false
-        };
+        return new CommandResult<bool>(false, false);
     }
     
     internal void Reset<T>(Player player, T[] cards) where T : Card

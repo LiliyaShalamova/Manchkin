@@ -17,7 +17,7 @@ namespace Manchkin;
 // TODO избавиться от try catch
 // TODO Надо инкапсулировать всю механику. Пользователь не должен ничего знать про внутреннюю реализацию Core.
 // TODO Не давать возможность сломать механику извне. Надо чтобы можно было безопасно вызывать методы из Game DONE
-// TODO Все команды пусть будут регистронезависимы. Все должны быть из одного слова.
+// TODO Все команды пусть будут регистронезависимы. Все должны быть из одного слова. DONE
 
 public static class Program
 {
@@ -60,23 +60,13 @@ public static class Program
         game.GetCurrentPlayer().Print();
         while (!game.IsGameOver())
         {
-            Command commandName;
-            string[] args;
             var allowedCommands = game.PrintAllowedCommands();
-            try
+            var command = Console.ReadLine();
+            var args = command.Split(" ");
+            if (!Enum.TryParse(args[0], ignoreCase: true, out Command commandName) ||
+                !allowedCommands.Contains(commandName))
             {
-                var command = Console.ReadLine();
-                args = command.Split(" ");
-                commandName = Enum.Parse<Command>(args[0]);
-                if (!allowedCommands.Contains(commandName))
-                {
-                    Console.WriteLine("Недоступная команда.");
-                    continue;
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Недоступная команда.");
+                Console.WriteLine("Недоступная команда");
                 continue;
             }
 
@@ -90,16 +80,11 @@ public static class Program
             }
         }
     }
-    
-    private static void CheckCardsCount(Game game)
-    {
-        ExecuteCommand(game);
-    }
 
     private static void ExecuteCommandDress(Game game, string[] args)
     {
         var clothes = ParseArgs<Clothes>(game, args);
-        game.PutOn(clothes);
+        game.Dress(clothes);
         game.GetCurrentPlayer().Print();
     }
 
@@ -134,7 +119,7 @@ public static class Program
 
     private static void ExecuteCommandFinish(Game game, string[] args)
     {
-        var result = game.Next();
+        var result = game.Finish();
         if (!result.Result)
         {
             Console.WriteLine("У вас на руках больше 5 карт.");
@@ -163,6 +148,7 @@ public static class Program
     {
         var result = game.Door();
         result.Result!.Print();
+        game.GetCurrentPlayer().Print();
     }
 
     private static void ExecuteCommandMonster(Game game, string[] args)
@@ -170,6 +156,7 @@ public static class Program
         var monster = (Monster)game.GetCurrentPlayer().Cards[int.Parse(args[1]) - 1];
         monster.Print();
         game.Monster(monster);
+        game.GetCurrentPlayer().Print();
     }
 
     private static void ExecuteCommandFight(Game game, string[] args)
@@ -183,17 +170,18 @@ public static class Program
         {
             Console.WriteLine("Победа!");
             game.GetCurrentPlayer().Print();
-            CheckCardsCount(game); // TODO этого не должно быть тут!
+            //CheckCardsCount(game); // TODO этого не должно быть тут! DONE
         }
     }
 
     private static void ExecuteCommandRun(Game game, string[] args)
     {
-        var result = game.GetAway();
+        var result = game.Run();
         Console.WriteLine(result.Result ? "Удалось смыться от монстра!" : "Не удалось смыться. Получи наказание");
+        game.GetCurrentPlayer().Print();
     }
 
-    private static T[] ParseArgs<T>(Game game, string[] args) where T: Card
+    private static T[] ParseArgs<T>(Game game, string[] args) where T : Card
     {
         return args
             .Skip(1)

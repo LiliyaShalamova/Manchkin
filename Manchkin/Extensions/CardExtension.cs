@@ -1,6 +1,7 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 
 namespace Manchkin.Extensions;
 

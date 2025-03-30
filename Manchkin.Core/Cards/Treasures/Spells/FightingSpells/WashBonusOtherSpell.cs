@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells;
+﻿namespace Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 
 /// <summary>
 /// Бонус на смывку

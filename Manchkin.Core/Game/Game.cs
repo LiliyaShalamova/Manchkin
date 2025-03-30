@@ -46,9 +46,9 @@ public class Game
         return GameProcessor.CurrentPlayer;
     }
 
-    public CommandResult<Void> PutOn(Clothes[] clothes)
+    public CommandResult<Void> Dress(Clothes[] clothes)
     {
-        return GameProcessor.CurrentState.PutOn(clothes);
+        return GameProcessor.CurrentState.Dress(clothes);
     }
 
     public CommandResult<Void> Drop(Card[] cards)
@@ -66,9 +66,9 @@ public class Game
         return GameProcessor.CurrentState.Curse(to, curse);
     }
 
-    public CommandResult<bool> Next()
+    public CommandResult<bool> Finish()
     {
-        return GameProcessor.CurrentState.Next();
+        return GameProcessor.CurrentState.Finish();
     }
 
     public CommandResult<bool> Cast(Spell spell)
@@ -86,9 +86,9 @@ public class Game
         return GameProcessor.CurrentState.Door();
     }
 
-    public CommandResult<bool> GetAway()
+    public CommandResult<bool> Run()
     {
-        return GameProcessor.CurrentState.GetAway();
+        return GameProcessor.CurrentState.Run();
     }
 
     public List<Command> GetAllowCommands()

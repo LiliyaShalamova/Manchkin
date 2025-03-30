@@ -8,6 +8,7 @@ namespace Manchkin.Core.Game.States;
 /// </summary>
 internal class FightState : GameStateBase
 {
+    private List<Command> _allowedCommands = [Command.Cast, Command.Run, Command.Fight];
     public FightState(GameProcessor gameProcessor) : base(gameProcessor)
     {
     }
@@ -16,11 +17,7 @@ internal class FightState : GameStateBase
     {
         if (spell is OtherSpell)
         {
-            return new CommandResult<bool>
-            {
-                IsAvailable = true,
-                Result = false
-            };
+            return new CommandResult<bool>(true, false);
         }
         var fightingSpell = (IFightingSpell)spell;
         CastFightingSpell(GameProcessor.CurrentPlayer, fightingSpell);
@@ -30,14 +27,10 @@ internal class FightState : GameStateBase
             GameProcessor.ChangeCurrentPlayer();
             GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
         }
-        return new CommandResult<bool>
-        {
-            IsAvailable = true,
-            Result = true
-        };
+        return new CommandResult<bool>(true, true);
     }
 
-    public override CommandResult<bool> GetAway()
+    public override CommandResult<bool> Run()
     {
         var currentPlayer = GameProcessor.CurrentPlayer;
         var value = GameProcessor.Cube.Throw(1, 7);
@@ -53,11 +46,7 @@ internal class FightState : GameStateBase
             GetPunished();
         }
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
-        return new CommandResult<bool>
-        {
-            IsAvailable = true,
-            Result = washed
-        };
+        return new CommandResult<bool>(true, washed);
     }
     
     public override CommandResult<bool> Fight()
@@ -70,20 +59,23 @@ internal class FightState : GameStateBase
             GetReward(currentPlayer);
             Reset(currentPlayer, GameProcessor.CurrentFight!.Monsters.ToArray());
             GameProcessor.CurrentFight = null;
-            GameProcessor.ChangeCurrentPlayer();
-            GameProcessor.ChangeState(new FirstMoveState(GameProcessor));// TODO после победы карт стало больше, состояние игры - первый ход, получаем лишнюю доступную команду дверь
+            if (currentPlayer.Cards.Count > 5)
+            {
+                GameProcessor.ChangeState(new StartState(GameProcessor));
+            }
+            else
+            {
+                GameProcessor.ChangeCurrentPlayer();
+                GameProcessor.ChangeState(new FirstMoveState(GameProcessor));// TODO после победы карт стало больше, состояние игры - первый ход, получаем лишнюю доступную команду дверь
+            }
         }
         //Reset(player, _gameProcessor.CurrentFight!.Monsters.ToArray());
-        return new CommandResult<bool>
-        {
-            IsAvailable = true,
-            Result = playerWin
-        };
+        return new CommandResult<bool>(true, playerWin);
     }
     
     public override List<Command> GetAllowCommands()
     {
-        return [Command.Cast, Command.Run, Command.Fight];
+        return _allowedCommands;
     }
     
     private void GetPunished()
