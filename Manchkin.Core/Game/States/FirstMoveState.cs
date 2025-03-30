@@ -1,92 +1,99 @@
 ﻿using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game.States;
 
-public class FirstMoveState : GameState, IState
+/// <summary>
+/// Состояние первого хода игрока. Необходимо выбить дверь
+/// </summary>
+internal class FirstMoveState : GameStateBase
 {
-    private GameProcessor _gameProcessor;
-
-    public FirstMoveState(GameProcessor gameProcessor)
+    public FirstMoveState(GameProcessor gameProcessor) : base(gameProcessor)
     {
-        _gameProcessor = gameProcessor;
     }
-
-    public void PutOn(Clothes[] clothes)
+    
+    public override CommandResult<Void> PutOn(Clothes[] clothes)
     {
-        FillInventory(_gameProcessor.CurrentPlayer, clothes);
-    }
-
-    public void Drop(Card[] cards)
-    {
-        ResetCards(_gameProcessor.CurrentPlayer, cards);
-    }
-
-    public bool Sell(Treasure[] treasures)
-    {
-        return SellTreasures(_gameProcessor.CurrentPlayer, treasures);
-    }
-
-    public bool Next()
-    {
-        return false;
-    }
-
-    public void Curse(Player to, ICurse curse)
-    {
-        base.Curse(_gameProcessor.CurrentPlayer, to, curse);
-    }
-
-    public bool Cast(Spell spell)
-    {
-        if (spell is FightingSpell)
+        FillInventory(GameProcessor.CurrentPlayer, clothes);
+        return new CommandResult<Void>
         {
-            return false;
-        }
-        var otherSpell = (IOtherSpell)spell;
-        return CastOtherSpell(_gameProcessor.CurrentPlayer, otherSpell);
+            IsAvailable = true,
+            Result = new Void()
+        };
     }
-
-    public bool Monster(Monster monster)
+    
+    public override CommandResult<Void> Drop(Card[] cards)
     {
-        return false;
+        ResetCards(GameProcessor.CurrentPlayer, cards);
+        return new CommandResult<Void>
+        {
+            IsAvailable = true,
+            Result = new Void()
+        };
     }
-
-    public Door Door()
+    
+    public override CommandResult<bool> Sell(Treasure[] treasures)
+    {
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = SellTreasures(GameProcessor.CurrentPlayer, treasures)
+        };
+    }
+    
+    public override CommandResult<Door> Door()
     {
         var door = PullDoor();
         switch (door)
         {
             case Monster monster:
-                _gameProcessor.ChangeState(new FightState(_gameProcessor));
-                _gameProcessor.CurrentFight = new Fight(_gameProcessor.CurrentPlayer, monster);
+                GameProcessor.ChangeState(new FightState(GameProcessor));
+                GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
                 break;
             case Core.Curse:
-                Curse(_gameProcessor.CurrentPlayer, _gameProcessor.CurrentPlayer, (ICurse)door);
-                _gameProcessor.ChangeState(new SecondMoveState(_gameProcessor));
+                Curse(GameProcessor.CurrentPlayer, GameProcessor.CurrentPlayer, (ICurse)door);
+                GameProcessor.ChangeState(new SecondMoveState(GameProcessor));
                 break;
         }
 
-        return door;
+        return new CommandResult<Door>
+        {
+            IsAvailable = true,
+            Result = door
+        };
     }
 
-    public bool GetAway()
+    public override CommandResult<bool> Curse(Player to, ICurse curse)
     {
-        return false;
+        Curse(GameProcessor.CurrentPlayer, to, curse);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = true
+        };
     }
-
-    public List<Command> GetAllowCommands()
+    
+    public override CommandResult<bool> Cast(Spell spell)
     {
-        return [Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door];
+        if (spell is FightingSpell)
+        {
+            return new CommandResult<bool>
+            {
+                IsAvailable = true,
+                Result = false
+            };
+        }
+        var otherSpell = (IOtherSpell)spell;
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = CastOtherSpell(GameProcessor.CurrentPlayer, otherSpell)
+        };
     }
-
-    public void Finish()
+    
+    public override List<Command> GetAllowCommands()
     {
-    }
-
-    public bool Fight()
-    {
-        return false;
+        return [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door]; // TODO каждый раз при вызове создается массив, переделать.
     }
 
     private Door PullDoor()
@@ -94,9 +101,4 @@ public class FirstMoveState : GameState, IState
         var door = DoorGenerator.GetCard();
         return door;
     }
-/*
-    public bool Fight(Player player, Monster monster)
-    {
-        return false;
-    }*/
 }

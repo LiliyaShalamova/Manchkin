@@ -1,86 +1,104 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
-using Manchkin.Core.Cards.Treasures.Spells;
+﻿using Manchkin.Core.Cards.Treasures.Spells;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game.States;
 
-public class StartState : GameState, IState
+/// <summary>
+/// Начальное состояние игры, когда доступны только основные команды без дверей
+/// </summary>
+internal class StartState : GameStateBase
 {
-    private readonly GameProcessor _gameProcessor;
-    public StartState(GameProcessor game)
+    public StartState(GameProcessor game) : base(game)
     {
-        _gameProcessor = game;
     }
-    public void PutOn(Clothes[] clothes)
+    
+    public override CommandResult<Void> PutOn(Clothes[] clothes)
     {
-        FillInventory(_gameProcessor.CurrentPlayer, clothes);
+        FillInventory(GameProcessor.CurrentPlayer, clothes);
+        return new CommandResult<Void>
+        {
+            IsAvailable = true,
+            Result = new Void()
+        };
     }
-
-    public void Drop(Card[] cards)
+    
+    public override CommandResult<Void> Drop(Card[] cards)
     {
-        ResetCards(_gameProcessor.CurrentPlayer, cards);
+        ResetCards(GameProcessor.CurrentPlayer, cards);
+        return new CommandResult<Void>
+        {
+            IsAvailable = true,
+            Result = new Void()
+        };
     }
-
-    public bool Sell(Treasure[] treasures)
+    
+    public override CommandResult<bool> Sell(Treasure[] treasures)
     {
-        return SellTreasures(_gameProcessor.CurrentPlayer, treasures);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = SellTreasures(GameProcessor.CurrentPlayer, treasures)
+        };
     }
-
-    public bool Next()
+    
+    public override CommandResult<bool> Next()
     {
-        var lastPlayer = _gameProcessor.CurrentPlayer == _gameProcessor.Players.Last();
-        if (!IsNextMoveAllowed(_gameProcessor.CurrentPlayer)) return false;
+        var lastPlayer = GameProcessor.CurrentPlayer == GameProcessor.Players.Last();
+        if (!IsNextMoveAllowed(GameProcessor.CurrentPlayer))
+        {
+            return new CommandResult<bool>
+            {
+                IsAvailable = true,
+                Result = false
+            };
+        }
         if (!lastPlayer)
         {
-            _gameProcessor.ChangeCurrentPlayer();
-            return true;
+            GameProcessor.ChangeCurrentPlayer();
+            return new CommandResult<bool>
+            {
+                IsAvailable = true,
+                Result = true
+            };
         }
-        _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
-        _gameProcessor.ChangeCurrentPlayer();
-        return true;
+        GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
+        GameProcessor.ChangeCurrentPlayer();
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = true
+        };
     }
-
-    public new void Curse(Player to, ICurse curse)
+    
+    public override CommandResult<bool> Curse(Player to, ICurse curse)
     {
-        base.Curse(_gameProcessor.CurrentPlayer, to, curse);
+        Curse(GameProcessor.CurrentPlayer, to, curse);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = true
+        };
     }
-
-    public bool Cast(Spell spell)
+    
+    public override CommandResult<bool> Cast(Spell spell)
     {
         if (spell is FightingSpell)
         {
-            return false;
+            return new CommandResult<bool>
+            {
+                IsAvailable = true,
+                Result = false
+            };
         }
         var otherSpell = (IOtherSpell)spell;
-        return CastOtherSpell(_gameProcessor.CurrentPlayer, otherSpell);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = CastOtherSpell(GameProcessor.CurrentPlayer, otherSpell)
+        };
     }
-
-    public bool Monster(Monster monster)
+    
+    public override List<Command> GetAllowCommands()
     {
-        return false;
-    }
-
-    public Door Door() // TODO возвращать результат операции (должен быть единый подход абсолютно во всех командах)
-    {
-        throw new NotImplementedException(); // TODO все недопустимые команды НЕ ПЕРЕОПРЕДЕЛЯТЬ!!!!!
-    }
-
-    public bool GetAway()
-    {
-        return false;
-    }
-
-    public void Finish()
-    {
-        
-    }
-
-    public bool Fight()
-    {
-        return false;
-    }
-
-    public List<Command> GetAllowCommands()
-    {
-        return [Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Next];
+        return [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
     }
 }

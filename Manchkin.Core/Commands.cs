@@ -5,15 +5,14 @@
 /// </summary>
 public enum Command
 {
-    PutOn,
+    Dress,
     Drop,
     Sell,
     Curse,
     Cast,
     Monster,
-    GetAway,
+    Run,
     Door,
-    Next,
     Finish,
     Fight
 }

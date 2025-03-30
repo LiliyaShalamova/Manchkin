@@ -1,8 +1,9 @@
 ﻿using Manchkin.Core.Cube;
+using Manchkin.Core.Game.States;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game;
 
-public class GameProcessor
+internal class GameProcessor
 {
     /// <summary>
     /// Текущее состояние игры
@@ -12,7 +13,7 @@ public class GameProcessor
     /// <summary>
     /// Кубик
     /// </summary>
-    public ICube Cube { get; set; }
+    public ICube Cube { get; private set; }
     
     /// <summary>
     /// Текущий бой
@@ -29,7 +30,7 @@ public class GameProcessor
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player[] Players { get; init; }
+    public Player[] Players { get; }
     
     public GameProcessor(ICube cube, Player[] players)
     {

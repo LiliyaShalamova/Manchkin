@@ -1,85 +1,101 @@
 ﻿using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game.States;
 
-public class SecondMoveState : GameState, IState
+/// <summary>
+/// Второй ход игрока, когда необходимо либо выбить вторую дверь, либо сразиться с монстром с руки
+/// </summary>
+internal class SecondMoveState : GameStateBase
 {
-    private GameProcessor _gameProcessor;
-    public SecondMoveState(GameProcessor gameProcessor)
+    public SecondMoveState(GameProcessor gameProcessor) : base(gameProcessor)
     {
-        _gameProcessor = gameProcessor;
+    }
+
+    public override CommandResult<Void> PutOn(Clothes[] clothes)
+    {
+        FillInventory(GameProcessor.CurrentPlayer, clothes);
+        return new CommandResult<Void>
+        {
+            IsAvailable = true,
+            Result = new Void()
+        };
     }
     
-    public void PutOn(Clothes[] clothes)
+    public override CommandResult<Void> Drop(Card[] cards)
     {
-        FillInventory(_gameProcessor.CurrentPlayer, clothes);
+        ResetCards(GameProcessor.CurrentPlayer, cards);
+        return new CommandResult<Void>
+        {
+            IsAvailable = true,
+            Result = new Void()
+        };
+    }
+    
+    public override CommandResult<bool> Sell(Treasure[] treasures)
+    {
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = SellTreasures(GameProcessor.CurrentPlayer, treasures)
+        };
+    }
+    
+    public override CommandResult<bool> Monster(Monster monster)
+    {
+        GameProcessor.ChangeState(new FightState(GameProcessor));
+        GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = true
+        };
     }
 
-    public void Drop(Card[] cards)
+    public override CommandResult<Door> Door()
     {
-        ResetCards(_gameProcessor.CurrentPlayer, cards);
+        var door = PullDoor();
+        GameProcessor.CurrentPlayer.Cards.Add(door);
+        GameProcessor.ChangeCurrentPlayer();
+        GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
+        return new CommandResult<Door>
+        {
+            IsAvailable = true,
+            Result = door
+        };
+    }
+    
+    public override CommandResult<bool> Curse(Player to, ICurse curse)
+    {
+        Curse(GameProcessor.CurrentPlayer, to, curse);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = true
+        };
     }
 
-    public bool Sell(Treasure[] treasures)
-    {
-        return SellTreasures(_gameProcessor.CurrentPlayer, treasures);
-    }
-
-    public bool Next()
-    {
-        return false;
-    }
-
-    public void Curse(Player to, ICurse curse)
-    {
-        base.Curse(_gameProcessor.CurrentPlayer, to, curse);
-    }
-
-    public bool Cast(Spell spell)
+    public override CommandResult<bool> Cast(Spell spell)
     {
         if (spell is FightingSpell)
         {
-            return false;
+            return new CommandResult<bool>
+            {
+                IsAvailable = true,
+                Result = false
+            };
         }
         var otherSpell = (IOtherSpell)spell;
-        return CastOtherSpell(_gameProcessor.CurrentPlayer, otherSpell);
+        return new CommandResult<bool>
+        {
+            IsAvailable = true,
+            Result = CastOtherSpell(GameProcessor.CurrentPlayer, otherSpell)
+        };
     }
-
-    public bool Monster(Monster monster)
+    
+    public override List<Command> GetAllowCommands()
     {
-        _gameProcessor.ChangeState(new FightState(_gameProcessor));
-        _gameProcessor.CurrentFight = new Fight(_gameProcessor.CurrentPlayer, monster);
-        return true;
-    }
-
-    public Door Door()
-    {
-        var door = PullDoor();
-        _gameProcessor.CurrentPlayer.Cards.Add(door);
-        _gameProcessor.ChangeCurrentPlayer();
-        _gameProcessor.ChangeState(new FirstMoveState(_gameProcessor));
-        return door;
-    }
-
-    public bool GetAway()
-    {
-        return false;
-    }
-
-    public void Finish()
-    {
-        
-    }
-
-    public bool Fight()
-    {
-        return false;
-    }
-
-    public List<Command> GetAllowCommands()
-    {
-        return [Command.PutOn, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
+        return [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
     }
 
     private Door PullDoor()

@@ -1,6 +1,8 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Game;
+using Manchkin.Core.Game.States;
 using Manchkin.Extensions;
 using Manchkin.Extensions.GameProcessorExtension;
 using Manchkin.Extensions.PlayerExtension;
@@ -8,8 +10,14 @@ using Manchkin.Extensions.PlayerExtension;
 namespace Manchkin;
 
 //TODO добавить в командах, что если игрок мертв, надо снова выдать 8 карт
-// TOOD хранить текущего игрока в GameProcessor. lastPlayer тоже 
 // TODO сделать возможность передачи своих карточек из Console *
+// TODO максимально всё сокрыть (модификаторы доступа)
+// TODO убрать дублирование Game, переименовать в args DONE
+// TODO удалить фазы DONE
+// TODO избавиться от try catch
+// TODO Надо инкапсулировать всю механику. Пользователь не должен ничего знать про внутреннюю реализацию Core.
+// TODO Не давать возможность сломать механику извне. Надо чтобы можно было безопасно вызывать методы из Game DONE
+// TODO Все команды пусть будут регистронезависимы. Все должны быть из одного слова.
 
 public static class Program
 {
@@ -17,17 +25,18 @@ public static class Program
 
     static Program()
     {
-        Commands = new Dictionary<Command, Action<Game, string[]>>()
+        Commands = new Dictionary<Command, Action<Game, string[]>>
         {
-            { Command.PutOn, ExecuteCommandPutOn },
+            { Command.Dress, ExecuteCommandDress }, // TODO назвать dress/robe DONE
             { Command.Drop, ExecuteCommandDrop },
             { Command.Sell, ExecuteCommandSell },
             { Command.Curse, ExecuteCommandCurse },
-            { Command.Next, ExecuteCommandNext },
+            { Command.Finish, ExecuteCommandFinish }, // TODO назвать finish DONE
             { Command.Cast, ExecuteCommandCast },
             { Command.Door, ExecuteCommandDoor },
             { Command.Monster, ExecuteCommandMonster },
-            { Command.Fight, ExecuteCommandFight }
+            { Command.Fight, ExecuteCommandFight },
+            { Command.Run, ExecuteCommandRun } // TODO назвать run DONE
         };
     }
 
@@ -43,225 +52,152 @@ public static class Program
 
         var gameConfig = new GameConfig { PlayersCount = playersCount };
         var game = new Game(gameConfig, new MyCube());
-        PhaseOne(game);
-        PhaseTwo(game);
-    }
-
-    private static void PhaseOne(Game game)
-    {
-        Console.WriteLine("Фаза 1. Сброс карт");
-        for (var i = 0; i < game.Players.Length; i++)
-        {
-            var player = game.Players[i];
-            player.Print();
-            ExecuteCommand(game);
-        }
-    }
-
-    private static void PhaseTwo(Game game)
-    {
-        Console.WriteLine("Фаза 2. Игра");
         ExecuteCommand(game);
-        /*while (!game.IsGameOver())
-        {
-            for (var i = 0; i < game.Players.Length; i++)
-            {
-                var player = game.Players[i];
-                Console.WriteLine($"Игрок {player.Color}, ваш ход");
-                PrintPlayerInfo(player);
-                ExecuteCommand(game, player);
-            }
-        }*/
     }
 
     private static void ExecuteCommand(Game game)
     {
-        while (!game.IsGameOver()) // TODO удалить switch case
+        game.GetCurrentPlayer().Print();
+        while (!game.IsGameOver())
         {
-            var allowedCommands = game.GameProcessor.PrintAllowedCommands();
-            string command;
-            if ((command = Console.ReadLine()!) == "Next" && game.GameProcessor.CurrentState.Next())
+            Command commandName;
+            string[] args;
+            var allowedCommands = game.PrintAllowedCommands();
+            try
             {
-                break;
-            }
-
-            var commandArray = command.Split(" ");
-            var commandName = commandArray[0];
-            switch (commandName)
-            {
-                case "PutOn" when allowedCommands.Contains(commandName):
-                    if (!ExecuteByCommand(Command.PutOn, game, commandArray))
-                    {
-                        continue;
-                    }
-
-                    game.GameProcessor.CurrentPlayer.Print();
-                    continue;
-
-                case "Drop" when allowedCommands.Contains(commandName):
-                    if (!ExecuteByCommand(Command.Drop, game, commandArray))
-                    {
-                        continue;
-                    }
-
-                    game.GameProcessor.CurrentPlayer.Print();
-                    continue;
-
-                case "Sell" when allowedCommands.Contains(commandName):
-                    if (!ExecuteByCommand(Command.Sell, game, commandArray))
-                    {
-                        continue;
-                    }
-
-                    game.GameProcessor.CurrentPlayer.Print();
-                    continue;
-
-                case "Next" when allowedCommands.Contains(commandName): // TODO назвать finish
-                    ExecuteByCommand(Command.Next, game, commandArray);
-                    continue;
-
-                case "Curse" when allowedCommands.Contains(commandName):
-                    ExecuteCommandCurse(game, commandArray);
-                    game.GameProcessor.CurrentPlayer.Print();
-                    continue;
-
-                case "Cast" when allowedCommands.Contains(commandName):
-                    ExecuteByCommand(Command.Cast, game, commandArray);
-                    continue;
-
-                case "Door" when allowedCommands.Contains(commandName):
-                    ExecuteByCommand(Command.Door, game, commandArray);
-                    continue;
-
-                case "GetAway" when allowedCommands.Contains(commandName):
-                    if (game.GameProcessor.CurrentState.GetAway())
-                    {
-                        Console.WriteLine("Удалось смыться от монстра!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Не удалось смыться. Получи наказание");
-                    }
-
-                    return;
-
-                case "Monster" when allowedCommands.Contains(commandName):
-                    ExecuteByCommand(Command.Monster, game, commandArray);
-                    continue;
-                case "Fight" when allowedCommands.Contains(commandName):
-                    ExecuteByCommand(Command.Fight, game, commandArray);
-                    continue;
-                default:
+                var command = Console.ReadLine();
+                args = command.Split(" ");
+                commandName = Enum.Parse<Command>(args[0]);
+                if (!allowedCommands.Contains(commandName))
+                {
                     Console.WriteLine("Недоступная команда.");
                     continue;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Недоступная команда.");
+                continue;
+            }
+
+            try
+            {
+                Commands[commandName](game, args);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Неправильно заданы параметры команды");
             }
         }
     }
-
-    private static bool ExecuteByCommand(Command command, Game game, string[] commandsArray)
-    {
-        try
-        {
-            Commands[command](game, commandsArray);
-            return true;
-        }
-        catch (Exception)
-        {
-            Console.WriteLine("Неправильно заданы параметры команды");
-            return false;
-        }
-    }
-
+    
     private static void CheckCardsCount(Game game)
     {
         ExecuteCommand(game);
     }
 
-    private static void ExecuteCommandPutOn(Game game, string[] commandsArray)
+    private static void ExecuteCommandDress(Game game, string[] args)
     {
-        var clothes = commandsArray
-            .Skip(1)
-            .Select(str => (Clothes)game.GameProcessor.CurrentPlayer.Cards[int.Parse(str) - 1])
-            .ToArray();
-        game.GameProcessor.CurrentState.PutOn(clothes);
+        var clothes = ParseArgs<Clothes>(game, args);
+        game.PutOn(clothes);
+        game.GetCurrentPlayer().Print();
     }
 
-    private static void ExecuteCommandDrop(Game game, string[] commandsArray)
+    private static void ExecuteCommandDrop(Game game, string[] args)
     {
-        var cards = commandsArray
-            .Skip(1)
-            .Select(str => game.GameProcessor.CurrentPlayer.Cards[int.Parse(str) - 1])
-            .ToArray();
-        game.GameProcessor.CurrentState.Drop(cards);
+        var cards = ParseArgs<Card>(game, args);
+        game.Drop(cards);
+        game.GetCurrentPlayer().Print();
     }
 
-    private static void ExecuteCommandSell(Game game, string[] commandsArray)
+    private static void ExecuteCommandSell(Game game, string[] args)
     {
-        var treasures = commandsArray
-            .Skip(1)
-            .Select(str => (Treasure)game.GameProcessor.CurrentPlayer.Cards[int.Parse(str) - 1])
-            .ToArray(); // TODO повторяющийся код вынести в отдельный метод
-        if (!game.GameProcessor.CurrentState.Sell(treasures))
+        var treasures = ParseArgs<Treasure>(game, args);
+        var result = game.Sell(treasures);
+        if (!result.Result)
         {
             Console.WriteLine("Недостаточно карт для продажи. Сумма карт должна быть не менее 1000");
         }
-    }
-
-    private static void ExecuteCommandCurse(Game game, string[] commandsArray)
-    {
-        var to = game.Players
-            .FirstOrDefault(p => p.Color.ToString() == commandsArray[1]) ?? throw new InvalidOperationException();
-        var curse = game.GameProcessor.CurrentPlayer.Cards[int.Parse(commandsArray[2]) - 1] as ICurse ??
-                    throw new InvalidOperationException(); // TODO везде убрать то что не понимаешь
-        game.GameProcessor.CurrentState.Curse(to, curse);
-    }
-
-    private static void ExecuteCommandNext(Game game, string[] commandsArray)
-    {
-        if (!game.GameProcessor.CurrentState.Next())
+        else
         {
-            Console.WriteLine("У вас на руках больше 5 карт.");
+            game.GetCurrentPlayer().Print();
         }
     }
 
-    private static void ExecuteCommandCast(Game game, string[] commandsArray)
+    private static void ExecuteCommandCurse(Game game, string[] args)
     {
-        var spell = game.GameProcessor.CurrentPlayer.Cards[int.Parse(commandsArray[1]) - 1] as Spell;
-        var isSpellCasted = game.GameProcessor.CurrentState.Cast(spell);
-        if (!isSpellCasted)
+        var to = game.Players.First(player => player.Color.ToString() == args[1]);
+        var curse = game.GetCurrentPlayer().Cards[int.Parse(args[2]) - 1] as ICurse;
+        game.Curse(to, curse);
+        Console.WriteLine($"Игрок {to.Color}, на тебя наложено проклятие");
+    }
+
+    private static void ExecuteCommandFinish(Game game, string[] args)
+    {
+        var result = game.Next();
+        if (!result.Result)
+        {
+            Console.WriteLine("У вас на руках больше 5 карт.");
+        }
+        else
+        {
+            game.GetCurrentPlayer().Print();
+        }
+    }
+
+    private static void ExecuteCommandCast(Game game, string[] args)
+    {
+        var spell = game.GetCurrentPlayer().Cards[int.Parse(args[1]) - 1] as Spell;
+        var result = game.Cast(spell);
+        if (!result.Result)
         {
             Console.WriteLine("Не удалось наложить заклинание.");
         }
         else
         {
-            game.GameProcessor.CurrentPlayer.Print();
+            game.GetCurrentPlayer().Print();
         }
     }
 
-    private static void ExecuteCommandDoor(Game game, string[] commandsArray)
+    private static void ExecuteCommandDoor(Game game, string[] args)
     {
-        var door = game.GameProcessor.CurrentState.Door();
-        door.Print();
+        var result = game.Door();
+        result.Result!.Print();
     }
 
-    private static void ExecuteCommandMonster(Game game, string[] commandsArray)
+    private static void ExecuteCommandMonster(Game game, string[] args)
     {
-        var monster = (Monster)game.GameProcessor.CurrentPlayer.Cards[int.Parse(commandsArray[1]) - 1];
+        var monster = (Monster)game.GetCurrentPlayer().Cards[int.Parse(args[1]) - 1];
         monster.Print();
-        game.GameProcessor.CurrentState.Monster(monster);
+        game.Monster(monster);
     }
 
-    private static void ExecuteCommandFight(Game game, string[] commandsArray)
+    private static void ExecuteCommandFight(Game game, string[] args)
     {
-        if (!game.GameProcessor.CurrentState.Fight())
+        var result = game.Fight();
+        if (!result.Result)
         {
             Console.WriteLine("Не хватает боевой силы для победы.");
         }
         else
         {
             Console.WriteLine("Победа!");
-            game.GameProcessor.CurrentPlayer.Print();
-            CheckCardsCount(game); //если стало > 5
+            game.GetCurrentPlayer().Print();
+            CheckCardsCount(game); // TODO этого не должно быть тут!
         }
+    }
+
+    private static void ExecuteCommandRun(Game game, string[] args)
+    {
+        var result = game.GetAway();
+        Console.WriteLine(result.Result ? "Удалось смыться от монстра!" : "Не удалось смыться. Получи наказание");
+    }
+
+    private static T[] ParseArgs<T>(Game game, string[] args) where T: Card
+    {
+        return args
+            .Skip(1)
+            .Select(str => (T)game.GetCurrentPlayer().Cards[int.Parse(str) - 1])
+            .ToArray();
     }
 }

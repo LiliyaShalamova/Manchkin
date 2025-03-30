@@ -1,14 +1,18 @@
-﻿using Manchkin.Core.Cube;
+﻿using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cube;
+using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
+using Void = Manchkin.Core.Game.States.Void;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game;
 //TODO сделать класс GameProcessor
 /// <summary>
 /// Класс игры
 /// </summary>
 public class Game
 {
-    public GameProcessor GameProcessor { get; set; }
+    private GameProcessor GameProcessor { get; set; }
 
     /// <summary>
     /// Количество уровней в игре
@@ -35,5 +39,65 @@ public class Game
     public bool IsGameOver()
     {
         return Players.Max(player => player.Level) == _levelsCount;
+    }
+
+    public Player GetCurrentPlayer()
+    {
+        return GameProcessor.CurrentPlayer;
+    }
+
+    public CommandResult<Void> PutOn(Clothes[] clothes)
+    {
+        return GameProcessor.CurrentState.PutOn(clothes);
+    }
+
+    public CommandResult<Void> Drop(Card[] cards)
+    {
+        return GameProcessor.CurrentState.Drop(cards);
+    }
+
+    public CommandResult<bool> Sell(Treasure[] treasures)
+    {
+        return GameProcessor.CurrentState.Sell(treasures);
+    }
+
+    public CommandResult<bool> Curse(Player to, ICurse curse)
+    {
+        return GameProcessor.CurrentState.Curse(to, curse);
+    }
+
+    public CommandResult<bool> Next()
+    {
+        return GameProcessor.CurrentState.Next();
+    }
+
+    public CommandResult<bool> Cast(Spell spell)
+    {
+        return GameProcessor.CurrentState.Cast(spell);
+    }
+
+    public CommandResult<bool> Monster(Monster monster)
+    {
+        return GameProcessor.CurrentState.Monster(monster);
+    }
+
+    public CommandResult<Door> Door()
+    {
+        return GameProcessor.CurrentState.Door();
+    }
+
+    public CommandResult<bool> GetAway()
+    {
+        return GameProcessor.CurrentState.GetAway();
+    }
+
+    public List<Command> GetAllowCommands()
+    {
+        return GameProcessor.CurrentState.GetAllowCommands();
+    }
+
+    public CommandResult<bool> Fight()
+    {
+        return GameProcessor.CurrentState.Fight();
     }
 }
