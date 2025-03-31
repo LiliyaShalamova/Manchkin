@@ -1,8 +1,6 @@
-﻿using System.CodeDom.Compiler;
-
-namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Generators;
 
 public interface IPlayersGenerator
 {
-    public Player[] Generate(int playersCount);
+    public Player.Player[] Generate(int playersCount);
 }

@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells;
+﻿namespace Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 
 /// <summary>
 /// Бонус против монстра в бою
@@ -10,7 +10,7 @@ public class DamageBonusOtherSpell : FightingSpell, IFightingSpell
     /// </summary>
     public int DamageBonus { get;}
     
-    public DamageBonusOtherSpell(int price, string title, int washBonus, int damageBonus) : base(price, title, washBonus)
+    internal DamageBonusOtherSpell(int price, string title, int washBonus, int damageBonus) : base(price, title, washBonus)
     {
         DamageBonus = damageBonus;
     }

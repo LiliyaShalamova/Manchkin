@@ -1,6 +1,6 @@
 ﻿namespace Manchkin.Core;
 
-public class GameOverState
+internal class GameOverState
 {
     
 }

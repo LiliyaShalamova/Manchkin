@@ -23,28 +23,28 @@ internal class GameProcessor
     /// <summary>
     /// Индекс текущего игрока
     /// </summary>
-    private int _currentPlayer = 0;
+    private int _currentPlayer;
     
-    public Player CurrentPlayer => Players[_currentPlayer];
+    public Player.Player CurrentPlayer => Players[_currentPlayer];
     
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player[] Players { get; }
+    public Player.Player[] Players { get; }
     
-    public GameProcessor(ICube cube, Player[] players)
+    public GameProcessor(ICube cube, Player.Player[] players)
     {
         CurrentState = new StartState(this);
         Cube = cube;
         Players = players;
     }
 
-    internal void ChangeState(IState newState)
+    public void ChangeState(IState newState)
     {
         CurrentState = newState;
     }
 
-    internal void ChangeCurrentPlayer()
+    public void ChangeCurrentPlayer()
     {
         _currentPlayer = (_currentPlayer + 1) % Players.Length;
     }

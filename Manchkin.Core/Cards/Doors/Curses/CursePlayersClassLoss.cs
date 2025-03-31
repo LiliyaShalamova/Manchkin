@@ -1,15 +1,15 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Doors.Curses;
 
 /// <summary>
 /// Потеря класса
 /// </summary>
 public class CursePlayersClassLoss : Curse, ICurse
 {
-    public CursePlayersClassLoss(string title) : base(title)
+    internal CursePlayersClassLoss(string title) : base(title)
     {
     }
     
-    public void Curse(Player player)
+    public void Curse(Player.Player player)
     {
         player.LoseClass();
     }

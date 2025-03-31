@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core;
+using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Extensions;
 

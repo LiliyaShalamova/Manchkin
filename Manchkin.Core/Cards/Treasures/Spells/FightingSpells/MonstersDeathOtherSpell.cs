@@ -1,11 +1,11 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells;
+﻿namespace Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 
 /// <summary>
 /// Смерть монстров в бою
 /// </summary>
 public class MonstersDeathOtherSpell : FightingSpell, IFightingSpell
 {
-    public MonstersDeathOtherSpell(int price, string title, int washBonus) : base(price, title, washBonus)
+    internal MonstersDeathOtherSpell(int price, string title, int washBonus) : base(price, title, washBonus)
     {
     }
 

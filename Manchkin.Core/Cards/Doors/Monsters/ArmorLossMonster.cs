@@ -2,11 +2,11 @@
 
 public class ArmorLossMonster : Monster, IPunish
 {
-    public ArmorLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
+    internal ArmorLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
     {
     }
 
-    public void Punish(Player player)
+    public void Punish(Player.Player player)
     {
         player.Inventory.Torso = null;
     }

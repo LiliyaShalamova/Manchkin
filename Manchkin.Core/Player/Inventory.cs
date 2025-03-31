@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core;
+﻿using Manchkin.Core.Cards.Treasures.Clothes;
+
+namespace Manchkin.Core.Player;
 
 /// <summary>
 /// Инвентарь игрока
@@ -8,32 +10,32 @@ public class Inventory
     /// <summary>
     /// Голова
     /// </summary>
-    public Smut? Head { get; set; }
+    public Smut? Head { get; internal set; }
 
     /// <summary>
     /// Левая рука
     /// </summary>
-    public Weapon? LeftHand { get; set; }
+    public Weapon? LeftHand { get; internal set; }
 
     /// <summary>
     /// Правая рука
     /// </summary>
-    public Weapon? RightHand { get; set; }
+    public Weapon? RightHand { get; internal set; }
 
     /// <summary>
     /// Торс
     /// </summary>
-    public BulletproofVest? Torso { get; set; }
+    public BulletproofVest? Torso { get; internal set; }
 
     /// <summary>
     /// Ноги
     /// </summary>
-    public Shoes? Legs { get; set; }
+    public Shoes? Legs { get; internal set; }
 
     /// <summary>
     /// Дополнительные вещи, например, титул
     /// </summary>
-    public List<Additional> Additional { get; set; } = [];
+    public List<Additional> Additional { get; internal set; } = [];
 
     // TODO Добавить обработку большой шмотки, большая может быть только одна
     public int GetCommonBonus()
@@ -47,7 +49,7 @@ public class Inventory
         return bonus;
     }
 
-    public List<Clothes> PutOn(Clothes clothes)
+    internal List<Clothes> PutOn(Clothes clothes)
     {
         List<Clothes> clothesToReturn = [];
         switch (clothes)
@@ -126,7 +128,7 @@ public class Inventory
         }
     }
 
-    public void Clear()
+    internal void Clear()
     {
         Head = null;
         LeftHand = null;

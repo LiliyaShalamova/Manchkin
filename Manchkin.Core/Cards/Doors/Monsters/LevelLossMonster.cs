@@ -7,12 +7,12 @@ public class LevelLossMonster : Monster, IPunish
     /// </summary>
     public int LevelLossCount { get; }
     
-    public LevelLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel, int levelLossCount) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
+    internal LevelLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel, int levelLossCount) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
     {
         LevelLossCount = levelLossCount;
     }
 
-    public void Punish(Player player)
+    public void Punish(Player.Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

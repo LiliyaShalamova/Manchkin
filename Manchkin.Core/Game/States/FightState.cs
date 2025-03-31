@@ -1,5 +1,7 @@
 ﻿using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game.States;
 
@@ -87,7 +89,7 @@ internal class FightState : GameStateBase
         GameProcessor.CurrentFight = null;
     }
     
-    private void GetReward(Player player)
+    private void GetReward(Player.Player player)
     {
         var monster = GameProcessor.CurrentFight!.Monsters[0];
         for (var i = 0; i < monster.TreasuresCount; i++)
@@ -97,7 +99,7 @@ internal class FightState : GameStateBase
         player.IncreaseLevel(monster.LevelsCount);
     }
     
-    private bool CastFightingSpell(Player player, IFightingSpell fightingSpell)
+    private bool CastFightingSpell(Player.Player player, IFightingSpell fightingSpell)
     {
         fightingSpell.Cast(GameProcessor.CurrentFight!);
         Reset(player, [(Card)fightingSpell]);

@@ -1,4 +1,7 @@
-﻿namespace Manchkin.Core;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Curses;
+
+namespace Manchkin.Core.Player;
 
 /// <summary>
 /// Класс игрока
@@ -67,33 +70,33 @@ public class Player
         Cards = cards;
     }
 
-    public void IncreaseLevel(int levelsCount) // TODO, если уровень 9, то повышать карточкой уровня нельзя
+    internal void IncreaseLevel(int levelsCount) // TODO, если уровень 9, то повышать карточкой уровня нельзя
     {
         Level += levelsCount;
     }
 
-    public void DecreaseLevel(int levelsCount)
+    internal void DecreaseLevel(int levelsCount)
     {
         Level = Level - levelsCount >= 1 ? Level - levelsCount : 1;
     }
 
-    public void RemoveCurses()
+    internal void RemoveCurses()
     {
         Curses.Clear();
     }
 
-    public void AddCurse(Curse curse)
+    internal void AddCurse(Curse curse)
     {
         Curses.Add(curse);
     }
 
-    public void LoseClass()
+    internal void LoseClass()
     {
         MainClass = null;
         AdditionalClass = null;
     }
 
-    public void Die()
+    internal void Die()
     {
         Dead = true;
         Inventory.Clear();

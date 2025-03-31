@@ -1,7 +1,10 @@
 ﻿using System.Security.AccessControl;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Manchkin.Core;
@@ -11,7 +14,7 @@ public interface ICardParser<T>
     public List<T> Parse();
 }
 
-public abstract class CardParser
+internal abstract class CardParser
 {
     private readonly string _delimiters = ";";
     private readonly string[] _commentTokens = ["/*"];
@@ -28,7 +31,7 @@ public abstract class CardParser
     }
 }
 
-public class ClothesParser : CardParser, ICardParser<Clothes>
+internal class ClothesParser : CardParser, ICardParser<Clothes>
 {
     private string _clothesPath = @"\Manchkin.Core\Cards\CardsFiles\Clothes.txt";
 
@@ -62,7 +65,7 @@ public class ClothesParser : CardParser, ICardParser<Clothes>
     }
 }
 
-public class SpellParser : CardParser, ICardParser<Spell>
+internal class SpellParser : CardParser, ICardParser<Spell>
 {
     private string _spellsPath = @"\Manchkin.Core\Cards\CardsFiles\Spells.txt";
 
@@ -128,7 +131,7 @@ public class SpellParser : CardParser, ICardParser<Spell>
     }
 }
 
-public class MonsterParser : CardParser, ICardParser<Monster>
+internal class MonsterParser : CardParser, ICardParser<Monster>
 {
     private string _monstersPath = @"\Manchkin.Core\Cards\CardsFiles\Monsters.txt";
 
@@ -179,7 +182,7 @@ public class MonsterParser : CardParser, ICardParser<Monster>
     }
 }
 
-public class CurseParser : CardParser, ICardParser<Curse>
+internal class CurseParser : CardParser, ICardParser<Curse>
 {
     private string _cursesPath = @"\Manchkin.Core\Cards\CardsFiles\Curses.txt";
 

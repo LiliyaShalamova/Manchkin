@@ -1,8 +1,8 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells;
+﻿namespace Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 public class OtherSpell : Spell
 {
-    public OtherSpell(int price, string title, int washBonus)
+    internal OtherSpell(int price, string title, int washBonus)
     {
         Price = price;
         Title = title;

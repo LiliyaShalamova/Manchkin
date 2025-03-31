@@ -5,7 +5,7 @@
 /// </summary>
 public class WashBonusOtherSpell : FightingSpell, IFightingSpell
 {
-    public WashBonusOtherSpell(int price, string title, int washBonus) : base(price, title, washBonus)
+    internal WashBonusOtherSpell(int price, string title, int washBonus) : base(price, title, washBonus)
     {
     }
 

@@ -1,5 +1,9 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Curses;
+using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 using Manchkin.Core.Generators;
 
 namespace Manchkin.Core.Game.States;
@@ -55,7 +59,7 @@ internal abstract class GameStateBase : IState
         return new CommandResult<bool>(false, false);
     }
 
-    public virtual CommandResult<bool> Curse(Player to, ICurse curse)
+    public virtual CommandResult<bool> Curse(Player.Player to, ICurse curse)
     {
         return new CommandResult<bool>(false, false);
     }
@@ -90,7 +94,7 @@ internal abstract class GameStateBase : IState
         return new CommandResult<bool>(false, false);
     }
     
-    internal void Reset<T>(Player player, T[] cards) where T : Card
+    internal void Reset<T>(Player.Player player, T[] cards) where T : Card
     {
         foreach (var card in cards)
         {
@@ -113,7 +117,7 @@ internal abstract class GameStateBase : IState
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
-    internal bool SellTreasures(Player player, Treasure[] treasures)
+    internal bool SellTreasures(Player.Player player, Treasure[] treasures)
     {
         var sum = treasures.Select(treasure => treasure.Price).Sum();
         if (sum < 1000)
@@ -126,13 +130,13 @@ internal abstract class GameStateBase : IState
         return true;
     }
     
-    internal void Curse(Player from, Player to, ICurse curse)
+    internal void Curse(Player.Player from, Player.Player to, ICurse curse)
     {
         curse.Curse(to);
         Reset(from, [(Curse)curse]);
     }
     
-    internal void FillInventory(Player player, Clothes[] clothes)
+    internal void FillInventory(Player.Player player, Clothes[] clothes)
     {
         foreach (var c in clothes)
         {
@@ -143,19 +147,19 @@ internal abstract class GameStateBase : IState
         Reset(player, clothes);
     }
     
-    internal void ResetCards(Player player, Card[] cards)
+    internal void ResetCards(Player.Player player, Card[] cards)
     {
         Reset(player, cards);
     }
     
-    internal bool CastOtherSpell(Player player, IOtherSpell otherSpell)
+    internal bool CastOtherSpell(Player.Player player, IOtherSpell otherSpell)
     {
         otherSpell.Cast(player, TreasureGenerator);
         Reset(player, [(Card)otherSpell]);
         return true;
     }
     
-    internal bool IsNextMoveAllowed(Player player)
+    internal bool IsNextMoveAllowed(Player.Player player)
     {
         return player.Cards.Count <= 5;
     }

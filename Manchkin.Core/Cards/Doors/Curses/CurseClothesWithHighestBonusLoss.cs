@@ -1,15 +1,17 @@
-﻿namespace Manchkin.Core;
+﻿using Manchkin.Core.Cards.Doors.Curses;
+
+namespace Manchkin.Core;
 
 /// <summary>
 /// Потеря шмотки с наибольшим бонусом
 /// </summary>
 public class CurseClothesWithHighestBonusLoss : Curse, ICurse
 {
-    public CurseClothesWithHighestBonusLoss(string title) : base(title)
+    internal CurseClothesWithHighestBonusLoss(string title) : base(title)
     {
     }
     
-    public void Curse(Player player)
+    public void Curse(Player.Player player)
     {
         var maxBonus = GetHighestBonus(player);
         if (player.Inventory.Head != null && player.Inventory.Head.Bonus == maxBonus)
@@ -52,7 +54,7 @@ public class CurseClothesWithHighestBonusLoss : Curse, ICurse
         }
     }
 
-    private int GetHighestBonus(Player player)
+    private int GetHighestBonus(Player.Player player)
     {
         var highestBonus = 0;
         if (player.Inventory.Head != null && player.Inventory.Head.Bonus > highestBonus)

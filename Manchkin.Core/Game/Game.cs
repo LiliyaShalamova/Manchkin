@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
@@ -22,7 +24,7 @@ public class Game
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player[] Players { get; }
+    public Player.Player[] Players { get; }
 
     public Game(GameConfig gameConfig, IPlayersGenerator playersGenerator, ICube cube)
     {
@@ -35,13 +37,19 @@ public class Game
         Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
         GameProcessor = new GameProcessor(cube, Players);
     }
+    
+    public Game(GameConfig gameConfig)
+    {
+        Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
+        GameProcessor = new GameProcessor(new RandomCube(), Players);
+    }
 
     public bool IsGameOver()
     {
         return Players.Max(player => player.Level) == _levelsCount;
     }
 
-    public Player GetCurrentPlayer()
+    public Player.Player GetCurrentPlayer()
     {
         return GameProcessor.CurrentPlayer;
     }
@@ -61,7 +69,7 @@ public class Game
         return GameProcessor.CurrentState.Sell(treasures);
     }
 
-    public CommandResult<bool> Curse(Player to, ICurse curse)
+    public CommandResult<bool> Curse(Player.Player to, ICurse curse)
     {
         return GameProcessor.CurrentState.Curse(to, curse);
     }

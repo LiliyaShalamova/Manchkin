@@ -1,15 +1,15 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Doors.Curses;
 
 /// <summary>
 /// Потеря обувки
 /// </summary>
 public class CurseShoesLoss : Curse, ICurse
 {
-    public CurseShoesLoss(string title) : base(title)
+    internal CurseShoesLoss(string title) : base(title)
     {
     }
     
-    public void Curse(Player player)
+    public void Curse(Player.Player player)
     {
         player.Inventory.Legs = null;
     }

@@ -1,5 +1,8 @@
 ﻿using FluentAssertions;
 using Manchkin.Core;
+using Manchkin.Core.Cards.Doors.Curses;
+using Manchkin.Core.Cards.Treasures.Clothes;
+using Manchkin.Core.Player;
 using Xunit;
 
 namespace ManchkinCoreTests.PlayerTests;

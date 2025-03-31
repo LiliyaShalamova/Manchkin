@@ -2,5 +2,5 @@
 
 public interface IPunish
 {
-    public void Punish(Player player);
+    public void Punish(Player.Player player);
 }

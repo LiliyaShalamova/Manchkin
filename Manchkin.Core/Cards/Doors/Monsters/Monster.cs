@@ -1,7 +1,7 @@
 ﻿namespace Manchkin.Core.Cards.Doors.Monsters;
 
 /// <summary>
-/// Живой монстр
+/// Монстр
 /// </summary>
 public class Monster : Door
 {
@@ -30,7 +30,7 @@ public class Monster : Door
     /// </summary>
     public int DoesNotFightLevel { get; }
     
-    public Monster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel)
+    protected Monster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel)
     {
         Level = level;
         Name = name;

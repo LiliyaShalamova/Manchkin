@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Doors.Curses;
 
 /// <summary>
 /// Класс Проклятие
@@ -15,7 +15,7 @@ public abstract class Curse : Door
     /// </summary>
     public bool OneTimeCurse { get;}
 
-    public Curse(string title)
+    protected Curse(string title)
     {
         Title = title;
     }

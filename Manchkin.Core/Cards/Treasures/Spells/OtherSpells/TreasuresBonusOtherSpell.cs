@@ -1,20 +1,20 @@
 ﻿using Manchkin.Core.Generators;
 
-namespace Manchkin.Core.Cards.Treasures.Spells;
+namespace Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 public class TreasuresBonusOtherSpell : OtherSpell, IOtherSpell
 {
     /// <summary>
     /// Количество сокровищ
     /// </summary>
-    public int TreasuresBonus { get;}
+    public int TreasuresBonus { get; }
     
-    public TreasuresBonusOtherSpell(int price, string title, int washBonus, int treasuresBonus) : base(price, title, washBonus)
+    internal TreasuresBonusOtherSpell(int price, string title, int washBonus, int treasuresBonus) : base(price, title, washBonus)
     {
         TreasuresBonus = treasuresBonus;
     }
 
-    public void Cast(Player player, ICardsGenerator<Treasure> generator)
+    public void Cast(Player.Player player, ICardsGenerator<Treasure> generator)
     {
         for (var i = 0; i < TreasuresBonus; i++)
         {

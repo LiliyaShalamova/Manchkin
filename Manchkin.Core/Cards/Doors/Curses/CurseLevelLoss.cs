@@ -1,11 +1,11 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Doors.Curses;
 
 /// <summary>
 /// Потеря уровня
 /// </summary>
 public class CurseLevelLoss : Curse, ICurse
 {
-    public CurseLevelLoss(string title, int levelLossCount) : base(title)
+    internal CurseLevelLoss(string title, int levelLossCount) : base(title)
     {
         LevelLossCount = levelLossCount;
     }
@@ -13,9 +13,9 @@ public class CurseLevelLoss : Curse, ICurse
     /// <summary>
     /// Количество уровней
     /// </summary>
-    public int LevelLossCount { get; }
+    private int LevelLossCount { get; }
     
-    public void Curse(Player player)
+    public void Curse(Player.Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

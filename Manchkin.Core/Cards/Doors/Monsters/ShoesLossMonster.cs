@@ -2,11 +2,11 @@
 
 public class ShoesLossMonster : Monster, IPunish
 {
-    public ShoesLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
+    internal ShoesLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
     {
     }
 
-    public void Punish(Player player)
+    public void Punish(Player.Player player)
     {
         player.Inventory.Legs = null;
     }

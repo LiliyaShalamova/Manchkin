@@ -2,11 +2,11 @@
 
 public class PlayerClassLossMonster : Monster, IPunish
 {
-    public PlayerClassLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
+    internal PlayerClassLossMonster(int level, string name, int treasuresCount, int levelsCount, int doesNotFightLevel) : base(level, name, treasuresCount, levelsCount, doesNotFightLevel)
     {
     }
 
-    public void Punish(Player player)
+    public void Punish(Player.Player player)
     {
         player.LoseClass();
     }

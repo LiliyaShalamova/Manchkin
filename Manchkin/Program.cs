@@ -1,8 +1,9 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cube;
 using Manchkin.Core.Game;
-using Manchkin.Core.Game.States;
 using Manchkin.Extensions;
 using Manchkin.Extensions.GameProcessorExtension;
 using Manchkin.Extensions.PlayerExtension;
@@ -11,11 +12,11 @@ namespace Manchkin;
 
 //TODO добавить в командах, что если игрок мертв, надо снова выдать 8 карт
 // TODO сделать возможность передачи своих карточек из Console *
-// TODO максимально всё сокрыть (модификаторы доступа)
+// TODO максимально всё сокрыть (модификаторы доступа) DONE
 // TODO убрать дублирование Game, переименовать в args DONE
 // TODO удалить фазы DONE
-// TODO избавиться от try catch
-// TODO Надо инкапсулировать всю механику. Пользователь не должен ничего знать про внутреннюю реализацию Core.
+// TODO избавиться от try catch DONE
+// TODO Надо инкапсулировать всю механику. Пользователь не должен ничего знать про внутреннюю реализацию Core. DONE
 // TODO Не давать возможность сломать механику извне. Надо чтобы можно было безопасно вызывать методы из Game DONE
 // TODO Все команды пусть будут регистронезависимы. Все должны быть из одного слова. DONE
 
@@ -44,14 +45,14 @@ public static class Program
     {
         int playersCount;
         Console.WriteLine("Введите количество игроков для начала игры");
-        while (!int.TryParse(Console.ReadLine() ?? throw new InvalidOperationException(), out playersCount))
+        while (!int.TryParse(Console.ReadLine(), out playersCount))
         {
             Console.WriteLine("Некорректно задано количество игроков");
             Console.WriteLine("Введите количество игроков для начала игры");
         }
 
         var gameConfig = new GameConfig { PlayersCount = playersCount };
-        var game = new Game(gameConfig, new MyCube());
+        var game = new Game(gameConfig);
         ExecuteCommand(game);
     }
 
@@ -62,28 +63,24 @@ public static class Program
         {
             var allowedCommands = game.PrintAllowedCommands();
             var command = Console.ReadLine();
-            var args = command.Split(" ");
-            if (!Enum.TryParse(args[0], ignoreCase: true, out Command commandName) ||
+            var args = command?.Split(" ") ?? [];
+            if (args.Length == 0 || !Enum.TryParse(args[0], ignoreCase: true, out Command commandName) ||
                 !allowedCommands.Contains(commandName))
             {
                 Console.WriteLine("Недоступная команда");
                 continue;
             }
-
-            try
-            {
-                Commands[commandName](game, args);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Неправильно заданы параметры команды");
-            }
+            Commands[commandName](game, args);
         }
     }
 
     private static void ExecuteCommandDress(Game game, string[] args)
     {
         var clothes = ParseArgs<Clothes>(game, args);
+        if (clothes.Length == 0)
+        {
+            return;
+        }
         game.Dress(clothes);
         game.GetCurrentPlayer().Print();
     }
@@ -91,6 +88,10 @@ public static class Program
     private static void ExecuteCommandDrop(Game game, string[] args)
     {
         var cards = ParseArgs<Card>(game, args);
+        if (cards.Length == 0)
+        {
+            return;
+        }
         game.Drop(cards);
         game.GetCurrentPlayer().Print();
     }
@@ -98,6 +99,10 @@ public static class Program
     private static void ExecuteCommandSell(Game game, string[] args)
     {
         var treasures = ParseArgs<Treasure>(game, args);
+        if (treasures.Length == 0)
+        {
+            return;
+        }
         var result = game.Sell(treasures);
         if (!result.Result)
         {
@@ -111,8 +116,17 @@ public static class Program
 
     private static void ExecuteCommandCurse(Game game, string[] args)
     {
+        var currentPlayer = game.GetCurrentPlayer();
+        var isNotCorrectPlayerArg = args.Length != 3 || game.Players.All(player => player.Color.ToString() != args[1]);
+        var isNotCorrectCurseArg = !int.TryParse(args[2], out var index) || index > currentPlayer.Cards.Count ||
+                                   currentPlayer.Cards[ - 1] is not ICurse;
+        if (isNotCorrectPlayerArg || isNotCorrectCurseArg)
+        {
+            Console.WriteLine("Неправильно заданы параметры команды");
+            return;
+        }
         var to = game.Players.First(player => player.Color.ToString() == args[1]);
-        var curse = game.GetCurrentPlayer().Cards[int.Parse(args[2]) - 1] as ICurse;
+        var curse = (ICurse)game.GetCurrentPlayer().Cards[int.Parse(args[2]) - 1];
         game.Curse(to, curse);
         Console.WriteLine($"Игрок {to.Color}, на тебя наложено проклятие");
     }
@@ -132,8 +146,12 @@ public static class Program
 
     private static void ExecuteCommandCast(Game game, string[] args)
     {
-        var spell = game.GetCurrentPlayer().Cards[int.Parse(args[1]) - 1] as Spell;
-        var result = game.Cast(spell);
+        var spells = ParseArgs<Spell>(game, args);
+        if (spells.Length == 0)
+        {
+            return;
+        }
+        var result = game.Cast(spells[0]);
         if (!result.Result)
         {
             Console.WriteLine("Не удалось наложить заклинание.");
@@ -153,9 +171,13 @@ public static class Program
 
     private static void ExecuteCommandMonster(Game game, string[] args)
     {
-        var monster = (Monster)game.GetCurrentPlayer().Cards[int.Parse(args[1]) - 1];
-        monster.Print();
-        game.Monster(monster);
+        var monsters = ParseArgs<Monster>(game, args);
+        if (monsters.Length == 0)
+        {
+            return;
+        }
+        monsters[0].Print();
+        game.Monster(monsters[0]);
         game.GetCurrentPlayer().Print();
     }
 
@@ -183,6 +205,16 @@ public static class Program
 
     private static T[] ParseArgs<T>(Game game, string[] args) where T : Card
     {
+        var currentPlayer = game.GetCurrentPlayer();
+        var isNotCorrectCardIndexes = args.Length == 1 || !args.Skip(1).All(arg => int.TryParse(arg, out var index) &&
+            index <= currentPlayer.Cards.Count &&
+            currentPlayer.Cards[index - 1] is T);
+        if (isNotCorrectCardIndexes)
+        {
+            Console.WriteLine("Неправильно заданы параметры команды");
+            return [];
+        }
+
         return args
             .Skip(1)
             .Select(str => (T)game.GetCurrentPlayer().Cards[int.Parse(str) - 1])

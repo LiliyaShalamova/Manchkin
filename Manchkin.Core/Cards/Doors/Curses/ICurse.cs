@@ -2,5 +2,5 @@
 
 public interface ICurse
 {
-    void Curse(Player player);
+    void Curse(Player.Player player);
 }

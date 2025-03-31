@@ -1,8 +1,6 @@
-﻿using Manchkin.Core.Cube;
+﻿namespace Manchkin.Core.Cube;
 
-namespace Manchkin.Core;
-
-public class MyCube : ICube
+internal class RandomCube : ICube
 {
     public int Throw(int value1, int value2)
     {

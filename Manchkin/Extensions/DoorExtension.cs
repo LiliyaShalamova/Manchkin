@@ -1,4 +1,6 @@
 ﻿using Manchkin.Core;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 
 namespace Manchkin.Extensions;

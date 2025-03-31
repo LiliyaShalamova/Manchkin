@@ -1,9 +1,9 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Treasures.Clothes;
 
 /// <summary>
 /// Класс шмотки
 /// </summary>
-public abstract class Clothes : Treasure // TODO сделать абстрактным! DONE
+public abstract class Clothes : Treasure
 {
     /// <summary>
     /// Бонус к боевой силе
@@ -15,7 +15,7 @@ public abstract class Clothes : Treasure // TODO сделать абстракт
     /// </summary>
     public bool IsBig { get; }
 
-    public Clothes(int bonus, int price, string title, bool isBig = false, int washBonus = 0)
+    internal Clothes(int bonus, int price, string title, bool isBig = false, int washBonus = 0)
     {
         Bonus = bonus;
         Price = price;

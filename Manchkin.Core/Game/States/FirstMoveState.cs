@@ -1,5 +1,9 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game.States;
 
@@ -39,7 +43,7 @@ internal class FirstMoveState : GameStateBase
                 GameProcessor.ChangeState(new FightState(GameProcessor));
                 GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
                 break;
-            case Core.Curse:
+            case Cards.Doors.Curses.Curse:
                 Curse(GameProcessor.CurrentPlayer, GameProcessor.CurrentPlayer, (ICurse)door);
                 GameProcessor.ChangeState(new SecondMoveState(GameProcessor));
                 break;
@@ -48,7 +52,7 @@ internal class FirstMoveState : GameStateBase
         return new CommandResult<Door>(true, door);
     }
 
-    public override CommandResult<bool> Curse(Player to, ICurse curse)
+    public override CommandResult<bool> Curse(Player.Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResult<bool>(true, true);
