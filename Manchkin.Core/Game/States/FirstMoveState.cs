@@ -10,33 +10,30 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние первого хода игрока. Необходимо выбить дверь
 /// </summary>
-internal class FirstMoveState : GameStateBase
+internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor)
 {
     private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door];
-    public FirstMoveState(GameProcessor gameProcessor) : base(gameProcessor)
-    {
-    }
-    
-    public override CommandResult<Void> Dress(Clothes[] clothes)
+
+    public override CommandResult Dress(Clothes[] clothes)
     {
         FillInventory(GameProcessor.CurrentPlayer, clothes);
-        return new CommandResult<Void>(true, new Void());
+        return new CommandResult(true);
     }
     
-    public override CommandResult<Void> Drop(Card[] cards)
+    public override CommandResult Drop(Card[] cards)
     {
         ResetCards(GameProcessor.CurrentPlayer, cards);
-        return new CommandResult<Void>(true, new Void());
+        return new CommandResult(true);
     }
     
-    public override CommandResult<bool> Sell(Treasure[] treasures)
+    public override CommandResultWith<bool> Sell(Treasure[] treasures)
     {
-        return new CommandResult<bool>(true, SellTreasures(GameProcessor.CurrentPlayer, treasures));
+        return new CommandResultWith<bool>(true, SellTreasures(GameProcessor.CurrentPlayer, treasures));
     }
     
-    public override CommandResult<Door> Door()
+    public override CommandResultWith<Door> PullDoor()
     {
-        var door = PullDoor();
+        var door = DoorGenerator.GetCard();
         switch (door)
         {
             case Monster monster:
@@ -49,33 +46,22 @@ internal class FirstMoveState : GameStateBase
                 break;
         }
 
-        return new CommandResult<Door>(true, door);
+        return new CommandResultWith<Door>(true, door);
     }
 
-    public override CommandResult<bool> Curse(Player.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
-        return new CommandResult<bool>(true, true);
+        return new CommandResultWith<bool>(true, true);
     }
     
-    public override CommandResult<bool> Cast(Spell spell)
+    public override CommandResultWith<bool> Cast(IOtherSpell spell)
     {
-        if (spell is FightingSpell)
-        {
-            return new CommandResult<bool>(true, false);
-        }
-        var otherSpell = (IOtherSpell)spell;
-        return new CommandResult<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, otherSpell));
+        return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));
     }
     
     public override List<Command> GetAllowCommands()
     {
         return _allowedCommands; // TODO каждый раз при вызове создается массив, переделать. DONE
-    }
-
-    private Door PullDoor()
-    {
-        var door = DoorGenerator.GetCard();
-        return door;
     }
 }

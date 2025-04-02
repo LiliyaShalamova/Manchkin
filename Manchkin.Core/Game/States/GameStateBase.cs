@@ -3,6 +3,7 @@ using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 using Manchkin.Core.Generators;
 
@@ -10,78 +11,78 @@ namespace Manchkin.Core.Game.States;
 
 // TODO переименовать в GameStateBase DONE
 // TODO здесь все команды должны быть недоступные, а в наследниках переопределять только доступные DONE
-internal abstract class GameStateBase : IState
+internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
 {
     /// <summary>
     /// Генератор дверей
     /// </summary>
-    internal readonly CardsGenerator<Door> DoorGenerator = new();
+    protected readonly CardsGenerator<Door> DoorGenerator = new();
     
     /// <summary>
     /// Генератор сокровищ
     /// </summary>
-    internal readonly CardsGenerator<Treasure> TreasureGenerator = new();
+    protected readonly CardsGenerator<Treasure> TreasureGenerator = new();
     
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    private Stack<Door> DoorsReset { get; } = [];
+    protected Stack<Door> DoorsReset { get; } = []; // TODO Не делать приватные property никогда DONE
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    private Stack<Treasure> TreasuresReset { get; } = [];
+    protected Stack<Treasure> TreasuresReset { get; } = [];
     
-    internal readonly GameProcessor GameProcessor;
+    protected readonly GameProcessor GameProcessor = gameProcessor;
 
-    internal GameStateBase(GameProcessor gameProcessor)
+    public virtual CommandResult Dress(Clothes[] clothes)
     {
-        GameProcessor = gameProcessor;
+        return new CommandResult(false);
+    }
+
+    public virtual CommandResult Drop(Card[] cards)
+    {
+        return new CommandResult(false);
+    }
+
+    public virtual CommandResultWith<bool> Sell(Treasure[] treasures)
+    {
+        return new CommandResultWith<bool>(false, false);
+    }
+
+    public virtual CommandResultWith<bool> Finish()
+    {
+        return new CommandResultWith<bool>(false, false);
+    }
+
+    public virtual CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
+    {
+        return new CommandResultWith<bool>(false, false);
+    }
+
+    public virtual CommandResultWith<bool> Cast(IFightingSpell spell)
+    {
+        return new CommandResultWith<bool>(false, false);
     }
     
-    public virtual CommandResult<Void> Dress(Clothes[] clothes)
+    public virtual CommandResultWith<bool> Cast(IOtherSpell spell)
     {
-        return new CommandResult<Void>(false, new Void());
+        return new CommandResultWith<bool>(false, false);
     }
 
-    public virtual CommandResult<Void> Drop(Card[] cards)
+    public virtual CommandResultWith<bool> Monster(Monster monster)
     {
-        return new CommandResult<Void>(false, new Void());
+        return new CommandResultWith<bool>(false, false);
     }
 
-    public virtual CommandResult<bool> Sell(Treasure[] treasures)
+    public virtual CommandResultWith<Door> PullDoor()
     {
-        return new CommandResult<bool>(false, false);
+        return new CommandResultWith<Door>(false, null);
     }
 
-    public virtual CommandResult<bool> Finish()
+    public virtual CommandResultWith<bool> Run()
     {
-        return new CommandResult<bool>(false, false);
-    }
-
-    public virtual CommandResult<bool> Curse(Player.Player to, ICurse curse)
-    {
-        return new CommandResult<bool>(false, false);
-    }
-
-    public virtual CommandResult<bool> Cast(Spell spell)
-    {
-        return new CommandResult<bool>(false, false);
-    }
-
-    public virtual CommandResult<bool> Monster(Monster monster)
-    {
-        return new CommandResult<bool>(false, false);
-    }
-
-    public virtual CommandResult<Door> Door()
-    {
-        return new CommandResult<Door>(false, null);
-    }
-
-    public virtual CommandResult<bool> Run()
-    {
-        return new CommandResult<bool>(false, false);
+        return new CommandResultWith<bool>(false, false);
     }
 
     public virtual List<Command> GetAllowCommands()
@@ -89,12 +90,12 @@ internal abstract class GameStateBase : IState
         return [];
     }
 
-    public virtual CommandResult<bool> Fight()
+    public virtual CommandResultWith<bool> Fight()
     {
-        return new CommandResult<bool>(false, false);
+        return new CommandResultWith<bool>(false, false);
     }
     
-    internal void Reset<T>(Player.Player player, T[] cards) where T : Card
+    protected void Reset<T>(Player.Player player, T[] cards) where T : Card
     {
         foreach (var card in cards)
         {
@@ -110,14 +111,13 @@ internal abstract class GameStateBase : IState
                 default:
                     throw new ArgumentException("Invalid card type");
             }
-            // TODO помещать в резет DONE
         }
     }
     
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
-    internal bool SellTreasures(Player.Player player, Treasure[] treasures)
+    protected bool SellTreasures(Player.Player player, Treasure[] treasures)
     {
         var sum = treasures.Select(treasure => treasure.Price).Sum();
         if (sum < 1000)
@@ -130,13 +130,13 @@ internal abstract class GameStateBase : IState
         return true;
     }
     
-    internal void Curse(Player.Player from, Player.Player to, ICurse curse)
+    protected void Curse(Player.Player from, Player.Player to, ICurse curse)
     {
         curse.Curse(to);
         Reset(from, [(Curse)curse]);
     }
     
-    internal void FillInventory(Player.Player player, Clothes[] clothes)
+    protected void FillInventory(Player.Player player, Clothes[] clothes)
     {
         foreach (var c in clothes)
         {
@@ -147,19 +147,19 @@ internal abstract class GameStateBase : IState
         Reset(player, clothes);
     }
     
-    internal void ResetCards(Player.Player player, Card[] cards)
+    protected void ResetCards(Player.Player player, Card[] cards) // TODO internal метод быть не должен DONE
     {
         Reset(player, cards);
     }
     
-    internal bool CastOtherSpell(Player.Player player, IOtherSpell otherSpell)
+    protected bool CastOtherSpell(Player.Player player, IOtherSpell otherSpell)
     {
         otherSpell.Cast(player, TreasureGenerator);
         Reset(player, [(Card)otherSpell]);
         return true;
     }
     
-    internal bool IsNextMoveAllowed(Player.Player player)
+    protected bool IsNextMoveAllowed(Player.Player player)
     {
         return player.Cards.Count <= 5;
     }

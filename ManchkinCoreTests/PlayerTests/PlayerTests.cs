@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Manchkin.Core;
 using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Treasures.Clothes;
@@ -7,16 +8,19 @@ using Xunit;
 
 namespace ManchkinCoreTests.PlayerTests;
 
-// TODO починить тесты. Надо чтоб можно было вызвать dotnet test
-// TODO именовать тесты в паттерне GIVEN WHEN THEN
-// TODO использовать autofixture в тестах
+// TODO починить тесты. Надо чтоб можно было вызвать dotnet test DONE
+// TODO именовать тесты в паттерне GIVEN WHEN THEN DONE
+// TODO использовать autofixture в тестах obsolete и протянуть везде конструкторы
 public class PlayerTests
 {
-    private Random _random = new();
+    private Fixture _fixture = new();
+    
+    private readonly Random _random = new();
 
     [Fact]
-    public void PlayerСreationTest()
+    public void ValidData_CreatePlayer_InitializedCorrectly()
     {
+        //var player = _fixture.Create<Player>();
         var player = new Player(Sex.Female, Color.Orange, [new Smut(3, 100, "Головняк")]);
         
         player.Should().BeEquivalentTo(new
@@ -31,7 +35,7 @@ public class PlayerTests
     }
     
     [Fact]
-    public void IncreaseLevelTest()
+    public void PlayerCreated_IncreaseLevel_LevelIncreased()
     {
         var player = GeneratePlayer();
         
@@ -41,7 +45,7 @@ public class PlayerTests
     }
 
     [Fact]
-    public void DecreaseFirstLevelTest()
+    public void FirstLevelPlayerCreated_DecreaseLevel_LevelNotIncreased()
     {
         var player = GeneratePlayer();
         
@@ -51,7 +55,7 @@ public class PlayerTests
     }
     
     [Fact]
-    public void DecreaseSecondLevelTest()
+    public void SeconsLevelPlayerCreated_DecreaseLevel_LevelDecreased()
     {
         var player = GeneratePlayer();
         player.IncreaseLevel(1);
@@ -62,7 +66,7 @@ public class PlayerTests
     }
 
     [Fact]
-    public void RemoveCursesTest()
+    public void PlayerWithCurses_RemoveCurses_CursesRemoved()
     {
         var player = GeneratePlayer();
         player.AddCurse(new CurseLevelLoss("Потеряй уровень", 1));
@@ -73,7 +77,7 @@ public class PlayerTests
     }
 
     [Fact]
-    public void AddCursesTest()
+    public void PlayerWithoutCurses_AddCurses_CursesAdded()
     {
         var curse = new CurseLevelLoss("Потеряй уровень", 1);
         var player = GeneratePlayer();
@@ -85,7 +89,7 @@ public class PlayerTests
     }    
     
     [Fact]
-    public void DieTest()
+    public void PlayerAlive_Die_PlayerDead()
     {
         var player = GeneratePlayer();
         player.Cards.Add(new Smut(3, 100, "Головняк"));
@@ -111,7 +115,7 @@ public class PlayerTests
     }
 
     [Fact]
-    public void FightingStrengthTest()
+    public void PlayerCreated_GetFightingStrength_FightingStrengthCorrect()
     {
         var player = GeneratePlayer();
         player.IncreaseLevel(1);

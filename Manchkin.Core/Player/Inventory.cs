@@ -79,7 +79,7 @@ public class Inventory
                 PutOnWeapon(weapon, clothesToReturn);
                 break;
             case Additional additional:
-                Additional.Add(additional); // TODO для additional создать свой класс DONE
+                Additional.Add(additional);
                 break;
         }
 

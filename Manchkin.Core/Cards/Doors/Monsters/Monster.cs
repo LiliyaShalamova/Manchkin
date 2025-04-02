@@ -3,7 +3,7 @@
 /// <summary>
 /// Монстр
 /// </summary>
-public class Monster : Door
+public class Monster : Door, IPunish
 {
     /// <summary>
     /// Уровень
@@ -37,5 +37,9 @@ public class Monster : Door
         TreasuresCount = treasuresCount;
         LevelsCount = levelsCount;
         DoesNotFightLevel = doesNotFightLevel;
+    }
+
+    public virtual void Punish(Player.Player player)
+    {
     }
 }

@@ -2,13 +2,13 @@
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
-using Void = Manchkin.Core.Game.States.Void;
 
 namespace Manchkin.Core.Game;
-//TODO сделать класс GameProcessor
 /// <summary>
 /// Класс игры
 /// </summary>
@@ -54,47 +54,57 @@ public class Game
         return GameProcessor.CurrentPlayer;
     }
 
-    public CommandResult<Void> Dress(Clothes[] clothes)
+    public Player.Player? GetPlayerByColor(string color)
+    {
+        return Players.FirstOrDefault(player => player.Color.ToString() == color);
+    }
+
+    public CommandResult Dress(Clothes[] clothes)
     {
         return GameProcessor.CurrentState.Dress(clothes);
     }
 
-    public CommandResult<Void> Drop(Card[] cards)
+    public CommandResult Drop(Card[] cards)
     {
         return GameProcessor.CurrentState.Drop(cards);
     }
 
-    public CommandResult<bool> Sell(Treasure[] treasures)
+    public CommandResultWith<bool> Sell(Treasure[] treasures)
     {
         return GameProcessor.CurrentState.Sell(treasures);
     }
 
-    public CommandResult<bool> Curse(Player.Player to, ICurse curse)
+    public CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
     {
         return GameProcessor.CurrentState.Curse(to, curse);
     }
 
-    public CommandResult<bool> Finish()
+    public CommandResultWith<bool> Finish()
     {
         return GameProcessor.CurrentState.Finish();
     }
 
-    public CommandResult<bool> Cast(Spell spell)
+    public CommandResultWith<bool> Cast(Spell spell)
     {
-        return GameProcessor.CurrentState.Cast(spell);
+        return spell switch
+        {
+            IFightingSpell fightingSpell => GameProcessor.CurrentState.Cast(fightingSpell),
+            IOtherSpell otherSpell => GameProcessor.CurrentState.Cast(otherSpell),
+            _ => new CommandResultWith<bool>(true, false)
+        };
     }
 
-    public CommandResult<bool> Monster(Monster monster)
+    public CommandResultWith<bool> Monster(Monster monster)
     {
         return GameProcessor.CurrentState.Monster(monster);
     }
 
-    public CommandResult<Door> Door()
+    public CommandResultWith<Door> PullDoor()
     {
-        return GameProcessor.CurrentState.Door();
+        return GameProcessor.CurrentState.PullDoor();
     }
 
-    public CommandResult<bool> Run()
+    public CommandResultWith<bool> Run()
     {
         return GameProcessor.CurrentState.Run();
     }
@@ -104,7 +114,7 @@ public class Game
         return GameProcessor.CurrentState.GetAllowCommands();
     }
 
-    public CommandResult<bool> Fight()
+    public CommandResultWith<bool> Fight()
     {
         return GameProcessor.CurrentState.Fight();
     }

@@ -1,6 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors;
-using Manchkin.Core.Cards.Doors.Monsters;
-using Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
@@ -8,11 +6,11 @@ using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 namespace Manchkin.Core.Game.States;
 
 /// <summary>
-/// Второй ход игрока, когда необходимо либо выбить вторую дверь, либо сразиться с монстром с руки
+/// Состояние игры, когда доступны только основные команды без дверей
 /// </summary>
-internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor)
+internal class FinishState(GameProcessor game) : GameStateBase(game) // TODO назвать FinishState DONE
 {
-    private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
+    private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 
     public override CommandResult Dress(Clothes[] clothes)
     {
@@ -31,20 +29,21 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
         return new CommandResultWith<bool>(true, SellTreasures(GameProcessor.CurrentPlayer, treasures));
     }
     
-    public override CommandResultWith<bool> Monster(Monster monster)
+    public override CommandResultWith<bool> Finish()
     {
-        GameProcessor.ChangeState(new FightState(GameProcessor));
-        GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
-        return new CommandResultWith<bool>(true, true);
-    }
-
-    public override CommandResultWith<Door> PullDoor()
-    {
-        var door = DoorGenerator.GetCard();
-        GameProcessor.CurrentPlayer.Cards.Add(door);
-        GameProcessor.SwitchToNextPlayer();
+        var lastPlayer = GameProcessor.CurrentPlayer == GameProcessor.Players.Last();
+        if (!IsNextMoveAllowed(GameProcessor.CurrentPlayer))
+        {
+            return new CommandResultWith<bool>(true, false);
+        }
+        if (!lastPlayer)
+        {
+            GameProcessor.SwitchToNextPlayer();
+            return new CommandResultWith<bool>(true, true);
+        }
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
-        return new CommandResultWith<Door>(true, door);
+        GameProcessor.SwitchToNextPlayer();
+        return new CommandResultWith<bool>(true, true);
     }
     
     public override CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
@@ -52,7 +51,7 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);
     }
-
+    
     public override CommandResultWith<bool> Cast(IOtherSpell spell)
     {
         return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));

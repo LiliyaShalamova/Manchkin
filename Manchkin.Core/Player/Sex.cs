@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Player;
 
 public enum Sex
 {

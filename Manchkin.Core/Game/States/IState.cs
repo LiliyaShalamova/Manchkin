@@ -2,20 +2,23 @@
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game.States;
 
 internal interface IState
 {
-    public CommandResult<Void> Dress(Clothes[] clothes);
-    public CommandResult<Void> Drop(Card[] cards);
-    public CommandResult<bool> Sell(Treasure[] treasures);
-    public CommandResult<bool> Finish();
-    public CommandResult<bool> Curse(Player.Player to, ICurse curse);
-    public CommandResult<bool> Cast(Spell spell);
-    public CommandResult<bool> Monster(Monster monster);
-    public CommandResult<Door> Door();
-    public CommandResult<bool> Run();
+    public CommandResult Dress(Clothes[] clothes);
+    public CommandResult Drop(Card[] cards);
+    public CommandResultWith<bool> Sell(Treasure[] treasures);
+    public CommandResultWith<bool> Finish();
+    public CommandResultWith<bool> Curse(Player.Player to, ICurse curse);
+    public CommandResultWith<bool> Cast(IFightingSpell spell);
+    public CommandResultWith<bool> Cast(IOtherSpell spell);
+    public CommandResultWith<bool> Monster(Monster monster);
+    public CommandResultWith<Door> PullDoor();
+    public CommandResultWith<bool> Run();
     public List<Command> GetAllowCommands();
-    public CommandResult<bool> Fight();
+    public CommandResultWith<bool> Fight();
 }

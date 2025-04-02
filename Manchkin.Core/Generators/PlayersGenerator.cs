@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Player;
 
 namespace Manchkin.Core.Generators;
 

@@ -9,7 +9,7 @@ namespace ManchkinCoreTests.PlayerTests;
 public class InventoryTests
 {
     [Fact]
-    public void PutOnSmutTests_ReturnedEmpty()
+    public void EmptyHead_PutOnSmut_ReturnedEmpty()
     {
         var inventory = new Inventory();
         var smut = new Smut(1, 100, "Головняк");
@@ -21,7 +21,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void PutOnSmutTests_ReturnedSmut()
+    public void NotEmptyHead_PutOnSmut_ReturnedSmut()
     {
         var inventory = new Inventory();
         var smut = new Smut(1, 100, "Головняк");
@@ -164,7 +164,7 @@ public class InventoryTests
     }
     
     [Fact]
-    public void PutOnShoesTests_ReturnedEmpty()
+    public void EmptyLegs_PutOnShoes_ReturnedEmpty()
     {
         var inventory = new Inventory();
         var shoes = new Shoes(1, 100, "Обувка");
@@ -176,7 +176,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void PutOnShoesTests_ReturnedShoes()
+    public void NotEmptyLegs_PutOnShoes_ReturnedShoes()
     {
         var inventory = new Inventory();
         var shoes1 = new Shoes(1, 100, "Обувка1");
@@ -191,7 +191,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void PutOnVestTests_ReturnedEmpty()
+    public void EmptyTorso_PutOnVest_ReturnedEmpty()
     {
         var inventory = new Inventory();
         var vest = new BulletproofVest(1, 100, "Броник");
@@ -203,7 +203,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void PutOnVestTests_ReturnedVest()
+    public void NotEmptyTorso_PutOnVest_ReturnedVest()
     {
         var inventory = new Inventory();
         var vest1 = new BulletproofVest(1, 100, "Броник1");
@@ -218,7 +218,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void PutOnAdditionalClothesTests()
+    public void PlayerWithoutAdditionalClothes_PutOnAdditionalClothes_Added()
     {
         var inventory = new Inventory();
         var additional = new Additional(1, 100, "Титул");
@@ -230,7 +230,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void GetCommonBonus_Zero()
+    public void EmptyInventory_GetCommonBonus_Zero()
     {
         var inventory = new Inventory();
         
@@ -240,7 +240,7 @@ public class InventoryTests
     }
     
     [Fact]
-    public void GetCommonBonus_AllPositions()
+    public void FullInventory_GetCommonBonus_AllPositionsCounted()
     {
         var inventory = new Inventory()
         {
@@ -259,7 +259,7 @@ public class InventoryTests
     }
     
     [Fact]
-    public void GetCommonBonus_TwoHandsWeapon()
+    public void TwoHandsWeapon_GetCommonBonus_WeaponBonusNotDoubled()
     {
         var weapon = new Weapon(4, 100, "Weapon", handsAmount: 2);
         var inventory = new Inventory
@@ -279,7 +279,7 @@ public class InventoryTests
     }
 
     [Fact]
-    public void ClearTests()
+    public void FillInventory_Clear_EmptyInventory()
     {
         var inventory = new Inventory
         {
@@ -300,28 +300,4 @@ public class InventoryTests
         inventory.RightHand.Should().BeNull();
         inventory.Additional.Should().BeEmpty();
     }
-    
-    public static IEnumerable<object[]> ClothesData1 =>
-        new List<object[]>
-        {
-            new object[] { new Smut(1, 100, "Головняк"), (Inventory inventory, Smut smut) => inventory.Head.Should().Be(smut) },
-            new object[] { new Shoes(2, 200, "Обувка"), (Inventory inventory, Shoes shoes) => inventory.Legs.Should().Be(shoes) },
-            new object[] { new BulletproofVest(3, 300, "Броник"), (Inventory inventory, BulletproofVest vest) => inventory.Torso.Should().Be(vest) }
-        };
-    
-    private static IEnumerable<object[]> ClothesData2 =>
-        new List<object[]>
-        {
-            new object[] { new Smut(11, 101, "Головняк2") },
-            new object[] { new Shoes(22, 202, "Обувка2") },
-            new object[] { new BulletproofVest(33, 303, "Броник2") }
-        };
-
-    private static IEnumerable<object[]> AssertActionsData => 
-        new List<object[]>
-        {
-            new object[] { new Smut(1, 100, "Головняк") },
-            new object[] { new Shoes(2, 200, "Обувка") },
-            new object[] { new BulletproofVest(3, 300, "Броник")}
-        };
 }

@@ -58,9 +58,9 @@ public class Player
     /// </summary>
     public int FightingStrength => Level + Inventory.GetCommonBonus();
 
-    public bool Dead = false;
+    public bool Dead { get; private set; }
 
-    public Player(Sex sex, Color color, List<Card> cards)
+    internal Player(Sex sex, Color color, List<Card> cards)
     {
         Sex = sex;
         Color = color;
@@ -68,8 +68,9 @@ public class Player
         Inventory = new Inventory();
         Curses = [];
         Cards = cards;
+        Dead = false;
     }
-
+    
     internal void IncreaseLevel(int levelsCount) // TODO, если уровень 9, то повышать карточкой уровня нельзя
     {
         Level += levelsCount;

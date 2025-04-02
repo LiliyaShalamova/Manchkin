@@ -34,7 +34,7 @@ internal class GameProcessor
     
     public GameProcessor(ICube cube, Player.Player[] players)
     {
-        CurrentState = new StartState(this);
+        CurrentState = new FinishState(this);
         Cube = cube;
         Players = players;
     }
@@ -44,7 +44,7 @@ internal class GameProcessor
         CurrentState = newState;
     }
 
-    public void ChangeCurrentPlayer()
+    public void SwitchToNextPlayer()
     {
         _currentPlayer = (_currentPlayer + 1) % Players.Length;
     }

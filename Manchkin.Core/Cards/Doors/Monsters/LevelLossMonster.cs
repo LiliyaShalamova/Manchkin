@@ -1,6 +1,6 @@
 ﻿namespace Manchkin.Core.Cards.Doors.Monsters;
 
-public class LevelLossMonster : Monster, IPunish
+public class LevelLossMonster : Monster
 {
     /// <summary>
     /// При проигрыше - потеря уровней
@@ -12,7 +12,7 @@ public class LevelLossMonster : Monster, IPunish
         LevelLossCount = levelLossCount;
     }
 
-    public void Punish(Player.Player player)
+    public override void Punish(Player.Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }
