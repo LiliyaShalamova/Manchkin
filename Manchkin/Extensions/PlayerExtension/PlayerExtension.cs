@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core;
+using Manchkin.Core.Cards;
 using Manchkin.Core.Player;
 
 namespace Manchkin.Extensions.PlayerExtension;

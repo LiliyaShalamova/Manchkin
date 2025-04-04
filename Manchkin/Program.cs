@@ -1,5 +1,7 @@
 ﻿using Manchkin.Core;
+using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cube;
@@ -13,8 +15,6 @@ namespace Manchkin;
 
 //TODO добавить в командах, что если игрок мертв, надо снова выдать 8 карт
 // TODO сделать возможность передачи своих карточек из Console *
-// TODO убрать приведение типов в Core, оставить только в Program DONE
-// TODO убрать дублирование Game в методах DONE
 
 public static class Program
 {
@@ -47,7 +47,7 @@ public static class Program
 
     private static int ReadPlayersCount()
     {
-        int playersCount; // TODO вынести получение количества в отдельный метод DONE
+        int playersCount;
         Console.WriteLine("Введите количество игроков для начала игры");
         while (!int.TryParse(Console.ReadLine(), out playersCount))
         {
@@ -57,8 +57,8 @@ public static class Program
 
         return playersCount;
     }
-    
-    private static void Start() // TODO переименовать в Start DONE
+
+    private static void Start()
     {
         _game.GetCurrentPlayer().Print();
         while (!_game.IsGameOver())
@@ -66,16 +66,11 @@ public static class Program
             var allowedCommands = _game.PrintAllowedCommands();
             var command = Console.ReadLine();
             var args = command?.Split(" ") ?? [];
-            if (args.Length > 0 && Enum.TryParse(args[0], true, out Command commandName)) //TODO разбить if DONE
+            var isExistingCommand = args.Length > 0 & Enum.TryParse(args[0], true, out Command commandName);
+            var isAllowedCommand = allowedCommands.Contains(commandName);
+            if (isExistingCommand && isAllowedCommand)
             {
-                if (allowedCommands.Contains(commandName))
-                {
-                    Commands[commandName](args);
-                }
-                else
-                {
-                    Console.WriteLine("Недоступная команда");
-                }
+                Commands[commandName](args);
             }
             else
             {
@@ -91,6 +86,7 @@ public static class Program
         {
             return;
         }
+
         _game.Dress(clothes);
         _game.GetCurrentPlayer().Print();
     }
@@ -102,6 +98,7 @@ public static class Program
         {
             return;
         }
+
         _game.Drop(cards);
         _game.GetCurrentPlayer().Print();
     }
@@ -113,6 +110,7 @@ public static class Program
         {
             return;
         }
+
         var result = _game.Sell(treasures);
         if (!result.Result)
         {
@@ -128,21 +126,22 @@ public static class Program
     {
         var currentPlayer = _game.GetCurrentPlayer();
         var isCorrectPlayerArg = args.Length == 3 && _game.GetPlayerByColor(args[1]) != null;
-        
+
         var isNumericCardIndex = int.TryParse(args[2], out var cardIndex);
         var isExistingIndex = cardIndex >= 1 && cardIndex <= currentPlayer.Cards.Count;
         var isCurseCard = cardIndex > 0 && currentPlayer.Cards[cardIndex - 1] is ICurse;
         var isCorrectCurseArgs = isNumericCardIndex && isExistingIndex && isCurseCard;
-        
-        if (!(isCorrectPlayerArg && isCorrectCurseArgs))//TODO разбить большой if DONE
+
+        if (!isCorrectPlayerArg || !isCorrectCurseArgs)
         {
             Console.WriteLine("Неправильно заданы параметры команды");
             return;
         }
-        var to = _game.GetPlayerByColor(args[1]); // TODO сделать в Game метод получения игрока по цвету DONE
+
+        var to = _game.GetPlayerByColor(args[1])!;
         var curse = (ICurse)_game.GetCurrentPlayer().Cards[int.Parse(args[2]) - 1];
-        _game.Curse(to!, curse);
-        Console.WriteLine($"Игрок {to!.Color}, на тебя наложено проклятие");
+        _game.Curse(to, curse);
+        Console.WriteLine($"Игрок {to.Color}, на тебя наложено проклятие");
     }
 
     private static void ExecuteCommandFinish(string[] args)
@@ -151,11 +150,10 @@ public static class Program
         if (!result.Result)
         {
             Console.WriteLine("У вас на руках больше 5 карт.");
+            return;
         }
-        else
-        {
-            _game.GetCurrentPlayer().Print();
-        }
+
+        _game.GetCurrentPlayer().Print();
     }
 
     private static void ExecuteCommandCast(string[] args)
@@ -165,6 +163,7 @@ public static class Program
         {
             return;
         }
+
         var result = _game.Cast(spells[0]);
         if (!result.Result)
         {
@@ -185,11 +184,12 @@ public static class Program
 
     private static void ExecuteCommandMonster(string[] args)
     {
-        var monsters = ParseArgs<Monster>(args); // TODO проверять, что аргумент ровно 1 DONE
-        if (monsters.Length == 0 || monsters.Length > 1)
+        var monsters = ParseArgs<Monster>(args);
+        if (monsters.Length != 1)
         {
             return;
         }
+
         monsters[0].Print();
         _game.Monster(monsters[0]);
         _game.GetCurrentPlayer().Print();
@@ -216,10 +216,10 @@ public static class Program
         _game.GetCurrentPlayer().Print();
     }
 
-    private static T[] ParseArgs<T>(string[] command) where T : Card // TODO не получать в аргументах Game. Получать только то что нужно (массив карт) DONE
+    private static T[] ParseArgs<T>(string[] command) where T : Card
     {
         var args = command.Skip(1).ToArray();
-        var cards = _game.GetCurrentPlayer().Cards; // TODO сделать чтобы int.Parse вызывался только один раз для каждого элемента DONE
+        var cards = _game.GetCurrentPlayer().Cards;
         var cardsToReturn = new T[args.Length];
         if (args.Length == 0)
         {
@@ -229,7 +229,7 @@ public static class Program
 
         for (var i = 0; i < args.Length; i++)
         {
-            var isNumericIndex = int.TryParse(args[i], out var cardIndex);// TODO разбить и проверять на 0 и отрицательные числа DONE
+            var isNumericIndex = int.TryParse(args[i], out var cardIndex);
             var isExistingIndex = cardIndex >= 1 && cardIndex <= cards.Count;
             var cardIsTypeOfT = cardIndex > 0 && cards[cardIndex - 1] is T;
             if (isNumericIndex && isExistingIndex && cardIsTypeOfT)
@@ -242,7 +242,7 @@ public static class Program
                 return [];
             }
         }
-        
+
         return cardsToReturn;
     }
 }

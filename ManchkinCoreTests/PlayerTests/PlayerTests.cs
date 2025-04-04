@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using Manchkin.Core;
+using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Player;
@@ -8,8 +9,6 @@ using Xunit;
 
 namespace ManchkinCoreTests.PlayerTests;
 
-// TODO починить тесты. Надо чтоб можно было вызвать dotnet test DONE
-// TODO именовать тесты в паттерне GIVEN WHEN THEN DONE
 // TODO использовать autofixture в тестах obsolete и протянуть везде конструкторы
 public class PlayerTests
 {

@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core;
+﻿namespace Manchkin.Core.Cards.Treasures;
 
 /// <summary>
 /// Класс сокровищ
@@ -8,7 +8,7 @@ public abstract class Treasure : Card
     /// <summary>
     /// Цена
     /// </summary>
-    public int Price { get; protected init; } // TODO реализовать недоступность изменения из дочерних классов, кроме как из конструктора
+    public int Price { get; protected init; }
     
     /// <summary>
     /// Название

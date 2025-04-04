@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Doors.Curses;
 
 namespace Manchkin.Core.Player;

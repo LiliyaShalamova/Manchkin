@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core;
+﻿using Manchkin.Core.Cards;
+
+namespace Manchkin.Core;
 
 public class GameConfig
 {

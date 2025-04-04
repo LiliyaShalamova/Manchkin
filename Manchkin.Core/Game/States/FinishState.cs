@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
@@ -8,7 +10,7 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние игры, когда доступны только основные команды без дверей
 /// </summary>
-internal class FinishState(GameProcessor game) : GameStateBase(game) // TODO назвать FinishState DONE
+internal class FinishState(GameProcessor game) : GameStateBase(game)
 {
     private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 

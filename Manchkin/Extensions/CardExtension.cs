@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core;
+using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures.Clothes;

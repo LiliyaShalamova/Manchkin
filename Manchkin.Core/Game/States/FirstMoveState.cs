@@ -1,5 +1,7 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
@@ -60,8 +62,8 @@ internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameP
         return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));
     }
     
-    public override List<Command> GetAllowCommands()
+    public override List<Command> GetAllowCommands() // TODO Нигде не оверрайдить этот метод
     {
-        return _allowedCommands; // TODO каждый раз при вызове создается массив, переделать. DONE
+        return _allowedCommands;
     }
 }

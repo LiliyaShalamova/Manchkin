@@ -1,6 +1,8 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
@@ -9,8 +11,7 @@ using Manchkin.Core.Generators;
 
 namespace Manchkin.Core.Game.States;
 
-// TODO переименовать в GameStateBase DONE
-// TODO здесь все команды должны быть недоступные, а в наследниках переопределять только доступные DONE
+// Базовый класс состояния: доступных методов нет
 internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
 {
     /// <summary>
@@ -26,7 +27,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    protected Stack<Door> DoorsReset { get; } = []; // TODO Не делать приватные property никогда DONE
+    protected Stack<Door> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
@@ -147,7 +148,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
         Reset(player, clothes);
     }
     
-    protected void ResetCards(Player.Player player, Card[] cards) // TODO internal метод быть не должен DONE
+    protected void ResetCards(Player.Player player, Card[] cards)
     {
         Reset(player, cards);
     }

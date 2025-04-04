@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
 
 namespace Manchkin.Core.Game.States;
 
@@ -11,7 +12,6 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
 
     public override CommandResultWith<bool> Cast(IFightingSpell spell)//если заклинание на убийство монстра, состояние игры не меняется, надо выполнить fight
     {
-        // TODO вот так делать плохо. IFightingSpell не имеет никакого отношения к Spell DONE
         CastFightingSpell(GameProcessor.CurrentPlayer, spell);
         /*if (GameProcessor.CurrentFight!.Monsters.Count == 0)
         {
@@ -43,12 +43,6 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
     
     public override CommandResultWith<bool> Fight()
     {
-        /*
-         TODO: DONE
-         После вытягивания или выкладывания своего монстра доступны 3 команды: fight, run, cast.
-         Если мы пишем run и сбегаем -- сбежали. Если не сбежали -- наказание.
-         Если мы пишем fight. Если мы выигрываем -- получаем награду. Если проигрываем -- наказание.
-         */
         var currentPlayer = GameProcessor.CurrentPlayer;
         // TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
         var playerFightingStrength = currentPlayer.FightingStrength + GameProcessor.CurrentFight!.FightingStrengthBonus;
@@ -87,7 +81,7 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
     {
         foreach (var monster in GameProcessor.CurrentFight!.Monsters)
         {
-            monster.Punish(GameProcessor.CurrentFight.Player); // TODO здесь не должно быть каста DONE
+            monster.Punish(GameProcessor.CurrentFight.Player);
         }
         GameProcessor.CurrentFight = null;
     }
@@ -96,7 +90,6 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
     {
         var treasuresReward = GameProcessor.CurrentFight!.Monsters.Sum(monster => monster.TreasuresCount);
         var levelReward = GameProcessor.CurrentFight!.Monsters.Sum(monster => monster.LevelsCount);
-        // TODO получать награду за каждого монстра или если монстров нет то ничего не получаем DONE
         for (var i = 0; i < treasuresReward; i++)
         {
             player.Cards.Add(TreasureGenerator.GetCard());
