@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
@@ -14,19 +15,19 @@ internal class FinishState(GameProcessor game) : GameStateBase(game)
 {
     private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 
-    public override CommandResult Dress(Clothes[] clothes)
+    public override CommandResult Dress(IClothes[] clothes)
     {
         FillInventory(GameProcessor.CurrentPlayer, clothes);
         return new CommandResult(true);
     }
     
-    public override CommandResult Drop(Card[] cards)
+    public override CommandResult Drop(ICard[] cards)
     {
         ResetCards(GameProcessor.CurrentPlayer, cards);
         return new CommandResult(true);
     }
     
-    public override CommandResultWith<bool> Sell(Treasure[] treasures)
+    public override CommandResultWith<bool> Sell(ITreasure[] treasures)
     {
         return new CommandResultWith<bool>(true, SellTreasures(GameProcessor.CurrentPlayer, treasures));
     }

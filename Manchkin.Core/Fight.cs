@@ -11,7 +11,7 @@ public class Fight
     /// <summary>
     /// Монстры в бою
     /// </summary>
-    public readonly List<Monster> Monsters;
+    public readonly List<IMonster> Monsters;
     
     /// <summary>
     /// При броске кубика на _washBonus и выше - смываемся
@@ -20,7 +20,7 @@ public class Fight
     
     public int FightingStrengthBonus = 0;
 
-    internal Fight(Player.Player player, Monster monster)
+    internal Fight(Player.Player player, IMonster monster)
     {
         Player = player;
         Monsters =
@@ -29,7 +29,7 @@ public class Fight
         ];
     }
 
-    public void AddMonster(Monster monster)
+    public void AddMonster(IMonster monster)
     {
         Monsters.Add(monster);
     }

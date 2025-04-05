@@ -1,11 +1,10 @@
-﻿using Manchkin.Core;
-using Manchkin.Core.Cards.Doors.Curses;
+﻿using Manchkin.Core.Cards.Doors.Curses;
 
-namespace Manchkin.Extensions;
+namespace Manchkin.Extensions.CurseExtensions;
 
 public static class CurseExtension
 {
-    public static void Print(this Curse curse)
+    public static void Print(this ICurse curse)
     {
         Console.WriteLine($"Карта Проклятие. {curse.Title}");
     }

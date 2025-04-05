@@ -8,8 +8,8 @@ namespace Manchkin.Core.Generators;
 internal class PlayersGenerator : IPlayersGenerator
 {
     private readonly Random _random = new();
-    private CardsGenerator<Door> _doorGenerator = new();
-    private CardsGenerator<Treasure> _treasureGenerator = new();
+    private CardsGenerator<IDoor> _doorGenerator = new();
+    private CardsGenerator<ITreasure> _treasureGenerator = new();
 
     public Player.Player[] Generate(int playersCount)
     {
@@ -30,7 +30,7 @@ internal class PlayersGenerator : IPlayersGenerator
     
     private Player.Player CreatePlayer(Color color)
     {
-        var cards = new List<Card>();
+        var cards = new List<ICard>();
         for (var i = 0; i < 4; i++)
         {
             cards.Add(_doorGenerator.GetCard());

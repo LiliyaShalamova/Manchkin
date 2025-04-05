@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
@@ -16,37 +17,37 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
 {
     private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
 
-    public override CommandResult Dress(Clothes[] clothes)
+    public override CommandResult Dress(IClothes[] clothes)
     {
         FillInventory(GameProcessor.CurrentPlayer, clothes);
         return new CommandResult(true);
     }
     
-    public override CommandResult Drop(Card[] cards)
+    public override CommandResult Drop(ICard[] cards)
     {
         ResetCards(GameProcessor.CurrentPlayer, cards);
         return new CommandResult(true);
     }
     
-    public override CommandResultWith<bool> Sell(Treasure[] treasures)
+    public override CommandResultWith<bool> Sell(ITreasure[] treasures)
     {
         return new CommandResultWith<bool>(true, SellTreasures(GameProcessor.CurrentPlayer, treasures));
     }
     
-    public override CommandResultWith<bool> Monster(Monster monster)
+    public override CommandResultWith<bool> Monster(IMonster monster)
     {
         GameProcessor.ChangeState(new FightState(GameProcessor));
         GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
         return new CommandResultWith<bool>(true, true);
     }
 
-    public override CommandResultWith<Door> PullDoor()
+    public override CommandResultWith<IDoor> PullDoor()
     {
         var door = DoorGenerator.GetCard();
         GameProcessor.CurrentPlayer.Cards.Add(door);
         GameProcessor.SwitchToNextPlayer();
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
-        return new CommandResultWith<Door>(true, door);
+        return new CommandResultWith<IDoor>(true, door);
     }
     
     public override CommandResultWith<bool> Curse(Player.Player to, ICurse curse)

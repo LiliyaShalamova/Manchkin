@@ -1,4 +1,8 @@
 ﻿using Manchkin.Core.Cards.Treasures.Clothes;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 
 namespace Manchkin.Core.Player;
 
@@ -10,32 +14,32 @@ public class Inventory
     /// <summary>
     /// Голова
     /// </summary>
-    public Smut? Head { get; internal set; }
+    public Ukokoshnik? Head { get; internal set; }
 
     /// <summary>
     /// Левая рука
     /// </summary>
-    public Weapon? LeftHand { get; internal set; }
+    public SwordLollipop? LeftHand { get; internal set; }
 
     /// <summary>
     /// Правая рука
     /// </summary>
-    public Weapon? RightHand { get; internal set; }
+    public SwordLollipop? RightHand { get; internal set; }
 
     /// <summary>
     /// Торс
     /// </summary>
-    public BulletproofVest? Torso { get; internal set; }
+    public MithrilArmor? Torso { get; internal set; }
 
     /// <summary>
     /// Ноги
     /// </summary>
-    public Shoes? Legs { get; internal set; }
+    public DesignerShoes? Legs { get; internal set; }
 
     /// <summary>
     /// Дополнительные вещи, например, титул
     /// </summary>
-    public List<Additional> Additional { get; internal set; } = [];
+    public List<TrulyImpressiveTitle> Additional { get; internal set; } = [];
 
     // TODO Добавить обработку большой шмотки, большая может быть только одна
     public int GetCommonBonus()
@@ -49,36 +53,36 @@ public class Inventory
         return bonus;
     }
 
-    internal List<Clothes> PutOn(Clothes clothes)
+    internal List<IClothes> PutOn(IClothes clothes)
     {
-        List<Clothes> clothesToReturn = [];
+        List<IClothes> clothesToReturn = [];
         switch (clothes)
         {
-            case Smut smut:
+            case Ukokoshnik smut:
                 if (Head != null)
                 {
                     clothesToReturn.Add(Head);
                 }
                 Head = smut;
                 break;
-            case Shoes shoes:
+            case DesignerShoes shoes:
                 if (Legs != null)
                 {
                     clothesToReturn.Add(Legs);
                 }
                 Legs = shoes;
                 break;
-            case BulletproofVest vest:
+            case MithrilArmor vest:
                 if (Torso != null)
                 {
                     clothesToReturn.Add(Torso);
                 }
                 Torso = vest;
                 break;
-            case Weapon weapon:
+            case SwordLollipop weapon:
                 PutOnWeapon(weapon, clothesToReturn);
                 break;
-            case Additional additional:
+            case TrulyImpressiveTitle additional:
                 Additional.Add(additional);
                 break;
         }
@@ -86,7 +90,7 @@ public class Inventory
         return clothesToReturn;
     }
 
-    private void PutOnWeapon(Weapon weapon, List<Clothes> clothesToReturn)
+    private void PutOnWeapon(SwordLollipop swordLollipop, List<IClothes> clothesToReturn)
     {
         var toLeftHand = LeftHand == null || LeftHand != null && RightHand != null;
         if (toLeftHand)
@@ -100,14 +104,14 @@ public class Inventory
             {
                 RightHand = null;
             }
-            LeftHand = weapon;
-            if (weapon.HandsAmount == 2)
+            LeftHand = swordLollipop;
+            if (swordLollipop.HandsAmount == 2)
             {
                 if (RightHand != null)
                 {
                     clothesToReturn.Add(RightHand);
                 }
-                RightHand = weapon;
+                RightHand = swordLollipop;
             }
         }
         else
@@ -116,14 +120,14 @@ public class Inventory
             {
                 clothesToReturn.Add(RightHand);
             }
-            RightHand = weapon;
-            if (weapon.HandsAmount == 2)
+            RightHand = swordLollipop;
+            if (swordLollipop.HandsAmount == 2)
             {
                 if (LeftHand != null)
                 {
                     clothesToReturn.Add(LeftHand);
                 }
-                LeftHand = weapon;
+                LeftHand = swordLollipop;
             }
         }
     }

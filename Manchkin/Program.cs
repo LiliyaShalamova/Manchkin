@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
@@ -9,6 +10,7 @@ using Manchkin.Core.Game;
 using Manchkin.Core.Player;
 using Manchkin.Extensions;
 using Manchkin.Extensions.GameProcessorExtension;
+using Manchkin.Extensions.MonsterExtensions;
 using Manchkin.Extensions.PlayerExtension;
 
 namespace Manchkin;
@@ -81,7 +83,7 @@ public static class Program
 
     private static void ExecuteCommandDress(string[] args)
     {
-        var clothes = ParseArgs<Clothes>(args);
+        var clothes = ParseArgs<IClothes>(args);
         if (clothes.Length == 0)
         {
             return;
@@ -93,7 +95,7 @@ public static class Program
 
     private static void ExecuteCommandDrop(string[] args)
     {
-        var cards = ParseArgs<Card>(args);
+        var cards = ParseArgs<ICard>(args);
         if (cards.Length == 0)
         {
             return;
@@ -105,7 +107,7 @@ public static class Program
 
     private static void ExecuteCommandSell(string[] args)
     {
-        var treasures = ParseArgs<Treasure>(args);
+        var treasures = ParseArgs<ITreasure>(args);
         if (treasures.Length == 0)
         {
             return;
@@ -158,7 +160,7 @@ public static class Program
 
     private static void ExecuteCommandCast(string[] args)
     {
-        var spells = ParseArgs<Spell>(args);
+        var spells = ParseArgs<ISpell>(args);
         if (spells.Length == 0)
         {
             return;
@@ -184,7 +186,7 @@ public static class Program
 
     private static void ExecuteCommandMonster(string[] args)
     {
-        var monsters = ParseArgs<Monster>(args);
+        var monsters = ParseArgs<IMonster>(args);
         if (monsters.Length != 1)
         {
             return;
@@ -216,7 +218,7 @@ public static class Program
         _game.GetCurrentPlayer().Print();
     }
 
-    private static T[] ParseArgs<T>(string[] command) where T : Card
+    private static T[] ParseArgs<T>(string[] command) where T : ICard
     {
         var args = command.Skip(1).ToArray();
         var cards = _game.GetCurrentPlayer().Cards;

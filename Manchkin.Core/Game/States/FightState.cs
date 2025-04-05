@@ -100,7 +100,7 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
     private bool CastFightingSpell(Player.Player player, IFightingSpell fightingSpell)
     {
         fightingSpell.Cast(GameProcessor.CurrentFight!);
-        Reset(player, [(Card)fightingSpell]);
+        Reset(player, [(ICard)fightingSpell]);
         return true;
     }
 }

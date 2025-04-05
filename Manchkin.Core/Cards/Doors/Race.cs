@@ -3,6 +3,7 @@
 /// <summary>
 /// Раса игрока
 /// </summary>
-public class Race : Door
+public class Race : IDoor
 {
+    public string Title { get; init; }
 }

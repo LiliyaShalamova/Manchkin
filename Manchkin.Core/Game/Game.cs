@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
@@ -61,17 +62,17 @@ public class Game
         return Players.FirstOrDefault(player => player.Color.ToString() == color);
     }
 
-    public CommandResult Dress(Clothes[] clothes)
+    public CommandResult Dress(IClothes[] clothes)
     {
         return GameProcessor.CurrentState.Dress(clothes);
     }
 
-    public CommandResult Drop(Card[] cards)
+    public CommandResult Drop(ICard[] cards)
     {
         return GameProcessor.CurrentState.Drop(cards);
     }
 
-    public CommandResultWith<bool> Sell(Treasure[] treasures)
+    public CommandResultWith<bool> Sell(ITreasure[] treasures)
     {
         return GameProcessor.CurrentState.Sell(treasures);
     }
@@ -86,7 +87,7 @@ public class Game
         return GameProcessor.CurrentState.Finish();
     }
 
-    public CommandResultWith<bool> Cast(Spell spell)
+    public CommandResultWith<bool> Cast(ISpell spell)
     {
         return spell switch
         {
@@ -96,12 +97,12 @@ public class Game
         };
     }
 
-    public CommandResultWith<bool> Monster(Monster monster)
+    public CommandResultWith<bool> Monster(IMonster monster)
     {
         return GameProcessor.CurrentState.Monster(monster);
     }
 
-    public CommandResultWith<Door> PullDoor()
+    public CommandResultWith<IDoor> PullDoor()
     {
         return GameProcessor.CurrentState.PullDoor();
     }

@@ -17,36 +17,36 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
     /// <summary>
     /// Генератор дверей
     /// </summary>
-    protected readonly CardsGenerator<Door> DoorGenerator = new();
+    protected readonly CardsGenerator<IDoor> DoorGenerator = new();
     
     /// <summary>
     /// Генератор сокровищ
     /// </summary>
-    protected readonly CardsGenerator<Treasure> TreasureGenerator = new();
+    protected readonly CardsGenerator<ITreasure> TreasureGenerator = new();
     
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    protected Stack<Door> DoorsReset { get; } = [];
+    protected Stack<IDoor> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    protected Stack<Treasure> TreasuresReset { get; } = [];
+    protected Stack<ITreasure> TreasuresReset { get; } = [];
     
     protected readonly GameProcessor GameProcessor = gameProcessor;
 
-    public virtual CommandResult Dress(Clothes[] clothes)
+    public virtual CommandResult Dress(IClothes[] clothes)
     {
         return new CommandResult(false);
     }
 
-    public virtual CommandResult Drop(Card[] cards)
+    public virtual CommandResult Drop(ICard[] cards)
     {
         return new CommandResult(false);
     }
 
-    public virtual CommandResultWith<bool> Sell(Treasure[] treasures)
+    public virtual CommandResultWith<bool> Sell(ITreasure[] treasures)
     {
         return new CommandResultWith<bool>(false, false);
     }
@@ -71,14 +71,14 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
         return new CommandResultWith<bool>(false, false);
     }
 
-    public virtual CommandResultWith<bool> Monster(Monster monster)
+    public virtual CommandResultWith<bool> Monster(IMonster monster)
     {
         return new CommandResultWith<bool>(false, false);
     }
 
-    public virtual CommandResultWith<Door> PullDoor()
+    public virtual CommandResultWith<IDoor> PullDoor()
     {
-        return new CommandResultWith<Door>(false, null);
+        return new CommandResultWith<IDoor>(false, null);
     }
 
     public virtual CommandResultWith<bool> Run()
@@ -96,17 +96,17 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
         return new CommandResultWith<bool>(false, false);
     }
     
-    protected void Reset<T>(Player.Player player, T[] cards) where T : Card
+    protected void Reset<T>(Player.Player player, T[] cards) where T : ICard
     {
         foreach (var card in cards)
         {
             player.Cards.Remove(card);
             switch (card)
             {
-                case Treasure treasure:
+                case ITreasure treasure:
                     TreasuresReset.Push(treasure);
                     break;
-                case Door door:
+                case IDoor door:
                     DoorsReset.Push(door);
                     break;
                 default:
@@ -118,7 +118,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
-    protected bool SellTreasures(Player.Player player, Treasure[] treasures)
+    protected bool SellTreasures(Player.Player player, ITreasure[] treasures)
     {
         var sum = treasures.Select(treasure => treasure.Price).Sum();
         if (sum < 1000)
@@ -134,10 +134,10 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
     protected void Curse(Player.Player from, Player.Player to, ICurse curse)
     {
         curse.Curse(to);
-        Reset(from, [(Curse)curse]);
+        Reset(from, [(ICurse)curse]);
     }
     
-    protected void FillInventory(Player.Player player, Clothes[] clothes)
+    protected void FillInventory(Player.Player player, IClothes[] clothes)
     {
         foreach (var c in clothes)
         {
@@ -148,7 +148,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
         Reset(player, clothes);
     }
     
-    protected void ResetCards(Player.Player player, Card[] cards)
+    protected void ResetCards(Player.Player player, ICard[] cards)
     {
         Reset(player, cards);
     }
@@ -156,7 +156,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor) : IState
     protected bool CastOtherSpell(Player.Player player, IOtherSpell otherSpell)
     {
         otherSpell.Cast(player, TreasureGenerator);
-        Reset(player, [(Card)otherSpell]);
+        Reset(player, [(ICard)otherSpell]);
         return true;
     }
     

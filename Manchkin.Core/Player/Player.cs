@@ -42,7 +42,7 @@ public class Player
     /// <summary>
     /// Проклятия
     /// </summary>
-    public List<Curse> Curses { get; private set; }
+    public List<ICurse> Curses { get; private set; }
     
     /// <summary>
     /// Инвентарь
@@ -52,7 +52,7 @@ public class Player
     /// <summary>
     /// Карты на руках
     /// </summary>
-    public List<Card> Cards { get; private set; }
+    public List<ICard> Cards { get; private set; }
 
     /// <summary>
     /// Боевая сила
@@ -61,7 +61,7 @@ public class Player
 
     public bool Dead { get; private set; }
 
-    internal Player(Sex sex, Color color, List<Card> cards)
+    internal Player(Sex sex, Color color, List<ICard> cards)
     {
         Sex = sex;
         Color = color;
@@ -87,7 +87,7 @@ public class Player
         Curses.Clear();
     }
 
-    internal void AddCurse(Curse curse)
+    internal void AddCurse(ICurse curse)
     {
         Curses.Add(curse);
     }

@@ -1,4 +1,6 @@
 ﻿using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Generators.Cards.Doors.Monsters;
+using Manchkin.Extensions.MonsterExtensions;
 
 namespace Manchkin.Extensions;
 

@@ -1,11 +1,10 @@
-﻿using Manchkin.Core;
-using Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Cards.Treasures.Clothes;
 
-namespace Manchkin.Extensions;
+namespace Manchkin.Extensions.ClothesExtensions;
 
 public static class ClothesExtension
 {
-    public static void Print(this Clothes clothes)
+    public static void Print(this IClothes clothes)
     {
         var big = clothes.IsBig ? " Большая" : string.Empty;
         var wash = clothes.WashBonus != 0 ? $" Бонус на смывку {clothes.WashBonus}" : string.Empty;

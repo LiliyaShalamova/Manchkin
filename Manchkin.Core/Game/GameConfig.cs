@@ -1,9 +1,9 @@
 ﻿using Manchkin.Core.Cards;
 
-namespace Manchkin.Core;
+namespace Manchkin.Core.Game;
 
 public class GameConfig
 {
     public int PlayersCount { get; set; }
-    public Card[] AdditionalsCards { get; set; }
+    public ICard[] AdditionalsCards { get; set; }
 }

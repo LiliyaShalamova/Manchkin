@@ -1,6 +1,7 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards;
 using Manchkin.Core.Player;
+using Manchkin.Extensions.ClothesExtensions;
 
 namespace Manchkin.Extensions.PlayerExtension;
 
@@ -17,7 +18,7 @@ public static class PlayerExtension
         Console.WriteLine();
     }
 
-    private static void PrintCards(this List<Card> cards)
+    private static void PrintCards(this List<ICard> cards)
     {
         for (var i = 1; i <= cards.Count; i++)
         {
@@ -38,6 +39,6 @@ public static class PlayerExtension
         inventory.LeftHand?.Print();
         inventory.RightHand?.Print();
         inventory.Legs?.Print();
-        inventory.Additional?.ForEach(card => card.Print());
+        inventory.Additional?.ForEach(card => ClothesExtension.Print(card));
     }
 }
