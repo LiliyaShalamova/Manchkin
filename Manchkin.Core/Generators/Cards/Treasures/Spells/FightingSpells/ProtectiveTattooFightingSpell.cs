@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+﻿using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
@@ -27,4 +27,6 @@ public class ProtectiveTattooFightingSpell : IFightingSpell
     {
         fight.Monsters.Clear();
     }
+    
+    public string Description => $"Смерть монстра";
 }

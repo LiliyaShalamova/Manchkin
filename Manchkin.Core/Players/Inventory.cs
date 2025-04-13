@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
@@ -40,8 +41,7 @@ public class Inventory
     /// Дополнительные вещи, например, титул
     /// </summary>
     public List<TrulyImpressiveTitle> Additional { get; internal set; } = [];
-
-    // TODO Добавить обработку большой шмотки, большая может быть только одна
+    
     public int GetCommonBonus()
     {
         var bonus = (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +

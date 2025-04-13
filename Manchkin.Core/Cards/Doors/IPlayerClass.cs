@@ -3,15 +3,15 @@
 /// <summary>
 /// Класс игрока
 /// </summary>
-public class PlayerClass : IDoor
+public interface IPlayerClass : IDoor
 {
     /// <summary>
     /// Название
     /// </summary>
-    public string Title { get; init; }
+    string Title { get; init; }
 
     /// <summary>
     /// Равенство сил в бою
     /// </summary>
-    public bool ForcesEquality { get; }
+    bool ForcesEquality { get; }
 }

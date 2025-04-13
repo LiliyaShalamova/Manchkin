@@ -1,13 +1,10 @@
-﻿using Manchkin.Core;
+﻿using Manchkin.Cards;
+using Manchkin.Core;
 using Manchkin.Core.Cards;
-using Manchkin.Core.Cards.Doors.Curses;
-using Manchkin.Core.Cards.Doors.Monsters;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
-using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
-using Manchkin.Core.Cube;
 using Manchkin.Core.Game;
-using Manchkin.Core.Player;
 using Manchkin.Extensions;
 using Manchkin.Extensions.GameProcessorExtension;
 using Manchkin.Extensions.MonsterExtensions;
@@ -16,7 +13,9 @@ using Manchkin.Extensions.PlayerExtension;
 namespace Manchkin;
 
 //TODO добавить в командах, что если игрок мертв, надо снова выдать 8 карт
-// TODO сделать возможность передачи своих карточек из Console *
+//TODO, если уровень 9, то повышать карточкой уровня нельзя
+//TODO добавить обработку большой шмотки, большая может быть только одна
+//TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
 
 public static class Program
 {
@@ -43,6 +42,9 @@ public static class Program
     public static void Main(string[] args)
     {
         var gameConfig = new GameConfig { PlayersCount = ReadPlayersCount() };
+        gameConfig
+            .RegisterMonster<SuperMonster>()
+            .RegisterMonster<SuperPuperMonster>();
         _game = new Game(gameConfig);
         Start();
     }

@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Manchkin.Core;
 using Manchkin.Core.Cards;
-using Manchkin.Core.Cards.Doors.Curses;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Generators.Cards.Doors.Curses;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;

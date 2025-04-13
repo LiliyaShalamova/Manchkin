@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Curses;
+﻿using Manchkin.Core.Cards.Doors;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
@@ -21,7 +21,7 @@ public class CurseClothesWithHighestBonusLoss : ICurse
     {
         
     }
-    public void Curse(Player.Player player)
+    public void Curse(Players.Player player)
     {
         var maxBonus = GetHighestBonus(player);
         if (player.Inventory.Head != null && player.Inventory.Head.Bonus == maxBonus)
@@ -64,7 +64,7 @@ public class CurseClothesWithHighestBonusLoss : ICurse
         }
     }
 
-    private int GetHighestBonus(Player.Player player)
+    private int GetHighestBonus(Players.Player player)
     {
         var highestBonus = 0;
         if (player.Inventory.Head != null && player.Inventory.Head.Bonus > highestBonus)

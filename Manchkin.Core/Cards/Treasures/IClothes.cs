@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Clothes;
+﻿namespace Manchkin.Core.Cards.Treasures;
 
 /// <summary>
 /// Интерфейс шмотки
@@ -8,11 +8,11 @@ public interface IClothes : ITreasure
     /// <summary>
     /// Бонус к боевой силе
     /// </summary>
-    public int Bonus { get; set; }
+    int Bonus { get; }
 
     /// <summary>
     /// 0 - шмотка маленькая, 1 - шмотка большая
     /// </summary>
-    public bool IsBig { get; set; }
+    bool IsBig { get; }
     
 }

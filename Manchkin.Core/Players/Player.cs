@@ -1,8 +1,8 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
-using Manchkin.Core.Cards.Doors.Curses;
+using Manchkin.Core.Player;
 
-namespace Manchkin.Core.Player;
+namespace Manchkin.Core.Players;
 
 /// <summary>
 /// Класс игрока
@@ -22,17 +22,17 @@ public class Player
     /// <summary>
     /// Основной класс
     /// </summary>
-    public PlayerClass? MainClass { get; private set; }
+    public IPlayerClass? MainClass { get; private set; }
     
     /// <summary>
     /// Дополнительный класс, если игрок - супеманчкин
     /// </summary>
-    public PlayerClass? AdditionalClass { get; private set; }
+    public IPlayerClass? AdditionalClass { get; private set; }
     
     /// <summary>
     /// Раса
     /// </summary>
-    public Race? Race { get; private set; }
+    public IRace? Race { get; private set; }
     
     /// <summary>
     /// Цвет
@@ -72,12 +72,12 @@ public class Player
         Dead = false;
     }
     
-    internal void IncreaseLevel(int levelsCount) // TODO, если уровень 9, то повышать карточкой уровня нельзя
+    internal void IncreaseLevel(int levelsCount)
     {
         Level += levelsCount;
     }
 
-    internal void DecreaseLevel(int levelsCount)
+    public void DecreaseLevel(int levelsCount) //TODO был internal, но как тогда из програма релазиовывать интерфейс
     {
         Level = Level - levelsCount >= 1 ? Level - levelsCount : 1;
     }

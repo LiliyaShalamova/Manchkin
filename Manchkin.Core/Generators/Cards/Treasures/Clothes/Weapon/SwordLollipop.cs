@@ -1,11 +1,12 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 
 /// <summary>
 /// В руку
 /// </summary>
-public class SwordLollipop : IClothes
+public class SwordLollipop : IWeapon
 {
     /// <summary>
     /// Цена

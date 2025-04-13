@@ -1,6 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
-
-namespace Manchkin.Core.Parser;
+﻿namespace Manchkin.Core.Parser;
 /*
 internal class MonsterParser : CardParser, ICardParser<IMonster>
 {

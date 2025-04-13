@@ -1,10 +1,11 @@
-﻿using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
+﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 
 namespace Manchkin.Extensions.ClothesExtensions;
 
 public static class WeaponExtension
 {
-    public static void Print(this SwordLollipop swordLollipop)
+    public static void Print(this IWeapon swordLollipop)
     {
         var big = swordLollipop.IsBig ? " Большая" : string.Empty;
         var wash = swordLollipop.WashBonus != 0 ? $" Бонус на смывку {swordLollipop.WashBonus}" : string.Empty;

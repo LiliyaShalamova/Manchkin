@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+﻿using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
@@ -32,4 +32,6 @@ public class ZelenkaFightingSpell : IFightingSpell
     {
         fight.AddFightingStrength(DamageBonus);
     }
+    
+    public string Description => $"Бонус против монстра {DamageBonus}";
 }

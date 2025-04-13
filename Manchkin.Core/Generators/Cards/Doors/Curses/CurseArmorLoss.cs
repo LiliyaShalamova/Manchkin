@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Curses;
+﻿using Manchkin.Core.Cards.Doors;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
@@ -18,7 +18,7 @@ public class CurseArmorLoss : ICurse
     {
         
     }
-    public void Curse(Player.Player player)
+    public void Curse(Players.Player player)
     {
         player.Inventory.Torso = null;
     }

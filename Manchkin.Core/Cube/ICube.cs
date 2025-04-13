@@ -1,6 +1,6 @@
 ﻿namespace Manchkin.Core.Cube;
 
-public interface ICube
+public interface ICube //TODO сделать enum и обработать исключение при броске DONE
 {
-    public int Throw(int value1, int value2);
+    CubeFace Throw();
 }

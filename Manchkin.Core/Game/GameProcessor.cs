@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
+using Manchkin.Core.Generators;
 
 namespace Manchkin.Core.Game;
 
@@ -18,25 +19,37 @@ internal class GameProcessor
     /// <summary>
     /// Текущий бой
     /// </summary>
-    internal Fight? CurrentFight { get; set; }
+    public Fight? CurrentFight { get; set; }
+    
+    /// <summary>
+    /// Хранилище карт
+    /// </summary>
+    public readonly CardsStorage CardsStorage;
+    
+    /// <summary>
+    /// Текущий игрок
+    /// </summary>
+    public Players.Player CurrentPlayer => Players[_currentPlayer];
     
     /// <summary>
     /// Индекс текущего игрока
     /// </summary>
     private int _currentPlayer;
     
-    public Player.Player CurrentPlayer => Players[_currentPlayer];
-    
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player.Player[] Players { get; }
+    public Players.Player[] Players { get; }
     
-    public GameProcessor(ICube cube, Player.Player[] players)
+    public ICardsGenerator CardsGenerator { get; }
+    
+    public GameProcessor(ICube cube, Players.Player[] players, CardsStorage cardsStorage, ICardsGenerator cardsGenerator)
     {
         CurrentState = new FinishState(this);
         Cube = cube;
         Players = players;
+        CardsStorage = cardsStorage;
+        CardsGenerator = cardsGenerator;
     }
 
     public void ChangeState(IState newState)

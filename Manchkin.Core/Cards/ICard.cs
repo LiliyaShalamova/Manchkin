@@ -8,5 +8,5 @@ public interface ICard
     /// <summary>
     /// Название
     /// </summary>
-    public string Title { get; protected init; }
+    string Title { get; }
 }

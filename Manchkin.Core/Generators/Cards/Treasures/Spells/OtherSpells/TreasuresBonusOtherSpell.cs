@@ -1,5 +1,5 @@
 ﻿using Manchkin.Core.Cards.Treasures;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
+using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
@@ -8,17 +8,17 @@ public class TreasuresBonusOtherSpell : IOtherSpell
     /// <summary>
     /// Цена
     /// </summary>
-    public int Price { get; init; } // TODO почему тут init не может быть protected
+    public int Price { get; } = 0;
 
     /// <summary>
     /// Название
     /// </summary>
-    public string Title { get; init; } = "Возьми сокровище!";
+    public string Title { get; } = "Возьми сокровище!";
 
     /// <summary>
     /// Бонус на смывку
     /// </summary>
-    public int WashBonus { get; init; } = 2;
+    public int WashBonus { get; } = 0;
 
     /// <summary>
     /// Количество сокровищ
@@ -29,11 +29,13 @@ public class TreasuresBonusOtherSpell : IOtherSpell
     {
         
     }
-    public void Cast(Player.Player player, ICardsGenerator<ITreasure> generator)
+    public void Cast(Players.Player player, ICardsGenerator generator)
     {
         for (var i = 0; i < TreasuresBonus; i++)
         {
-            player.Cards.Add(generator.GetCard());
+            player.Cards.Add(generator.GetCard<ITreasure>());
         }
     }
+    
+    public string Description => $"Возьми сокровище: {TreasuresBonus}";
 }

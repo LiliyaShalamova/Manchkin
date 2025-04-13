@@ -1,5 +1,5 @@
 ﻿using Manchkin.Core.Cards.Treasures;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
+using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
@@ -29,8 +29,10 @@ public class GoToBathhouseGetLevelOtherSpell : IOtherSpell
     {
         
     }
-    public void Cast(Player.Player player, ICardsGenerator<ITreasure> generator)
+    public void Cast(Players.Player player, ICardsGenerator generator)
     {
         player.IncreaseLevel(LevelBonus);
     }
+    
+    public string Description => $"Получи уровень: {LevelBonus}";
 }

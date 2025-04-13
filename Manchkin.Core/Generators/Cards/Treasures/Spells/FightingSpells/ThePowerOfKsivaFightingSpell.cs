@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+﻿using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
@@ -30,4 +30,6 @@ public class ThePowerOfKsivaFightingSpell : IFightingSpell
     {
         fight.WashBonus -= WashBonus;
     }
+    
+    public string Description => $"Бонус на смывку {WashBonus}";
 }

@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
+
 namespace Manchkin.Core;
 
 public class Fight
@@ -6,7 +7,7 @@ public class Fight
     /// <summary>
     /// Игрок в бою
     /// </summary>
-    public readonly Player.Player Player;
+    public readonly Players.Player Player;
     
     /// <summary>
     /// Монстры в бою
@@ -20,7 +21,7 @@ public class Fight
     
     public int FightingStrengthBonus = 0;
 
-    internal Fight(Player.Player player, IMonster monster)
+    internal Fight(Players.Player player, IMonster monster)
     {
         Player = player;
         Monsters =

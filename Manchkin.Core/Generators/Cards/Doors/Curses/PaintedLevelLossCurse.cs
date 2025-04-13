@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Curses;
+﻿using Manchkin.Core.Cards.Doors;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
@@ -26,7 +26,7 @@ public class PaintedLevelLossCurse : ICurse
     {
         
     }
-    public void Curse(Player.Player player)
+    public void Curse(Players.Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

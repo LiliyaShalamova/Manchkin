@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -33,8 +33,10 @@ public class KoscheiTheDeathless : IMonster
     {
         
     }
-    public void Punish(Player.Player player)
+    public void Punish(Players.Player player)
     {
         player.Die();
     }
+    
+    public string Description => $"При проигрыше смерть";
 }

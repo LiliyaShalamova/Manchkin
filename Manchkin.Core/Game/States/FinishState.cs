@@ -1,19 +1,17 @@
 ﻿using Manchkin.Core.Cards;
-using Manchkin.Core.Cards.Doors.Curses;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
-using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game.States;
 
 /// <summary>
 /// Состояние игры, когда доступны только основные команды без дверей
 /// </summary>
-internal class FinishState(GameProcessor game) : GameStateBase(game)
+internal class FinishState(GameProcessor game) : GameStateBase(game), IState
 {
-    private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
+    protected override List<Command> AllowedCommands { get; } = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 
     public override CommandResult Dress(IClothes[] clothes)
     {
@@ -49,7 +47,7 @@ internal class FinishState(GameProcessor game) : GameStateBase(game)
         return new CommandResultWith<bool>(true, true);
     }
     
-    public override CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);
@@ -58,10 +56,5 @@ internal class FinishState(GameProcessor game) : GameStateBase(game)
     public override CommandResultWith<bool> Cast(IOtherSpell spell)
     {
         return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));
-    }
-    
-    public override List<Command> GetAllowCommands()
-    {
-        return _allowedCommands;
     }
 }

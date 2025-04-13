@@ -1,12 +1,7 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
-using Manchkin.Core.Cards.Doors.Curses;
-using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures;
-using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
-using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
@@ -17,47 +12,55 @@ namespace Manchkin.Core.Game;
 /// </summary>
 public class Game
 {
-    private GameProcessor GameProcessor { get; set; }
+    private GameProcessor GameProcessor { get; }
 
     /// <summary>
     /// Количество уровней в игре
     /// </summary>
-    private int _levelsCount = 10;
+    private int LevelsCount { get; }
 
     /// <summary>
     /// Массив игроков
     /// </summary>
-    public Player.Player[] Players { get; }
-
-    public Game(GameConfig gameConfig, IPlayersGenerator playersGenerator, ICube cube)
-    {
-        Players = playersGenerator.Generate(gameConfig.PlayersCount);
-        GameProcessor = new GameProcessor(cube, Players);
-    }
-
-    public Game(GameConfig gameConfig, ICube cube)
-    {
-        Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
-        GameProcessor = new GameProcessor(cube, Players);
-    }
+    private Players.Player[] Players { get; }
     
-    public Game(GameConfig gameConfig)
+    public Game(
+        GameConfig gameConfig,
+        ICardRegistrar? cardRegistrator = null,
+        IPlayersGenerator? playersGenerator = null,
+        ICube? cube = null,
+        IRandom? randomNumber = null,
+        ICardsGenerator? cardsGenerator = null)
     {
-        Players = new PlayersGenerator().Generate(gameConfig.PlayersCount);
-        GameProcessor = new GameProcessor(new RandomCube(), Players);
+        LevelsCount = gameConfig.LevelsCount;
+        cardRegistrator ??= new CardRegistrar(gameConfig.CardsStorage);
+        cube ??= new RandomCube();
+        randomNumber ??= new RandomNumber();
+        cardsGenerator ??= new CardsGenerator(gameConfig.CardsStorage, randomNumber);
+        var randomEnumValueGenerator = new RandomEnumValueGenerator(randomNumber);
+        playersGenerator ??= new PlayersGenerator(randomNumber, gameConfig, cardsGenerator, randomEnumValueGenerator);
+        
+        if (gameConfig.UseDefaultCards)
+        {
+            cardRegistrator.Register();
+        }
+        
+        Players = playersGenerator.Generate();
+        
+        GameProcessor = new GameProcessor(cube, Players, gameConfig.CardsStorage, cardsGenerator);
     }
 
     public bool IsGameOver()
     {
-        return Players.Max(player => player.Level) == _levelsCount;
+        return Players.Max(player => player.Level) == LevelsCount;
     }
 
-    public Player.Player GetCurrentPlayer()
+    public Players.Player GetCurrentPlayer()
     {
         return GameProcessor.CurrentPlayer;
     }
 
-    public Player.Player? GetPlayerByColor(string color)
+    public Players.Player? GetPlayerByColor(string color)
     {
         return Players.FirstOrDefault(player => player.Color.ToString() == color);
     }
@@ -77,7 +80,7 @@ public class Game
         return GameProcessor.CurrentState.Sell(treasures);
     }
 
-    public CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
+    public CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
     {
         return GameProcessor.CurrentState.Curse(to, curse);
     }

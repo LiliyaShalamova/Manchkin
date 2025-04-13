@@ -1,21 +1,17 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
-using Manchkin.Core.Cards.Doors.Curses;
-using Manchkin.Core.Cards.Doors.Monsters;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
-using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game.States;
 
 /// <summary>
 /// Второй ход игрока, когда необходимо либо выбить вторую дверь, либо сразиться с монстром с руки
 /// </summary>
-internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor)
+internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
 {
-    private readonly List<Command> _allowedCommands = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
+    protected override List<Command> AllowedCommands { get; } = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
 
     public override CommandResult Dress(IClothes[] clothes)
     {
@@ -43,14 +39,14 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
 
     public override CommandResultWith<IDoor> PullDoor()
     {
-        var door = DoorGenerator.GetCard();
+        var door = CardsGenerator.GetCard<IDoor>();
         GameProcessor.CurrentPlayer.Cards.Add(door);
         GameProcessor.SwitchToNextPlayer();
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
         return new CommandResultWith<IDoor>(true, door);
     }
     
-    public override CommandResultWith<bool> Curse(Player.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);
@@ -59,10 +55,5 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
     public override CommandResultWith<bool> Cast(IOtherSpell spell)
     {
         return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));
-    }
-    
-    public override List<Command> GetAllowCommands()
-    {
-        return _allowedCommands;
     }
 }

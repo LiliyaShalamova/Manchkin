@@ -1,26 +1,28 @@
-﻿namespace Manchkin.Core.Cards.Doors.Monsters;
+﻿namespace Manchkin.Core.Cards.Doors;
 
 public interface IMonster : IDoor
 {
     /// <summary>
     /// Уровень
     /// </summary>
-    public int Level { get; }
+    int Level { get; }
 
     /// <summary>
     /// Награда за победу над монстром - количество сокровищ
     /// </summary>
-    public int TreasuresCount { get; }
+    int TreasuresCount { get; }
 
     /// <summary>
     /// Количество уровней за победу над монстром
     /// </summary>
-    public int LevelsCount { get; }
+    int LevelsCount { get; }
 
     /// <summary>
     /// Уровень игрока - начиная с этого уровня и ниже не сражается
     /// </summary>
-    public int DoesNotFightLevel { get; }
+    int DoesNotFightLevel { get; }
 
-    public void Punish(Player.Player player);
+    void Punish(Players.Player player);
+    
+    string Description {get;}
 }

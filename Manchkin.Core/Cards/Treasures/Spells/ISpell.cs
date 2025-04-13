@@ -4,5 +4,6 @@
 /// Заклинания
 /// </summary>
 public interface ISpell : ITreasure
-{
+{ 
+    string Description { get; }
 }

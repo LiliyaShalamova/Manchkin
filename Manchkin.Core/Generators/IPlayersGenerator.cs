@@ -1,6 +1,8 @@
-﻿namespace Manchkin.Core.Generators;
+﻿using Manchkin.Core.Game;
+
+namespace Manchkin.Core.Generators;
 
 public interface IPlayersGenerator
-{
-    public Player.Player[] Generate(int playersCount);
+{ 
+    Players.Player[] Generate();
 }

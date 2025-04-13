@@ -1,6 +1,6 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
+﻿namespace Manchkin.Core.Cards.Treasures.Spells;
 
 public interface IFightingSpell : ISpell
-{
-    internal void Cast(Fight fight);
+{ 
+    void Cast(Fight fight);
 }

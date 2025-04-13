@@ -1,8 +1,8 @@
 ﻿using Manchkin.Core.Generators;
 
-namespace Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
+namespace Manchkin.Core.Cards.Treasures.Spells;
 
 public interface IOtherSpell : ISpell
-{
-    public void Cast(Player.Player player, ICardsGenerator<ITreasure> generator);
+{ 
+    void Cast(Players.Player player, ICardsGenerator generator);
 }

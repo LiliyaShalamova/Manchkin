@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Curses;
+﻿
 /*
 namespace Manchkin.Core.Parser;
 

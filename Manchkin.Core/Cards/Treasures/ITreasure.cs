@@ -8,10 +8,10 @@ public interface ITreasure : ICard
     /// <summary>
     /// Цена
     /// </summary>
-    public int Price { get; protected init; }
+    int Price { get; }
     
     /// <summary>
     /// Бонус на смывку
     /// </summary>
-    public int WashBonus { get; protected init; }
+    int WashBonus { get; }
 }

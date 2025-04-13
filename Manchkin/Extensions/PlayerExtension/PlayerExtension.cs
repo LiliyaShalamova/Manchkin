@@ -1,6 +1,7 @@
 ﻿using Manchkin.Core;
 using Manchkin.Core.Cards;
 using Manchkin.Core.Player;
+using Manchkin.Core.Players;
 using Manchkin.Extensions.ClothesExtensions;
 
 namespace Manchkin.Extensions.PlayerExtension;

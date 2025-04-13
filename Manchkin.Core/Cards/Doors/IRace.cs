@@ -3,7 +3,7 @@
 /// <summary>
 /// Раса игрока
 /// </summary>
-public class Race : IDoor
-{
-    public string Title { get; init; }
+public interface IRace : IDoor
+{ 
+    string Title { get; init; }
 }

@@ -1,4 +1,4 @@
-﻿using Manchkin.Core.Cards.Doors.Monsters;
+﻿using Manchkin.Core.Cards.Doors;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -38,8 +38,10 @@ public class LittleGreyWolf : IMonster
     {
         
     }
-    public void Punish(Player.Player player)
+    public void Punish(Players.Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }
+    
+    public string Description => $"При проигрыше потеря уровней {LevelLossCount}";
 }

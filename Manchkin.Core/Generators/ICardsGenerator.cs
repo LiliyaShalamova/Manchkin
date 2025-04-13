@@ -1,6 +1,8 @@
-﻿namespace Manchkin.Core.Generators;
+﻿using Manchkin.Core.Cards;
 
-public interface ICardsGenerator<T>
+namespace Manchkin.Core.Generators;
+
+public interface ICardsGenerator
 {
-    public T GetCard();
+    T GetCard<T>() where T : ICard;
 }

@@ -2,8 +2,8 @@
 
 internal class RandomCube : ICube
 {
-    public int Throw(int value1, int value2)
+    public CubeFace Throw()
     {
-        return new Random().Next(value1, value2);
+        return (CubeFace)new Random().Next(1, 7);
     }
 }

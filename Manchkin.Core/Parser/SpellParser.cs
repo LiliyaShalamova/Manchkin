@@ -1,6 +1,4 @@
 ﻿using Manchkin.Core.Cards.Treasures.Spells;
-using Manchkin.Core.Cards.Treasures.Spells.FightingSpells;
-using Manchkin.Core.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Parser;
 /*
