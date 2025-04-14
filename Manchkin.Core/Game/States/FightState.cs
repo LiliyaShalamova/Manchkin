@@ -27,7 +27,7 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
     public override CommandResultWith<bool> Run()
     {
         var currentPlayer = GameProcessor.CurrentPlayer;
-        var value = GameProcessor.Cube.Throw(); //TODO без аргументов DONE
+        var value = GameProcessor.Cube.Throw();
         if (!Enum.IsDefined(typeof(CubeFace), value))
             throw new ArgumentOutOfRangeException("Значение грани куба должно быть от 1 до 6");
         var washed = (int)value >= GameProcessor.CurrentFight!.WashBonus;
@@ -90,7 +90,7 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
         var levelReward = GameProcessor.CurrentFight!.Monsters.Sum(monster => monster.LevelsCount);
         for (var i = 0; i < treasuresReward; i++)
         {
-            player.Cards.Add(CardsGenerator.GetCard<ITreasure>());
+            player.Cards.Add(CardsGenerator.GetTreasureCard());
         }
         player.IncreaseLevel(levelReward);
     }

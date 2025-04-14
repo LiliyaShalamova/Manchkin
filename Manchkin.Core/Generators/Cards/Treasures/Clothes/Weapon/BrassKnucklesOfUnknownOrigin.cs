@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 
-public class BrassKnucklesOfUnknownOrigin : IWeapon
+internal class BrassKnucklesOfUnknownOrigin : IWeapon
 {
     /// <summary>
     /// Цена

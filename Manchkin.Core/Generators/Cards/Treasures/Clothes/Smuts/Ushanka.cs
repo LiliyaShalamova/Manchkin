@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
 
-public class Ushanka : IClothes
+internal class Ushanka : ISmut
 {
     /// <summary>
     /// Цена

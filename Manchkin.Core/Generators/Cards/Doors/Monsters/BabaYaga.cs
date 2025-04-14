@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
-public class BabaYaga : IMonster
+internal class BabaYaga : IMonster
 {
     /// <summary>
     /// Уровень

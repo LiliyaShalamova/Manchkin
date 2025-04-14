@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
-public class PlayerClassLossMonster : IMonster
+internal class PlayerClassLossMonster : IMonster
 {
     /// <summary>
     /// Уровень

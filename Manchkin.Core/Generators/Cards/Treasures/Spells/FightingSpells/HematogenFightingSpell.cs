@@ -5,7 +5,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 /// <summary>
 /// Бонус против монстра в бою
 /// </summary>
-public class HematogenFightingSpell : IFightingSpell
+internal class HematogenFightingSpell : IFightingSpell
 {
     /// <summary>
     /// Цена

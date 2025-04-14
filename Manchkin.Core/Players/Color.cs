@@ -5,7 +5,7 @@
 /// </summary>
 public enum Color
 {
-    Blue,
+    Blue = 1,
     Orange,
     Green,
     Yellow,

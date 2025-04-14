@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
-public class BorschtPackageFightingSpell : IFightingSpell
+internal class BorschtPackageFightingSpell : IFightingSpell
 {
     /// <summary>
     /// Цена

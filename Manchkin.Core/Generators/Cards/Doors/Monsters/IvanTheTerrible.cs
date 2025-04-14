@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
-public class IvanTheTerrible : IMonster
+internal class IvanTheTerrible : IMonster
 {
     /// <summary>
     /// Уровень

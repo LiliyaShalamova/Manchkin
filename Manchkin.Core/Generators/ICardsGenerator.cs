@@ -1,8 +1,11 @@
 ﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Cards.Treasures;
 
 namespace Manchkin.Core.Generators;
 
 public interface ICardsGenerator
 {
-    T GetCard<T>() where T : ICard;
+    ITreasure GetTreasureCard();
+    IDoor GetDoorCard();
 }

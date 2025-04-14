@@ -6,7 +6,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 /// <summary>
 /// В руку
 /// </summary>
-public class SwordLollipop : IWeapon
+internal class SwordLollipop : IWeapon
 {
     /// <summary>
     /// Цена

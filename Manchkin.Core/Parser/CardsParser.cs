@@ -1,5 +1,4 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
-using Manchkin.Core.Cards.Treasures.Spells;
+﻿using Manchkin.Core.Cards.Treasures.Spells;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Manchkin.Core.Parser;

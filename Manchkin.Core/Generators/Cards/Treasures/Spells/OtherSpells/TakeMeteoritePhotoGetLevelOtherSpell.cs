@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
-public class TakeMeteoritePhotoGetLevelOtherSpell : IOtherSpell
+internal class TakeMeteoritePhotoGetLevelOtherSpell : IOtherSpell
 {
     /// <summary>
     /// Цена

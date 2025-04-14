@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
 
-public class TrulyImpressiveTitle : IClothes
+internal class TrulyImpressiveTitle : IAdditional
 {
     /// <summary>
     /// Цена

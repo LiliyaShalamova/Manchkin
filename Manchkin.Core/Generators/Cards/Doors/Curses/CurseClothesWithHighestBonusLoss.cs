@@ -5,7 +5,7 @@ namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 /// <summary>
 /// Потеря шмотки с наибольшим бонусом
 /// </summary>
-public class CurseClothesWithHighestBonusLoss : ICurse
+internal class CurseClothesWithHighestBonusLoss : ICurse
 {
     /// <summary>
     /// Наименование

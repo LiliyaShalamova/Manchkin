@@ -1,6 +1,7 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Generators;
 
@@ -12,7 +13,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
     /// <summary>
     /// Генератор дверей и сокровищ
     /// </summary>
-    protected readonly ICardsGenerator CardsGenerator = gameProcessor.CardsGenerator; // TODO сделать один генератор DONE
+    protected readonly ICardsGenerator CardsGenerator = gameProcessor.CardsGenerator;
     
     /// <summary>
     /// Массив карт сброса дверей
@@ -26,7 +27,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
     
     protected readonly GameProcessor GameProcessor = gameProcessor;
     
-    protected virtual List<Command> AllowedCommands { get; } = [];
+    protected abstract List<Command> AllowedCommands { get; }
     
 
     public virtual CommandResult Dress(IClothes[] clothes)
@@ -84,7 +85,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         return new CommandResultWith<bool>(false, false);
     }
     
-    public List<Command> GetAllowCommands() // TODO Нигде не оверрайдить этот метод - все массивы в отдельных состояниях, но метод только в base DONE
+    public List<Command> GetAllowCommands()
     {
         return AllowedCommands;
     }

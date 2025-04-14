@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
-public class ProtectiveTattooFightingSpell : IFightingSpell
+internal class ProtectiveTattooFightingSpell : IFightingSpell
 {
     /// <summary>
     /// Цена

@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
-public class FindRussianTraceGetLevelOtherSpell : IOtherSpell
+internal class FindRussianTraceGetLevelOtherSpell : IOtherSpell
 {
     /// <summary>
     /// Цена

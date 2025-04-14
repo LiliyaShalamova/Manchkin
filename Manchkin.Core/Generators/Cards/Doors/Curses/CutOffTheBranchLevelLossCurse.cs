@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
-public class CutOffTheBranchLevelLossCurse : ICurse
+internal class CutOffTheBranchLevelLossCurse : ICurse
 {
     /// <summary>
     /// Наименование

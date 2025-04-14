@@ -3,6 +3,7 @@ using Manchkin.Core;
 using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Game;
 using Manchkin.Extensions;
@@ -16,6 +17,8 @@ namespace Manchkin;
 //TODO, если уровень 9, то повышать карточкой уровня нельзя
 //TODO добавить обработку большой шмотки, большая может быть только одна
 //TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
+//TODO должны быть хорошая инкапсуляция. Из Program нельзя менять ничего!
+//TODO регистрировать отдельные виды одежды
 
 public static class Program
 {

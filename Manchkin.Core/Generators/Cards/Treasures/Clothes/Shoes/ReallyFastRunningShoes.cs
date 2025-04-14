@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 
-public class ReallyFastRunningShoes : IClothes
+internal class ReallyFastRunningShoes : IShoes
 {
     /// <summary>
     /// Цена

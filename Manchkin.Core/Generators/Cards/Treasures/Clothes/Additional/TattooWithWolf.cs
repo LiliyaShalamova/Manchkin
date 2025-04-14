@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
 
-public class TattooWithWolf : IClothes
+internal class TattooWithWolf : IAdditional
 {
     /// <summary>
     /// Цена

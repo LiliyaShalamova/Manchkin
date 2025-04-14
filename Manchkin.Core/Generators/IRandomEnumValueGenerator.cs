@@ -2,6 +2,6 @@
 
 public interface IRandomEnumValueGenerator
 {
-    T GetRandomValueByEnumType<T>() where T : struct, Enum;
-    T GetRandomValueExcept<T>(List<T> except) where T : struct, Enum;
+    T Generate<T>() where T : struct, Enum;
+    T GenerateExcept<T>(params T[] except) where T : struct, Enum;
 }

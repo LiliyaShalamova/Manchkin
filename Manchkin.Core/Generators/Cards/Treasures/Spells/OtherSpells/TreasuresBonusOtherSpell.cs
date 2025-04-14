@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
-public class TreasuresBonusOtherSpell : IOtherSpell
+internal class TreasuresBonusOtherSpell : IOtherSpell
 {
     /// <summary>
     /// Цена
@@ -33,7 +33,7 @@ public class TreasuresBonusOtherSpell : IOtherSpell
     {
         for (var i = 0; i < TreasuresBonus; i++)
         {
-            player.Cards.Add(generator.GetCard<ITreasure>());
+            player.Cards.Add(generator.GetTreasureCard());
         }
     }
     

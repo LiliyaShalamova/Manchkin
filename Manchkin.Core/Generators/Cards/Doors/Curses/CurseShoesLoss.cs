@@ -5,7 +5,7 @@ namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 /// <summary>
 /// Потеря обувки
 /// </summary>
-public class CurseShoesLoss : ICurse
+internal class CurseShoesLoss : ICurse
 {
     /// <summary>
     /// Наименование

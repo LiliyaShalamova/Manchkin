@@ -1,4 +1,4 @@
-﻿namespace Manchkin.Core.Cards.Treasures;
+﻿namespace Manchkin.Core.Cards.Treasures.Clothes;
 
 /// <summary>
 /// Интерфейс шмотки

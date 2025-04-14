@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
-public class HerringUnderFurCoatFightingSpell : IFightingSpell
+internal class HerringUnderFurCoatFightingSpell : IFightingSpell
 {
     /// <summary>
     /// Цена

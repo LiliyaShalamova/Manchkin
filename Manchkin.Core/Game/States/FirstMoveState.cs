@@ -33,7 +33,7 @@ internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameP
     
     public override CommandResultWith<IDoor> PullDoor()
     {
-        var door = CardsGenerator.GetCard<IDoor>();
+        var door = CardsGenerator.GetDoorCard();
         switch (door)
         {
             case IMonster monster:

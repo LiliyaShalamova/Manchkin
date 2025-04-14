@@ -6,7 +6,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
 /// <summary>
 /// Класс броника
 /// </summary>
-public class MithrilArmor : IClothes
+internal class MithrilArmor : IVest
 {
     /// <summary>
     /// Цена

@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators;

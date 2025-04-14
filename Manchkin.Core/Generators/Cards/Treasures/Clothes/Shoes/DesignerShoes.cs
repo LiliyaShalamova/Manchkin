@@ -6,7 +6,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 /// <summary>
 /// Обувка
 /// </summary>
-public class DesignerShoes : IClothes
+internal class DesignerShoes : IShoes
 {
     /// <summary>
     /// Цена

@@ -1,6 +1,4 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
-
-namespace Manchkin.Core.Parser;
+﻿namespace Manchkin.Core.Parser;
 /*
 internal class ClothesParser : CardParser, ICardParser<IClothes>
 {

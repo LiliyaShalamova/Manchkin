@@ -5,7 +5,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 /// <summary>
 /// Смерть монстров в бою
 /// </summary>
-public class DeadWaterFightingSpell : IFightingSpell
+internal class DeadWaterFightingSpell : IFightingSpell
 {
     /// <summary>
     /// Цена

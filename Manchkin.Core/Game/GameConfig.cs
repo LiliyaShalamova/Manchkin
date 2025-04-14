@@ -35,10 +35,6 @@ public class GameConfig
     public int LevelsCount { get; init; } = 10;
     internal CardsStorage CardsStorage { get; } = new();
 
-    public GameConfig()
-    {
-    }
-
     public GameConfig RegisterClothes<T>() where T : IClothes, new()
     {
         CardsStorage.RegisterClothes<T>();

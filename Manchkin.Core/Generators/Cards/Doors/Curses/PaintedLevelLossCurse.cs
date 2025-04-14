@@ -5,7 +5,7 @@ namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 /// <summary>
 /// Потеря уровня
 /// </summary>
-public class PaintedLevelLossCurse : ICurse
+internal class PaintedLevelLossCurse : ICurse
 {
     /// <summary>
     /// Наименование

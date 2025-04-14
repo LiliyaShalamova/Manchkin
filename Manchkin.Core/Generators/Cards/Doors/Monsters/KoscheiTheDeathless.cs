@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
-public class KoscheiTheDeathless : IMonster
+internal class KoscheiTheDeathless : IMonster
 {
     /// <summary>
     /// Уровень

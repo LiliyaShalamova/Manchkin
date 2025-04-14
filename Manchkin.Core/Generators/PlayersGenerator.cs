@@ -8,16 +8,14 @@ namespace Manchkin.Core.Generators;
 
 internal class PlayersGenerator : IPlayersGenerator
 {
-    private readonly IRandom _random; // TODO везде использование random вынести в отдельный класс с интерфейсом DONE
-    private readonly ICardsGenerator _cardsGenerator; //было два, теперь один + передаю из game
+    private readonly ICardsGenerator _cardsGenerator;
     private readonly int _playersCount;
     private readonly int _cardsNumberOfEachType;
     private readonly IRandomEnumValueGenerator _randomEnumValueGenerator;
 
-    public PlayersGenerator(IRandom randomNumber, GameConfig gameConfig, ICardsGenerator cardsGenerator,
-        IRandomEnumValueGenerator randomEnumValueGenerator) // TODO получать конфиг DONE
+    public PlayersGenerator(GameConfig gameConfig, ICardsGenerator cardsGenerator,
+        IRandomEnumValueGenerator randomEnumValueGenerator)
     {
-        _random = randomNumber;
         _cardsGenerator = cardsGenerator;
         _randomEnumValueGenerator = randomEnumValueGenerator;
         _playersCount = gameConfig.PlayersCount;
@@ -27,12 +25,12 @@ internal class PlayersGenerator : IPlayersGenerator
     public Players.Player[] Generate()
     {
         var players = new Players.Player[_playersCount];
-        var colors = new List<Color>();
+        var colors = new Color[_playersCount];
         
-        for (var i = 0; i < _playersCount; i++) // TODO сделать без HashSet и цикла while DONE
+        for (var i = 0; i < _playersCount; i++)
         {
-            var color = _randomEnumValueGenerator.GetRandomValueExcept(colors);
-            colors.Add(color);
+            var color = _randomEnumValueGenerator.GenerateExcept(colors.ToArray());
+            colors[i] = color;
             players[i] = CreatePlayer(color);
         }
         
@@ -44,11 +42,11 @@ internal class PlayersGenerator : IPlayersGenerator
         var cards = new List<ICard>();
         for (var i = 0; i < _cardsNumberOfEachType; i++)
         {
-            cards.Add(_cardsGenerator.GetCard<IDoor>());
-            cards.Add(_cardsGenerator.GetCard<ITreasure>());
+            cards.Add(_cardsGenerator.GetDoorCard());
+            cards.Add(_cardsGenerator.GetTreasureCard());
         }
         
-        var sex = _randomEnumValueGenerator.GetRandomValueByEnumType<Sex>(); // TODO сделать отдельный класс, который по типу енама возвращает рандомное значение DONE
+        var sex = _randomEnumValueGenerator.Generate<Sex>();
         return new Players.Player(sex, color, cards);
     }
 }

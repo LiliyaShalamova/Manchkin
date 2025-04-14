@@ -6,7 +6,7 @@ namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 /// <summary>
 /// Снимает проклятие
 /// </summary>
-public class WantedRingOtherSpell : IOtherSpell
+internal class WantedRingOtherSpell : IOtherSpell
 {
     /// <summary>
     /// Цена

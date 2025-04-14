@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
 
-public class LeatherOutfit : IClothes
+internal class LeatherOutfit : IVest
 {
     /// <summary>
     /// Цена

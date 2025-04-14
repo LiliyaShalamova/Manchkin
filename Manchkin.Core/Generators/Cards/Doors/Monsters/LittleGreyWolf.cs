@@ -2,7 +2,7 @@
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
-public class LittleGreyWolf : IMonster
+internal class LittleGreyWolf : IMonster
 {
     /// <summary>
     /// Уровень

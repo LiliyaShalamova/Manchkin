@@ -2,20 +2,22 @@
 using FluentAssertions;
 using Manchkin.Core;
 using Manchkin.Core.Cards;
-using Manchkin.Core.Cards.Treasures.Clothes;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Generators.Cards.Doors.Curses;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
+using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 using Manchkin.Core.Player;
+using Manchkin.Core.Players;
 using Xunit;
 
 namespace ManchkinCoreTests.PlayerTests;
 
 // TODO использовать autofixture в тестах obsolete и протянуть везде конструкторы
 public class PlayerTests
-{/*
+{
     private Fixture _fixture = new();
     
     private readonly Random _random = new();
@@ -24,7 +26,7 @@ public class PlayerTests
     public void ValidData_CreatePlayer_InitializedCorrectly()
     {
         //var player = _fixture.Create<Player>();
-        var player = new Player(Sex.Female, Color.Orange, [new Ukokoshnik(3, 100, "Головняк")]);
+        var player = new Player(Sex.Female, Color.Orange, [new Ukokoshnik()]);
         
         player.Should().BeEquivalentTo(new
         {
@@ -32,8 +34,8 @@ public class PlayerTests
             Color = Color.Orange,
             Level = 1,
             Inventory = new Inventory(),
-            Curses = new List<Curse>(),
-            Cards = new List<Card>() {new Ukokoshnik(3, 100, "Головняк")}
+            Curses = new List<ICurse>(),
+            Cards = new List<ICard>() {new Ukokoshnik()}
         });
     }
     
@@ -72,7 +74,7 @@ public class PlayerTests
     public void PlayerWithCurses_RemoveCurses_CursesRemoved()
     {
         var player = GeneratePlayer();
-        player.AddCurse(new PaintedLevelLossCurse("Потеряй уровень", 1));
+        player.AddCurse(new PaintedLevelLossCurse());
         
         player.RemoveCurses();
         
@@ -82,7 +84,7 @@ public class PlayerTests
     [Fact]
     public void PlayerWithoutCurses_AddCurses_CursesAdded()
     {
-        var curse = new PaintedLevelLossCurse("Потеряй уровень", 1);
+        var curse = new PaintedLevelLossCurse();
         var player = GeneratePlayer();
         
         player.AddCurse(curse);
@@ -95,13 +97,13 @@ public class PlayerTests
     public void PlayerAlive_Die_PlayerDead()
     {
         var player = GeneratePlayer();
-        player.Cards.Add(new Ukokoshnik(3, 100, "Головняк"));
-        player.Inventory.Head = new Ukokoshnik(3, 100, "Головняк");
-        player.Inventory.LeftHand = new SwordLollipop(1, 100, "Оружие");
-        player.Inventory.RightHand = new SwordLollipop(2, 200, "Оружие2");
-        player.Inventory.Legs = new DesignerShoes(1, 100, "Обувка");
-        player.Inventory.Torso = new MithrilArmor(3, 500, "Броник");
-        player.Inventory.Additional.Add(new TrulyImpressiveTitle(3, 200, "Титул"));
+        player.Cards.Add(new Ukokoshnik());
+        player.Inventory.Head = new Ukokoshnik();
+        player.Inventory.LeftHand = new SwordLollipop();
+        player.Inventory.RightHand = new BathBroom();
+        player.Inventory.Legs = new DesignerShoes();
+        player.Inventory.Torso = new MithrilArmor();
+        player.Inventory.Additional.Add(new TrulyImpressiveTitle());
         player.IncreaseLevel(1);
         
         player.Die();
@@ -120,15 +122,15 @@ public class PlayerTests
     [Fact]
     public void PlayerCreated_GetFightingStrength_FightingStrengthCorrect()
     {
+        var smut = new Ukokoshnik();
         var player = GeneratePlayer();
         player.IncreaseLevel(1);
-        player.Inventory.Head = new Ukokoshnik(5, 100, "Головняк");
-        player.FightingStrength.Should().Be(7);
+        player.Inventory.Head = smut;
+        player.FightingStrength.Should().Be(smut.Bonus + 2);
     }
 
     private Player GeneratePlayer()
     {
         return new Player((Sex)_random.Next(0, 2), (Color)_random.Next(0, 6), []);
     }
-    */
 }

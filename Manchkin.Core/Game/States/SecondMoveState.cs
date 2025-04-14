@@ -39,7 +39,7 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
 
     public override CommandResultWith<IDoor> PullDoor()
     {
-        var door = CardsGenerator.GetCard<IDoor>();
+        var door = CardsGenerator.GetDoorCard();
         GameProcessor.CurrentPlayer.Cards.Add(door);
         GameProcessor.SwitchToNextPlayer();
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));

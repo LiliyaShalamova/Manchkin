@@ -1,6 +1,7 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
+using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
@@ -38,7 +39,7 @@ public class Game
         randomNumber ??= new RandomNumber();
         cardsGenerator ??= new CardsGenerator(gameConfig.CardsStorage, randomNumber);
         var randomEnumValueGenerator = new RandomEnumValueGenerator(randomNumber);
-        playersGenerator ??= new PlayersGenerator(randomNumber, gameConfig, cardsGenerator, randomEnumValueGenerator);
+        playersGenerator ??= new PlayersGenerator(gameConfig, cardsGenerator, randomEnumValueGenerator);
         
         if (gameConfig.UseDefaultCards)
         {

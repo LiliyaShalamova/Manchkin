@@ -3,7 +3,7 @@ using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
 
-public class CombatSkewers : IWeapon
+internal class CombatSkewers : IWeapon
 {
     /// <summary>
     /// Цена
