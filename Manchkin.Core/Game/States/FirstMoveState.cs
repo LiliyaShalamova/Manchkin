@@ -3,6 +3,7 @@ using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game.States;
 

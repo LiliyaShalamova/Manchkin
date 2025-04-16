@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Spells;
+﻿using Manchkin.Core.Players;
+
+namespace Manchkin.Core.Cards.Treasures.Spells;
 
 public interface IFightingSpell : ISpell
 { 

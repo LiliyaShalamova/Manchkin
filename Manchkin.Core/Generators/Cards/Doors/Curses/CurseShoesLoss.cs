@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
@@ -10,18 +12,14 @@ internal class CurseShoesLoss : ICurse
     /// <summary>
     /// Наименование
     /// </summary>
-    public string Title { get; init; } = "Цемент не схватился! Потеряй надетую обувку!";
+    public string Title => "Цемент не схватился! Потеряй надетую обувку!";
 
     /// <summary>
     /// Разовое или действует до определенного момента. На будущее
     /// </summary>
     public bool OneTimeCurse { get; init; } = true;
-
-    public CurseShoesLoss()
-    {
-        
-    }
-    public void Curse(Players.Player player)
+    
+    public void Curse(Player player)
     {
         player.Inventory.Legs = null;
     }

@@ -1,8 +1,9 @@
-﻿using Manchkin.Core.Cards;
+﻿using System.Collections.Immutable;
+using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Game;
-using Manchkin.Core.Player;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators;
 
@@ -39,11 +40,11 @@ internal class PlayersGenerator : IPlayersGenerator
     
     private Players.Player CreatePlayer(Color color)
     {
-        var cards = new List<ICard>();
+        var cards = ImmutableList<ICard>.Empty;
         for (var i = 0; i < _cardsNumberOfEachType; i++)
         {
-            cards.Add(_cardsGenerator.GetDoorCard());
-            cards.Add(_cardsGenerator.GetTreasureCard());
+            cards = cards.Add(_cardsGenerator.GetDoorCard());
+            cards = cards.Add(_cardsGenerator.GetTreasureCard());
         }
         
         var sex = _randomEnumValueGenerator.Generate<Sex>();

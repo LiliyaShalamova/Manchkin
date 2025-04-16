@@ -22,11 +22,6 @@ internal class GameProcessor
     public Fight? CurrentFight { get; set; }
     
     /// <summary>
-    /// Хранилище карт
-    /// </summary>
-    public readonly CardsStorage CardsStorage;
-    
-    /// <summary>
     /// Текущий игрок
     /// </summary>
     public Players.Player CurrentPlayer => Players[_currentPlayer];
@@ -43,12 +38,11 @@ internal class GameProcessor
     
     public ICardsGenerator CardsGenerator { get; }
     
-    public GameProcessor(ICube cube, Players.Player[] players, CardsStorage cardsStorage, ICardsGenerator cardsGenerator)
+    public GameProcessor(ICube cube, Players.Player[] players, ICardsGenerator cardsGenerator)
     {
         CurrentState = new FinishState(this);
         Cube = cube;
         Players = players;
-        CardsStorage = cardsStorage;
         CardsGenerator = cardsGenerator;
     }
 

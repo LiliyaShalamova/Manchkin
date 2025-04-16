@@ -90,7 +90,7 @@ internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProce
         var levelReward = GameProcessor.CurrentFight!.Monsters.Sum(monster => monster.LevelsCount);
         for (var i = 0; i < treasuresReward; i++)
         {
-            player.Cards.Add(CardsGenerator.GetTreasureCard());
+            player.Cards = player.Cards.Add(CardsGenerator.GetTreasureCard());
         }
         player.IncreaseLevel(levelReward);
     }

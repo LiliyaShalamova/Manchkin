@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -12,7 +14,7 @@ internal class IvanTheTerrible : IMonster
     /// <summary>
     /// Имя
     /// </summary>
-    public string Title { get; init; } = "Иван Грозный";
+    public string Title => "Иван Грозный";
 
     /// <summary>
     /// Награда за победу над монстром - количество сокровищ
@@ -28,15 +30,11 @@ internal class IvanTheTerrible : IMonster
     /// Уровень игрока - начиная с этого уровня и ниже не сражается
     /// </summary>
     public int DoesNotFightLevel { get; }
-
-    public IvanTheTerrible()
-    {
-        
-    }
-    public void Punish(Players.Player player)
+    
+    public void Punish(Player player)
     {
         player.Inventory.Torso = null;
     }
     
-    public string Description => $"При проигрыше потеря броника";
+    public string Description => "При проигрыше потеря броника";
 }

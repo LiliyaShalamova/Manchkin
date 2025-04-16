@@ -29,34 +29,34 @@ internal class CardRegistrar : ICardRegistrar
     
     private void RegisterClothes()
     {
-        _cardsStorage.RegisterClothes<TattooWithWolf>();
-        _cardsStorage.RegisterClothes<TrulyImpressiveTitle>();
-        _cardsStorage.RegisterClothes<DesignerShoes>();
-        _cardsStorage.RegisterClothes<FeltBoots>();
-        _cardsStorage.RegisterClothes<ProtectiveSandals>();
-        _cardsStorage.RegisterClothes<MightyKickBoots>();
-        _cardsStorage.RegisterClothes<ReallyFastRunningShoes>();
-        _cardsStorage.RegisterClothes<ClearBangs>();
-        _cardsStorage.RegisterClothes<InvisibilityCap>();
-        _cardsStorage.RegisterClothes<PointedHatOfPower>();
-        _cardsStorage.RegisterClothes<Ukokoshnik>();
-        _cardsStorage.RegisterClothes<Ushanka>();
-        _cardsStorage.RegisterClothes<FlameArmor>();
-        _cardsStorage.RegisterClothes<IronCurtain>();
-        _cardsStorage.RegisterClothes<LeatherOutfit>();
-        _cardsStorage.RegisterClothes<MithrilArmor>();
-        _cardsStorage.RegisterClothes<SportsSuit>();
-        _cardsStorage.RegisterClothes<ShortVest>();
-        _cardsStorage.RegisterClothes<Balalaika>();
-        _cardsStorage.RegisterClothes<BathBroom>();
-        _cardsStorage.RegisterClothes<BrassKnucklesOfUnknownOrigin>();
-        _cardsStorage.RegisterClothes<CombatSkewers>();
-        _cardsStorage.RegisterClothes<EnchantingPipe>();
-        _cardsStorage.RegisterClothes<Needle>();
-        _cardsStorage.RegisterClothes<PancakeBarreledGun>();
-        _cardsStorage.RegisterClothes<StringBag>();
-        _cardsStorage.RegisterClothes<SwordLollipop>();
-        _cardsStorage.RegisterClothes<TheTsarBell>();
+        _cardsStorage.RegisterAdditionalClothes<TattooWithWolf>();
+        _cardsStorage.RegisterAdditionalClothes<TrulyImpressiveTitle>();
+        _cardsStorage.RegisterShoes<DesignerShoes>();
+        _cardsStorage.RegisterShoes<FeltBoots>();
+        _cardsStorage.RegisterShoes<ProtectiveSandals>();
+        _cardsStorage.RegisterShoes<MightyKickBoots>();
+        _cardsStorage.RegisterShoes<ReallyFastRunningShoes>();
+        _cardsStorage.RegisterSmut<ClearBangs>();
+        _cardsStorage.RegisterSmut<InvisibilityCap>();
+        _cardsStorage.RegisterSmut<PointedHatOfPower>();
+        _cardsStorage.RegisterSmut<Ukokoshnik>();
+        _cardsStorage.RegisterSmut<Ushanka>();
+        _cardsStorage.RegisterVest<FlameArmor>();
+        _cardsStorage.RegisterVest<IronCurtain>();
+        _cardsStorage.RegisterVest<LeatherOutfit>();
+        _cardsStorage.RegisterVest<MithrilArmor>();
+        _cardsStorage.RegisterVest<SportsSuit>();
+        _cardsStorage.RegisterVest<ShortVest>();
+        _cardsStorage.RegisterWeapon<Balalaika>();
+        _cardsStorage.RegisterWeapon<BathBroom>();
+        _cardsStorage.RegisterWeapon<BrassKnucklesOfUnknownOrigin>();
+        _cardsStorage.RegisterWeapon<CombatSkewers>();
+        _cardsStorage.RegisterWeapon<EnchantingPipe>();
+        _cardsStorage.RegisterWeapon<Needle>();
+        _cardsStorage.RegisterWeapon<PancakeBarreledGun>();
+        _cardsStorage.RegisterWeapon<StringBag>();
+        _cardsStorage.RegisterWeapon<SwordLollipop>();
+        _cardsStorage.RegisterWeapon<TheTsarBell>();
     }
 
     private void RegisterFightingSpells()

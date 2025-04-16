@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
@@ -34,9 +35,4 @@ internal class SwordLollipop : IWeapon
     public bool IsBig { get; set; } =  false;
 
     public int HandsAmount => 1;
-
-    public SwordLollipop()
-    {
-        
-    }
 }

@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core.Cards;
+﻿using Manchkin.Core.Players;
+
+namespace Manchkin.Core.Cards;
 
 /// <summary>
 /// Карта

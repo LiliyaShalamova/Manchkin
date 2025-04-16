@@ -17,8 +17,8 @@ namespace Manchkin;
 //TODO, если уровень 9, то повышать карточкой уровня нельзя
 //TODO добавить обработку большой шмотки, большая может быть только одна
 //TODO добавить обработку уровня с которого монстр начинает сражаться с игроком
-//TODO должны быть хорошая инкапсуляция. Из Program нельзя менять ничего!
-//TODO регистрировать отдельные виды одежды
+//TODO должны быть хорошая инкапсуляция. Из Program нельзя менять ничего! Сейчас можно скастовать publicplayer к player2
+//TODO регистрировать отдельные виды одежды DONE
 
 public static class Program
 {
@@ -212,8 +212,8 @@ public static class Program
         else
         {
             Console.WriteLine("Победа!");
-            _game.GetCurrentPlayer().Print();
         }
+        _game.GetCurrentPlayer().Print();
     }
 
     private static void ExecuteCommandRun(string[] args)

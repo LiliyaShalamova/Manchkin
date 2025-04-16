@@ -5,7 +5,6 @@ using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
-using Manchkin.Core.Player;
 using Manchkin.Core.Players;
 using Xunit;
 

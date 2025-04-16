@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -12,7 +14,7 @@ internal class KoscheiTheDeathless : IMonster
     /// <summary>
     /// Имя
     /// </summary>
-    public string Title { get; init; } = "Кощей Бессмертный";
+    public string Title => "Кощей Бессмертный";
 
     /// <summary>
     /// Награда за победу над монстром - количество сокровищ
@@ -28,15 +30,11 @@ internal class KoscheiTheDeathless : IMonster
     /// Уровень игрока - начиная с этого уровня и ниже не сражается
     /// </summary>
     public int DoesNotFightLevel => 4;
-
-    public KoscheiTheDeathless()
-    {
-        
-    }
-    public void Punish(Players.Player player)
+    
+    public void Punish(Player player)
     {
         player.Die();
     }
     
-    public string Description => $"При проигрыше смерть";
+    public string Description => "При проигрыше смерть";
 }

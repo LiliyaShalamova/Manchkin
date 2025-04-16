@@ -1,5 +1,7 @@
-﻿using Manchkin.Core.Cards.Treasures;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
@@ -33,7 +35,7 @@ internal class TreasuresBonusOtherSpell : IOtherSpell
     {
         for (var i = 0; i < TreasuresBonus; i++)
         {
-            player.Cards.Add(generator.GetTreasureCard());
+            player.Cards = player.Cards.Add(generator.GetTreasureCard());
         }
     }
     

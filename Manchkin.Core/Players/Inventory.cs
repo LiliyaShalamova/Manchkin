@@ -1,8 +1,5 @@
-﻿using Manchkin.Core.Cards.Treasures.Clothes;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
+﻿using System.Collections.Immutable;
+using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Players;
 
@@ -39,7 +36,7 @@ public class Inventory
     /// <summary>
     /// Дополнительные вещи, например, титул
     /// </summary>
-    public List<IAdditional> Additional { get; internal set; } = [];
+    public ImmutableList<IAdditional> Additional { get; internal set; } = [];
     
     public int GetCommonBonus()
     {
@@ -82,7 +79,7 @@ public class Inventory
                 PutOnWeapon(weapon, clothesToReturn);
                 break;
             case IAdditional additional:
-                Additional.Add(additional);
+                Additional = Additional.Add(additional);
                 break;
         }
 
@@ -138,6 +135,19 @@ public class Inventory
         RightHand = null;
         Torso = null;
         Legs = null;
-        Additional.Clear();
+        Additional = Additional.Clear();
     }
+
+    /*internal Inventory Clone()
+    {
+        return new Inventory
+        {
+            Head = (ISmut)Head?.Clone()!,
+            LeftHand = (IWeapon)LeftHand?.Clone()!,
+            RightHand = (IWeapon)RightHand?.Clone()!,
+            Torso = (IVest)Torso?.Clone()!,
+            Legs = (IShoes)Legs?.Clone()!,
+            Additional = Additional.Select(item => (IAdditional)item.Clone()).ToList()
+        };
+    }*/
 }

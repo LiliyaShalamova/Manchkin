@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core.Cards.Treasures.Clothes;
+﻿using Manchkin.Core.Players;
+
+namespace Manchkin.Core.Cards.Treasures.Clothes;
 
 public interface IShoes : IClothes
 {

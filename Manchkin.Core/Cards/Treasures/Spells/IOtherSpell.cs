@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core.Generators;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Cards.Treasures.Spells;
 

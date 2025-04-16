@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Curses;
 
@@ -7,7 +9,7 @@ internal class CutOffTheBranchLevelLossCurse : ICurse
     /// <summary>
     /// Наименование
     /// </summary>
-    public string Title { get; init; } = "Сруби сук, на котором сидишь! Потеряй уровень";
+    public string Title => "Сруби сук, на котором сидишь! Потеряй уровень";
 
     /// <summary>
     /// Разовое или действует до определенного момента. На будущее
@@ -19,10 +21,6 @@ internal class CutOffTheBranchLevelLossCurse : ICurse
     /// </summary>
     private int LevelLossCount => 1;
 
-    public CutOffTheBranchLevelLossCurse()
-    {
-        
-    }
     public void Curse(Players.Player player)
     {
         player.DecreaseLevel(LevelLossCount);

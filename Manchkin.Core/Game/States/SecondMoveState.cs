@@ -3,6 +3,7 @@ using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game.States;
 
@@ -40,7 +41,7 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
     public override CommandResultWith<IDoor> PullDoor()
     {
         var door = CardsGenerator.GetDoorCard();
-        GameProcessor.CurrentPlayer.Cards.Add(door);
+        GameProcessor.CurrentPlayer.Cards = GameProcessor.CurrentPlayer.Cards.Add(door);
         GameProcessor.SwitchToNextPlayer();
         GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
         return new CommandResultWith<IDoor>(true, door);

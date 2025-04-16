@@ -6,6 +6,7 @@ using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game;
 /// <summary>
@@ -46,9 +47,9 @@ public class Game
             cardRegistrator.Register();
         }
         
-        Players = playersGenerator.Generate();
+        Players = playersGenerator.Generate().Select(player => player).ToArray();
         
-        GameProcessor = new GameProcessor(cube, Players, gameConfig.CardsStorage, cardsGenerator);
+        GameProcessor = new GameProcessor(cube, Players, cardsGenerator);
     }
 
     public bool IsGameOver()
@@ -56,12 +57,12 @@ public class Game
         return Players.Max(player => player.Level) == LevelsCount;
     }
 
-    public Players.Player GetCurrentPlayer()
+    public PublicPlayer GetCurrentPlayer()
     {
         return GameProcessor.CurrentPlayer;
     }
 
-    public Players.Player? GetPlayerByColor(string color)
+    public PublicPlayer? GetPlayerByColor(string color)
     {
         return Players.FirstOrDefault(player => player.Color.ToString() == color);
     }
@@ -81,9 +82,9 @@ public class Game
         return GameProcessor.CurrentState.Sell(treasures);
     }
 
-    public CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
+    public CommandResultWith<bool> Curse(PublicPlayer to, ICurse curse)
     {
-        return GameProcessor.CurrentState.Curse(to, curse);
+        return GameProcessor.CurrentState.Curse((Player)to, curse);
     }
 
     public CommandResultWith<bool> Finish()

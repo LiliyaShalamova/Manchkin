@@ -4,6 +4,7 @@ using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Generators;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game.States;
 
@@ -94,7 +95,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
     {
         foreach (var card in cards)
         {
-            player.Cards.Remove(card);
+            player.Cards = player.Cards.Remove(card);
             switch (card)
             {
                 case ITreasure treasure:
@@ -136,7 +137,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         foreach (var c in clothes)
         {
             var returnedClothes = player.Inventory.PutOn(c);
-            player.Cards.AddRange(returnedClothes);
+            player.Cards = player.Cards.AddRange(returnedClothes);
         }
 
         Reset(player, clothes);

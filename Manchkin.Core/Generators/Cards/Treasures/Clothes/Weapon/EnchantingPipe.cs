@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
@@ -31,9 +32,4 @@ internal class EnchantingPipe : IWeapon
     public bool IsBig { get; set; } =  true;
 
     public int HandsAmount => 1;
-
-    public EnchantingPipe()
-    {
-        
-    }
 }

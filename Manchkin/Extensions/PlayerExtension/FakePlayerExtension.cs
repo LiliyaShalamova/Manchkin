@@ -1,14 +1,14 @@
-﻿using Manchkin.Core;
+﻿using System.Collections.Immutable;
+using Manchkin.Core;
 using Manchkin.Core.Cards;
-using Manchkin.Core.Player;
 using Manchkin.Core.Players;
 using Manchkin.Extensions.ClothesExtensions;
 
 namespace Manchkin.Extensions.PlayerExtension;
 
-public static class PlayerExtension
+public static class FakePlayerExtension
 {
-    public static void Print(this Player player)
+    public static void Print(this PublicPlayer player)
     {
         Console.WriteLine($"Игрок {player.Color}: уровень {player.Level}");
         Console.WriteLine();
@@ -19,7 +19,7 @@ public static class PlayerExtension
         Console.WriteLine();
     }
 
-    private static void PrintCards(this List<ICard> cards)
+    private static void PrintCards(this ImmutableList<ICard> cards)
     {
         for (var i = 1; i <= cards.Count; i++)
         {
@@ -40,6 +40,6 @@ public static class PlayerExtension
         inventory.LeftHand?.Print();
         inventory.RightHand?.Print();
         inventory.Legs?.Print();
-        inventory.Additional?.ForEach(card => ClothesExtension.Print(card));
+        inventory.Additional.ForEach(ClothesExtension.Print);
     }
 }

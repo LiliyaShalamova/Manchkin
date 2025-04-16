@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -12,7 +14,7 @@ internal class LittleGreyWolf : IMonster
     /// <summary>
     /// Имя
     /// </summary>
-    public string Title { get; init; } = "Серенький волчок";
+    public string Title => "Серенький волчок";
 
     /// <summary>
     /// Награда за победу над монстром - количество сокровищ
@@ -32,13 +34,9 @@ internal class LittleGreyWolf : IMonster
     /// <summary>
     /// При проигрыше - потеря уровней
     /// </summary>
-    public int LevelLossCount => 1;
-
-    public LittleGreyWolf()
-    {
-        
-    }
-    public void Punish(Players.Player player)
+    private int LevelLossCount => 1;
+ 
+    public void Punish(Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

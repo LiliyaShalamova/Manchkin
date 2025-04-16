@@ -7,7 +7,7 @@ public class Fight
     /// <summary>
     /// Игрок в бою
     /// </summary>
-    public readonly Players.Player Player;
+    internal readonly Players.Player Player;
     
     /// <summary>
     /// Монстры в бою
@@ -19,7 +19,7 @@ public class Fight
     /// </summary>
     public int WashBonus = 5;
     
-    public int FightingStrengthBonus = 0;
+    public int FightingStrengthBonus;
 
     internal Fight(Players.Player player, IMonster monster)
     {

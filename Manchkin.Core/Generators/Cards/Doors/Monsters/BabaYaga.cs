@@ -1,4 +1,6 @@
-﻿using Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Doors.Monsters;
 
@@ -12,7 +14,7 @@ internal class BabaYaga : IMonster
     /// <summary>
     /// Имя
     /// </summary>
-    public string Title { get; init; } = "Баба Яга";
+    public string Title => "Баба Яга";
 
     /// <summary>
     /// Награда за победу над монстром - количество сокровищ
@@ -27,18 +29,14 @@ internal class BabaYaga : IMonster
     /// <summary>
     /// Уровень игрока - начиная с этого уровня и ниже не сражается
     /// </summary>
-    public int DoesNotFightLevel { get; } = 3;
-    
+    public int DoesNotFightLevel => 3;
+
     /// <summary>
     /// При проигрыше - потеря уровней
     /// </summary>
     private int LevelLossCount => 2;
-
-    public BabaYaga()
-    {
-        
-    }
-    public void Punish(Players.Player player)
+    
+    public void Punish(Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

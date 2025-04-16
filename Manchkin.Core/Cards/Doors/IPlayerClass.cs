@@ -1,4 +1,6 @@
-﻿namespace Manchkin.Core.Cards.Doors;
+﻿using Manchkin.Core.Players;
+
+namespace Manchkin.Core.Cards.Doors;
 
 /// <summary>
 /// Класс игрока

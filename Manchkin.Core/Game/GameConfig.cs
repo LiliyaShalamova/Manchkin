@@ -25,19 +25,43 @@ public class GameConfig
     /// <summary>
     /// Количество карт в руке каждого типа на старте игры
     /// </summary>
-    public int CardsNumberOfEachType { get; init; } = 4;
-    
+    public int CardsNumberOfEachType => 4;
+
     /// <summary>
     /// Использовать дефолтные карты. Если false, используются только свои карты
     /// </summary>
-    public bool UseDefaultCards { get; init; } = true;
+    public bool UseDefaultCards => true;
 
-    public int LevelsCount { get; init; } = 10;
+    public int LevelsCount => 10;
     internal CardsStorage CardsStorage { get; } = new();
 
-    public GameConfig RegisterClothes<T>() where T : IClothes, new()
+    public GameConfig RegisterAdditionalClothes<T>() where T : IAdditional, new()
     {
-        CardsStorage.RegisterClothes<T>();
+        CardsStorage.RegisterAdditionalClothes<T>();
+        return this;
+    }
+    
+    public GameConfig RegisterShoes<T>() where T : IShoes, new()
+    {
+        CardsStorage.RegisterShoes<T>();
+        return this;
+    }
+    
+    public GameConfig RegisterSmut<T>() where T : ISmut, new()
+    {
+        CardsStorage.RegisterSmut<T>();
+        return this;
+    }
+    
+    public GameConfig RegisterVest<T>() where T : IVest, new()
+    {
+        CardsStorage.RegisterVest<T>();
+        return this;
+    }
+    
+    public GameConfig RegisterWeapon<T>() where T : IWeapon, new()
+    {
+        CardsStorage.RegisterWeapon<T>();
         return this;
     }
 

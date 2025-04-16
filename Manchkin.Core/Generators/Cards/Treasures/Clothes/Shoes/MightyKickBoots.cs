@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Treasures;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
@@ -29,9 +30,4 @@ internal class MightyKickBoots : IShoes
     /// 0 - шмотка маленькая, 1 - шмотка большая
     /// </summary>
     public bool IsBig { get; set; } = false;
-
-    public MightyKickBoots()
-    {
-        
-    }
 }

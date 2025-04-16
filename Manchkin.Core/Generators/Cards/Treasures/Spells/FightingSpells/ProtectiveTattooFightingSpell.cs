@@ -1,4 +1,5 @@
-﻿using Manchkin.Core.Cards.Treasures.Spells;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures.Spells;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 

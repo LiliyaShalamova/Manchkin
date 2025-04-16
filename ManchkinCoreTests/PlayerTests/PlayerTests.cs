@@ -9,7 +9,6 @@ using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
-using Manchkin.Core.Player;
 using Manchkin.Core.Players;
 using Xunit;
 
@@ -97,13 +96,13 @@ public class PlayerTests
     public void PlayerAlive_Die_PlayerDead()
     {
         var player = GeneratePlayer();
-        player.Cards.Add(new Ukokoshnik());
+        player.Cards = player.Cards.Add(new Ukokoshnik());
         player.Inventory.Head = new Ukokoshnik();
         player.Inventory.LeftHand = new SwordLollipop();
         player.Inventory.RightHand = new BathBroom();
         player.Inventory.Legs = new DesignerShoes();
         player.Inventory.Torso = new MithrilArmor();
-        player.Inventory.Additional.Add(new TrulyImpressiveTitle());
+        player.Inventory.Additional = player.Inventory.Additional.Add(new TrulyImpressiveTitle());
         player.IncreaseLevel(1);
         
         player.Die();

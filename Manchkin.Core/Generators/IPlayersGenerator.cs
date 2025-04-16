@@ -1,4 +1,5 @@
 ﻿using Manchkin.Core.Game;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators;
 

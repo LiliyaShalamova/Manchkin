@@ -19,7 +19,27 @@ internal class CardsStorage
         _doorsCardsTypes.Add(typeof(T));
     }
     
-    public void RegisterClothes<T>() where T : IClothes, new()
+    public void RegisterAdditionalClothes<T>() where T : IAdditional, new()
+    {
+        _treasuresCardsTypes.Add(typeof(T));
+    }
+    
+    public void RegisterShoes<T>() where T : IShoes, new()
+    {
+        _treasuresCardsTypes.Add(typeof(T));
+    }
+    
+    public void RegisterSmut<T>() where T : ISmut, new()
+    {
+        _treasuresCardsTypes.Add(typeof(T));
+    }
+    
+    public void RegisterVest<T>() where T : IVest, new()
+    {
+        _treasuresCardsTypes.Add(typeof(T));
+    }
+    
+    public void RegisterWeapon<T>() where T : IWeapon, new()
     {
         _treasuresCardsTypes.Add(typeof(T));
     }

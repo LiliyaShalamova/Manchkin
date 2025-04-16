@@ -1,5 +1,7 @@
-﻿using Manchkin.Core.Cards.Treasures;
+﻿using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
