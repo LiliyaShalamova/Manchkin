@@ -23,9 +23,9 @@ internal class PlayersGenerator : IPlayersGenerator
         _cardsNumberOfEachType = gameConfig.CardsNumberOfEachType;
     }
     
-    public Players.Player[] Generate()
+    public Player[] Generate()
     {
-        var players = new Players.Player[_playersCount];
+        var players = new Player[_playersCount];
         var colors = new Color[_playersCount];
         
         for (var i = 0; i < _playersCount; i++)
@@ -38,7 +38,7 @@ internal class PlayersGenerator : IPlayersGenerator
         return players;
     }
     
-    private Players.Player CreatePlayer(Color color)
+    private Player CreatePlayer(Color color)
     {
         var cards = ImmutableList<ICard>.Empty;
         for (var i = 0; i < _cardsNumberOfEachType; i++)
@@ -48,6 +48,6 @@ internal class PlayersGenerator : IPlayersGenerator
         }
         
         var sex = _randomEnumValueGenerator.Generate<Sex>();
-        return new Players.Player(sex, color, cards);
+        return new Player(sex, color, cards);
     }
 }

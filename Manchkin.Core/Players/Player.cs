@@ -22,7 +22,7 @@ public class Player : PublicPlayer
         Inventory = new Inventory();
         Curses = [];
         Cards = cards;
-        Dead = false;
+        IsDead = false;
     }
     
     public void IncreaseLevel(int levelsCount)
@@ -53,7 +53,7 @@ public class Player : PublicPlayer
 
     public void Die()
     {
-        Dead = true;
+        IsDead = true;
         Inventory.Clear();
         Cards = Cards.Clear();
     }

@@ -10,8 +10,18 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние первого хода игрока. Необходимо выбить дверь
 /// </summary>
-internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
+internal class FirstMoveState : GameStateBase, IState
 {
+    internal FirstMoveState(GameProcessor gameProcessor) : base(gameProcessor)
+    {
+        var currentPlayer = gameProcessor.CurrentPlayer;
+        if (currentPlayer.IsDead)
+        {
+            DealCards(currentPlayer);
+        }
+
+        currentPlayer.IsDead = false;
+    }
     protected override List<Command> AllowedCommands { get; } =
         [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door];
 
@@ -50,7 +60,7 @@ internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameP
         return new CommandResultWith<IDoor>(true, door);
     }
 
-    public override CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);
@@ -59,5 +69,14 @@ internal class FirstMoveState(GameProcessor gameProcessor) : GameStateBase(gameP
     public override CommandResultWith<bool> Cast(IOtherSpell spell)
     {
         return new CommandResultWith<bool>(true, CastOtherSpell(GameProcessor.CurrentPlayer, spell));
+    }
+
+    private void DealCards(Player player)
+    {
+        for (var i = 0; i < 4; i++) // протянут сюда вместо константы 4 _cardsNumberOfEachType
+        {
+            player.Cards = player.Cards.Add(GameProcessor.CardsGenerator.GetDoorCard());
+            player.Cards = player.Cards.Add(GameProcessor.CardsGenerator.GetTreasureCard());
+        }
     }
 }

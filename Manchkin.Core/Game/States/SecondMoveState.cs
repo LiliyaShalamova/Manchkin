@@ -33,6 +33,7 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
     
     public override CommandResultWith<bool> Monster(IMonster monster)
     {
+        GameProcessor.CurrentPlayer.Cards = GameProcessor.CurrentPlayer.Cards.Remove(monster);
         GameProcessor.ChangeState(new FightState(GameProcessor));
         GameProcessor.CurrentFight = new Fight(GameProcessor.CurrentPlayer, monster);
         return new CommandResultWith<bool>(true, true);
@@ -42,12 +43,19 @@ internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(game
     {
         var door = CardsGenerator.GetDoorCard();
         GameProcessor.CurrentPlayer.Cards = GameProcessor.CurrentPlayer.Cards.Add(door);
-        GameProcessor.SwitchToNextPlayer();
-        GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
+        if (!IsNextMoveAllowed(GameProcessor.CurrentPlayer))
+        {
+            GameProcessor.ChangeState(new FinishState(GameProcessor));
+        }
+        else
+        {
+            GameProcessor.SwitchToNextPlayer();
+            GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
+        }
         return new CommandResultWith<IDoor>(true, door);
     }
     
-    public override CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);

@@ -39,7 +39,7 @@ public class PublicPlayer
     /// <summary>
     /// Мертв
     /// </summary>
-    public bool Dead { get; internal set; }
+    public bool IsDead { get; internal set; }
     
     /// <summary>
     /// Проклятия

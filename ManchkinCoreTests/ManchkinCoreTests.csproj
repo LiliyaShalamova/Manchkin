@@ -20,4 +20,8 @@
         <PackageReference Include="xunit.runner.visualstudio" Version="2.9.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="CardsTests\" />
+    </ItemGroup>
+
 </Project>

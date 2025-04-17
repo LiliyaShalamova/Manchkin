@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Manchkin.Core;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
 using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
@@ -303,5 +302,124 @@ public class InventoryTests
         inventory.LeftHand.Should().BeNull();
         inventory.RightHand.Should().BeNull();
         inventory.Additional.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void PutOnBigSmut_HeadIsBig_ReturnedHead()
+    {
+        var inventory = new Inventory();
+        var bigSmut1 = new BigSmut();
+        var bigSmut2 = new BigSmut();
+        inventory.PutOn(bigSmut1);
+
+        var returnedClothes = inventory.PutOn(bigSmut2);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigSmut1);
+        inventory.Head.Should().Be(bigSmut2);
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_TorsoIsBig_ReturnedTorso()
+    {
+        var inventory = new Inventory();
+        var bigVest = new BigVest();
+        var bigSmut = new BigSmut();
+        inventory.PutOn(bigVest);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigVest);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.Torso.Should().BeNull();
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_LegsIsBig_ReturnedLegs()
+    {
+        var inventory = new Inventory();
+        var bigLegs = new BigShoes();
+        var bigSmut = new BigSmut();
+        inventory.PutOn(bigLegs);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigLegs);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.Legs.Should().BeNull();
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_AdditionalIsBig_ReturnedAdditional()
+    {
+        var inventory = new Inventory();
+        var bigAdditional = new BigAdditionalClothes();
+        var bigSmut = new BigSmut();
+        inventory.PutOn(bigAdditional);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigAdditional);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.Additional.Should().BeEmpty();
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_LeftHandIsBigOneHandWeapon_ReturnedLeftHand()
+    {
+        var inventory = new Inventory();
+        var bigWeapon = new BigWeapon();
+        var smallWeapon = new SmallWeapon();
+        var bigSmut = new BigSmut();
+        inventory.PutOn(bigWeapon);
+        inventory.PutOn(smallWeapon);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigWeapon);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.LeftHand.Should().BeNull();
+        inventory.RightHand.Should().Be(smallWeapon);
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_LeftAndRightHandIsBigTwoHandWeapon_ReturnedOneWeapon()
+    {
+        var inventory = new Inventory();
+        var bigWeapon = new BigTwoHandWeapon();
+        var bigSmut = new BigSmut();
+        inventory.PutOn(bigWeapon);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(1);
+        returnedClothes[0].Should().Be(bigWeapon);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.LeftHand.Should().BeNull();
+        inventory.RightHand.Should().BeNull();
+    }
+    
+    [Fact]
+    public void PutOnBigSmut_HeadIsNotEmptyAndTorsoIsBigVest_ReturnedTwoClothes()
+    {
+        var inventory = new Inventory();
+        var bigVest = new BigVest();
+        var bigSmut = new BigSmut();
+        var smallSmut = new Ukokoshnik();
+        inventory.PutOn(bigVest);
+        inventory.PutOn(smallSmut);
+
+        var returnedClothes = inventory.PutOn(bigSmut);
+        
+        returnedClothes.Should().HaveCount(2);
+        returnedClothes[0].Should().Be(bigVest);
+        returnedClothes[1].Should().Be(smallSmut);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.Head.Should().Be(bigSmut);
+        inventory.Torso.Should().BeNull();
     }
 }

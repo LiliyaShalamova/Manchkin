@@ -38,7 +38,7 @@ internal class FinishState(GameProcessor game) : GameStateBase(game), IState
         {
             return new CommandResultWith<bool>(true, false);
         }
-        if (!lastPlayer)
+        if (!lastPlayer)//это состояние не подходит для сброса карт на второй фазе, т.к. если игрок не последний состояние все равно должно меняться
         {
             GameProcessor.SwitchToNextPlayer();
             return new CommandResultWith<bool>(true, true);
@@ -48,7 +48,7 @@ internal class FinishState(GameProcessor game) : GameStateBase(game), IState
         return new CommandResultWith<bool>(true, true);
     }
     
-    public override CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
+    public override CommandResultWith<bool> Curse(Player to, ICurse curse)
     {
         Curse(GameProcessor.CurrentPlayer, to, curse);
         return new CommandResultWith<bool>(true, true);

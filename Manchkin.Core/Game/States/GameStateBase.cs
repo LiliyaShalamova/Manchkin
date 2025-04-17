@@ -51,7 +51,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         return new CommandResultWith<bool>(false, false);
     }
 
-    public virtual CommandResultWith<bool> Curse(Players.Player to, ICurse curse)
+    public virtual CommandResultWith<bool> Curse(Player to, ICurse curse)
     {
         return new CommandResultWith<bool>(false, false);
     }
@@ -91,7 +91,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         return AllowedCommands;
     }
     
-    protected void Reset<T>(Players.Player player, T[] cards) where T : ICard
+    protected void Reset<T>(Player player, T[] cards) where T : ICard
     {
         foreach (var card in cards)
         {
@@ -113,7 +113,7 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
     /// <summary>
     /// Возвращаю результат продажи - успешно/не успешно
     /// </summary>
-    protected bool SellTreasures(Players.Player player, ITreasure[] treasures)
+    protected bool SellTreasures(Player player, ITreasure[] treasures)
     {
         var sum = treasures.Select(treasure => treasure.Price).Sum();
         if (sum < 1000)
@@ -126,13 +126,13 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         return true;
     }
     
-    protected void Curse(Players.Player from, Players.Player to, ICurse curse)
+    protected void Curse(Player from, Player to, ICurse curse)
     {
         curse.Curse(to);
         Reset(from, [curse]);
     }
     
-    protected void FillInventory(Players.Player player, IClothes[] clothes)
+    protected void FillInventory(Player player, IClothes[] clothes)
     {
         foreach (var c in clothes)
         {
@@ -143,19 +143,19 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         Reset(player, clothes);
     }
     
-    protected void ResetCards(Players.Player player, ICard[] cards)
+    protected void ResetCards(Player player, ICard[] cards)
     {
         Reset(player, cards);
     }
     
-    protected bool CastOtherSpell(Players.Player player, IOtherSpell otherSpell)
+    protected bool CastOtherSpell(Player player, IOtherSpell otherSpell)
     {
-        otherSpell.Cast(player, CardsGenerator);
+        var result = otherSpell.Cast(player, CardsGenerator);
         Reset(player, [(ICard)otherSpell]);
-        return true;
+        return result.Result;
     }
     
-    protected bool IsNextMoveAllowed(Players.Player player)
+    protected bool IsNextMoveAllowed(Player player)
     {
         return player.Cards.Count <= 5;
     }

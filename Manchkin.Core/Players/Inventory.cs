@@ -37,7 +37,7 @@ public class Inventory
     /// Дополнительные вещи, например, титул
     /// </summary>
     public ImmutableList<IAdditional> Additional { get; internal set; } = [];
-    
+
     public int GetCommonBonus()
     {
         var bonus = (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +
@@ -46,12 +46,18 @@ public class Inventory
         {
             bonus -= LeftHand.Bonus;
         }
+
         return bonus;
     }
 
     internal List<IClothes> PutOn(IClothes clothes)
     {
         List<IClothes> clothesToReturn = [];
+        if (clothes.IsBig)
+        {
+            CheckBigClothes(clothesToReturn);
+        }
+        
         switch (clothes)
         {
             case ISmut smut:
@@ -59,6 +65,7 @@ public class Inventory
                 {
                     clothesToReturn.Add(Head);
                 }
+
                 Head = smut;
                 break;
             case IShoes shoes:
@@ -66,6 +73,7 @@ public class Inventory
                 {
                     clothesToReturn.Add(Legs);
                 }
+
                 Legs = shoes;
                 break;
             case IVest vest:
@@ -73,6 +81,7 @@ public class Inventory
                 {
                     clothesToReturn.Add(Torso);
                 }
+
                 Torso = vest;
                 break;
             case IWeapon weapon:
@@ -82,7 +91,7 @@ public class Inventory
                 Additional = Additional.Add(additional);
                 break;
         }
-
+        
         return clothesToReturn;
     }
 
@@ -100,6 +109,7 @@ public class Inventory
             {
                 RightHand = null;
             }
+
             LeftHand = weapon;
             if (weapon.HandsAmount == 2)
             {
@@ -107,6 +117,7 @@ public class Inventory
                 {
                     clothesToReturn.Add(RightHand);
                 }
+
                 RightHand = weapon;
             }
         }
@@ -116,6 +127,7 @@ public class Inventory
             {
                 clothesToReturn.Add(RightHand);
             }
+
             RightHand = weapon;
             if (weapon.HandsAmount == 2)
             {
@@ -123,9 +135,60 @@ public class Inventory
                 {
                     clothesToReturn.Add(LeftHand);
                 }
+
                 LeftHand = weapon;
             }
         }
+    }
+
+    private void CheckBigClothes(List<IClothes> clothesToReturn)
+    {
+        if (Head is { IsBig: true })
+        {
+            clothesToReturn.Add(Head);
+            Head = null;
+            return;
+        }
+
+        if (Torso is { IsBig: true })
+        {
+            clothesToReturn.Add(Torso);
+            Torso = null;
+            return;
+        }
+
+        if (Legs is { IsBig: true })
+        {
+            clothesToReturn.Add(Legs);
+            Legs = null;
+            return;
+        }
+
+        if (LeftHand is { IsBig: true })
+        {
+            clothesToReturn.Add(LeftHand);
+            if (LeftHand.HandsAmount == 2)
+            {
+                RightHand = null;
+            }
+            LeftHand = null;
+            return;
+        }
+
+        if (RightHand is { IsBig: true })
+        {
+            clothesToReturn.Add(RightHand);
+            RightHand = null;
+            return;
+        }
+        Additional.ForEach(add =>
+        {
+            if (add.IsBig)
+            {
+                clothesToReturn.Add(add);
+                Additional = Additional.Remove(add);
+            }
+        });
     }
 
     internal void Clear()
@@ -137,17 +200,4 @@ public class Inventory
         Legs = null;
         Additional = Additional.Clear();
     }
-
-    /*internal Inventory Clone()
-    {
-        return new Inventory
-        {
-            Head = (ISmut)Head?.Clone()!,
-            LeftHand = (IWeapon)LeftHand?.Clone()!,
-            RightHand = (IWeapon)RightHand?.Clone()!,
-            Torso = (IVest)Torso?.Clone()!,
-            Legs = (IShoes)Legs?.Clone()!,
-            Additional = Additional.Select(item => (IAdditional)item.Clone()).ToList()
-        };
-    }*/
 }

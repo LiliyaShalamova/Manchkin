@@ -107,7 +107,7 @@ public class PlayerTests
         
         player.Die();
         
-        player.Dead.Should().BeTrue();
+        player.IsDead.Should().BeTrue();
         player.Cards.Should().BeEmpty();
         player.Inventory.Head.Should().BeNull();
         player.Inventory.LeftHand.Should().BeNull();
