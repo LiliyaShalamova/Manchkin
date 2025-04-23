@@ -17,10 +17,7 @@ namespace ManchkinCoreTests.PlayerTests;
 // TODO использовать autofixture в тестах obsolete и протянуть везде конструкторы
 public class PlayerTests
 {
-    private Fixture _fixture = new();
-    
-    private readonly Random _random = new();
-
+    private readonly TestHelper _testHelper = new();
     [Fact]
     public void ValidData_CreatePlayer_InitializedCorrectly()
     {
@@ -41,7 +38,7 @@ public class PlayerTests
     [Fact]
     public void PlayerCreated_IncreaseLevel_LevelIncreased()
     {
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         
         player.IncreaseLevel(2);
         
@@ -51,7 +48,7 @@ public class PlayerTests
     [Fact]
     public void FirstLevelPlayerCreated_DecreaseLevel_LevelNotIncreased()
     {
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         
         player.DecreaseLevel(1);
         
@@ -59,9 +56,9 @@ public class PlayerTests
     }
     
     [Fact]
-    public void SeconsLevelPlayerCreated_DecreaseLevel_LevelDecreased()
+    public void SecondLevelPlayerCreated_DecreaseLevel_LevelDecreased()
     {
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         player.IncreaseLevel(1);
         
         player.DecreaseLevel(1);
@@ -72,7 +69,7 @@ public class PlayerTests
     [Fact]
     public void PlayerWithCurses_RemoveCurses_CursesRemoved()
     {
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         player.AddCurse(new PaintedLevelLossCurse());
         
         player.RemoveCurses();
@@ -84,7 +81,7 @@ public class PlayerTests
     public void PlayerWithoutCurses_AddCurses_CursesAdded()
     {
         var curse = new PaintedLevelLossCurse();
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         
         player.AddCurse(curse);
         
@@ -95,7 +92,7 @@ public class PlayerTests
     [Fact]
     public void PlayerAlive_Die_PlayerDead()
     {
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         player.Cards = player.Cards.Add(new Ukokoshnik());
         player.Inventory.Head = new Ukokoshnik();
         player.Inventory.LeftHand = new SwordLollipop();
@@ -122,14 +119,10 @@ public class PlayerTests
     public void PlayerCreated_GetFightingStrength_FightingStrengthCorrect()
     {
         var smut = new Ukokoshnik();
-        var player = GeneratePlayer();
+        var player = _testHelper.GeneratePlayer();
         player.IncreaseLevel(1);
         player.Inventory.Head = smut;
+        
         player.FightingStrength.Should().Be(smut.Bonus + 2);
-    }
-
-    private Player GeneratePlayer()
-    {
-        return new Player((Sex)_random.Next(0, 2), (Color)_random.Next(0, 6), []);
     }
 }
