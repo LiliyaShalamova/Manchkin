@@ -1,17 +1,7 @@
 ﻿using Manchkin.Core.Cards.Doors;
-using Manchkin.Core.Cards.Treasures;
 using Manchkin.Core.Cards.Treasures.Clothes;
 using Manchkin.Core.Cards.Treasures.Spells;
 using Manchkin.Core.Generators;
-using Manchkin.Core.Generators.Cards.Doors.Curses;
-using Manchkin.Core.Generators.Cards.Doors.Monsters;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Additional;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Shoes;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Smuts;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Vests;
-using Manchkin.Core.Generators.Cards.Treasures.Clothes.Weapon;
-using Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
-using Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells;
 
 namespace Manchkin.Core.Game;
 

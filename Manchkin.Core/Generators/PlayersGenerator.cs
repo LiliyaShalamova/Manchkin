@@ -14,13 +14,13 @@ internal class PlayersGenerator : IPlayersGenerator
     private readonly int _cardsNumberOfEachType;
     private readonly IRandomEnumValueGenerator _randomEnumValueGenerator;
 
-    public PlayersGenerator(GameConfig gameConfig, ICardsGenerator cardsGenerator,
+    public PlayersGenerator(GameConfig cardsStorage, ICardsGenerator cardsGenerator,
         IRandomEnumValueGenerator randomEnumValueGenerator)
     {
         _cardsGenerator = cardsGenerator;
         _randomEnumValueGenerator = randomEnumValueGenerator;
-        _playersCount = gameConfig.PlayersCount;
-        _cardsNumberOfEachType = gameConfig.CardsNumberOfEachType;
+        _playersCount = cardsStorage.PlayersCount;
+        _cardsNumberOfEachType = cardsStorage.CardsNumberOfEachType;
     }
     
     public Player[] Generate()

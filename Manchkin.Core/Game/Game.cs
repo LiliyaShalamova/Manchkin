@@ -24,7 +24,7 @@ public class Game
     /// <summary>
     /// Массив игроков
     /// </summary>
-    private Players.Player[] Players { get; }
+    private Player[] Players { get; }
     
     public Game(
         GameConfig gameConfig,
