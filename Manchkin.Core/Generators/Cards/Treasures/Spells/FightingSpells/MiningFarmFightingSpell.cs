@@ -19,11 +19,7 @@ internal class MiningFarmFightingSpell : IFightingSpell
     /// Бонус на смывку
     /// </summary>
     public int WashBonus { get; init; } = 2;
-
-    public MiningFarmFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.WashBonus -= WashBonus;

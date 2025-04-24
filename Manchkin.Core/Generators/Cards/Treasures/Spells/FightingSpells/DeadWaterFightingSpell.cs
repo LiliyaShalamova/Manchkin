@@ -22,11 +22,7 @@ internal class DeadWaterFightingSpell : IFightingSpell
     /// Бонус на смывку
     /// </summary>
     public int WashBonus { get; init; } = 0;
-
-    public DeadWaterFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.Monsters.Clear();

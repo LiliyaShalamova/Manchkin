@@ -14,14 +14,14 @@ internal class CutOffTheBranchLevelLossCurse : ICurse
     /// <summary>
     /// Разовое или действует до определенного момента. На будущее
     /// </summary>
-    public bool OneTimeCurse { get; init; } = true;
+    public bool OneTimeCurse => true;
 
     /// <summary>
     /// Количество уровней
     /// </summary>
-    private int LevelLossCount => 1;
+    public int LevelLossCount => 1;
 
-    public void Curse(Players.Player player)
+    public void Curse(Player player)
     {
         player.DecreaseLevel(LevelLossCount);
     }

@@ -22,7 +22,7 @@ internal class PaintedLevelLossCurse : ICurse
     /// <summary>
     /// Количество уровней
     /// </summary>
-    private int LevelLossCount => 1;
+    public int LevelLossCount => 1;
     
     public void Curse(Player player)
     {

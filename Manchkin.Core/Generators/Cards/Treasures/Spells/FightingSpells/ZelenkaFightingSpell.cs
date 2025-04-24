@@ -23,12 +23,8 @@ internal class ZelenkaFightingSpell : IFightingSpell
     /// <summary>
     /// + против монстра
     /// </summary>
-    private int DamageBonus { get; } = 3;
-
-    public ZelenkaFightingSpell()
-    {
-        
-    }
+    public int DamageBonus { get; } = 3;
+    
     public void Cast(Fight fight)
     {
         fight.AddFightingStrength(DamageBonus);

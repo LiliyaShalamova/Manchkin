@@ -17,8 +17,8 @@ internal class CurseShoesLoss : ICurse
     /// <summary>
     /// Разовое или действует до определенного момента. На будущее
     /// </summary>
-    public bool OneTimeCurse { get; init; } = true;
-    
+    public bool OneTimeCurse => true;
+
     public void Curse(Player player)
     {
         player.Inventory.Legs = null;

@@ -23,12 +23,8 @@ internal class MolotovCocktailFightingSpell : IFightingSpell
     /// <summary>
     /// + против монстра
     /// </summary>
-    private int DamageBonus { get; } = 3;
-
-    public MolotovCocktailFightingSpell()
-    {
-        
-    }
+    public int DamageBonus { get; } = 3;
+    
     public void Cast(Fight fight)
     {
         fight.AddFightingStrength(DamageBonus);

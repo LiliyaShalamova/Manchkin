@@ -22,11 +22,7 @@ internal class ThePowerOfKsivaFightingSpell : IFightingSpell
     /// Бонус на смывку
     /// </summary>
     public int WashBonus { get; init; } = 1;
-
-    public ThePowerOfKsivaFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.WashBonus -= WashBonus;

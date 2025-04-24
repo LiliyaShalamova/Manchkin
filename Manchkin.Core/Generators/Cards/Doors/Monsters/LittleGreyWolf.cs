@@ -34,7 +34,7 @@ internal class LittleGreyWolf : IMonster
     /// <summary>
     /// При проигрыше - потеря уровней
     /// </summary>
-    private int LevelLossCount => 1;
+    public int LevelLossCount => 1;
  
     public void Punish(Player player)
     {

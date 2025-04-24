@@ -19,11 +19,7 @@ internal class FlasherFightingSpell : IFightingSpell
     /// Бонус на смывку
     /// </summary>
     public int WashBonus { get; init; } = 0;
-
-    public FlasherFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.Monsters.Clear();

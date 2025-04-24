@@ -10,7 +10,7 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние игры, когда доступны только основные команды без дверей
 /// </summary>
-internal class FinishState(GameProcessor game) : GameStateBase(game), IState
+internal class StartState(GameProcessor game) : GameStateBase(game), IState
 {
     protected override List<Command> AllowedCommands { get; } = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 
@@ -38,7 +38,7 @@ internal class FinishState(GameProcessor game) : GameStateBase(game), IState
         {
             return new CommandResultWith<bool>(true, false);
         }
-        if (!lastPlayer)//это состояние не подходит для сброса карт на второй фазе, т.к. если игрок не последний состояние все равно должно меняться
+        if (!lastPlayer)//это состояние не подходит для сброса карт на второй фазе, т.к. если игрок не последний состояние все равно должно меняться DONE - есть startstate и finishstate
         {
             GameProcessor.SwitchToNextPlayer();
             return new CommandResultWith<bool>(true, true);

@@ -34,7 +34,7 @@ internal class BabaYaga : IMonster
     /// <summary>
     /// При проигрыше - потеря уровней
     /// </summary>
-    private int LevelLossCount => 2;
+    public int LevelLossCount => 2;
     
     public void Punish(Player player)
     {

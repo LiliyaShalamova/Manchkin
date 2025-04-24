@@ -27,11 +27,7 @@ internal class HematogenFightingSpell : IFightingSpell
     /// + против монстра
     /// </summary>
     public int DamageBonus { get; } = 2;
-
-    public HematogenFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.AddFightingStrength(DamageBonus);

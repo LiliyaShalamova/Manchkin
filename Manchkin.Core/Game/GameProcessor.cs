@@ -40,7 +40,7 @@ internal class GameProcessor
     
     public GameProcessor(ICube cube, Players.Player[] players, ICardsGenerator cardsGenerator)
     {
-        CurrentState = new FinishState(this);
+        CurrentState = new StartState(this);
         Cube = cube;
         Players = players;
         CardsGenerator = cardsGenerator;

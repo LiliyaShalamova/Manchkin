@@ -19,11 +19,7 @@ internal class ProtectiveTattooFightingSpell : IFightingSpell
     /// Бонус на смывку
     /// </summary>
     public int WashBonus { get; init; } = 0;
-
-    public ProtectiveTattooFightingSpell()
-    {
-        
-    }
+    
     public void Cast(Fight fight)
     {
         fight.Monsters.Clear();

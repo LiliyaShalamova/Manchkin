@@ -26,7 +26,7 @@ internal class FindRussianTraceGetLevelOtherSpell : IOtherSpell
     /// <summary>
     /// Получи уровень
     /// </summary>
-    private int LevelBonus => 1;
+    public int LevelBonus => 1;
 
     public CommandResultWith<bool> Cast(Player player, ICardsGenerator generator)
     {

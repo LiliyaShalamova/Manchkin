@@ -18,17 +18,13 @@ internal class BorschtPackageFightingSpell : IFightingSpell
     /// <summary>
     /// Бонус на смывку
     /// </summary>
-    public int WashBonus { get; init; } = 0;
+    public int WashBonus => 0;
 
     /// <summary>
     /// + против монстра
     /// </summary>
-    private int DamageBonus { get; } = 4;
-
-    public BorschtPackageFightingSpell()
-    {
-        
-    }
+    public int DamageBonus { get; } = 4;
+    
     public void Cast(Fight fight)
     {
         fight.AddFightingStrength(DamageBonus);

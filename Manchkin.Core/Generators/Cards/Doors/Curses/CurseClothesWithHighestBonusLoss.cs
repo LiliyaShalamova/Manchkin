@@ -39,7 +39,7 @@ internal class CurseClothesWithHighestBonusLoss : ICurse
         
         else if (player.Inventory.LeftHand != null && player.Inventory.LeftHand.Bonus == maxBonus)
         {
-            if (player.Inventory.LeftHand.IsBig)
+            if (player.Inventory.LeftHand.HandsAmount == 2)
             {
                 player.Inventory.RightHand = null;
             }
