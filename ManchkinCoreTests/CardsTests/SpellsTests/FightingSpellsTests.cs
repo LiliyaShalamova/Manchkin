@@ -12,7 +12,7 @@ public class FightingSpellsTests
     [Fact]
     public void BlankCartridgeFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new BlankCartridgeFightingSpell();
@@ -25,7 +25,7 @@ public class FightingSpellsTests
     [Fact]
     public void BorschtPackageFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new BorschtPackageFightingSpell();
@@ -38,7 +38,7 @@ public class FightingSpellsTests
     [Fact]
     public void DeadWaterFightingSpellCreated_Cast_MonstersDead()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new DeadWaterFightingSpell();
@@ -51,7 +51,7 @@ public class FightingSpellsTests
     [Fact]
     public void FlasherFightingSpellCreated_Cast_MonstersDead()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new FlasherFightingSpell();
@@ -64,7 +64,7 @@ public class FightingSpellsTests
     [Fact]
     public void HematogenFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new HematogenFightingSpell();
@@ -77,7 +77,7 @@ public class FightingSpellsTests
     [Fact]
     public void HerringUnderFurCoatFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new HerringUnderFurCoatFightingSpell();
@@ -90,7 +90,7 @@ public class FightingSpellsTests
     [Fact]
     public void MiningFarmFightingSpellCreated_Cast_WashBonusAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new MiningFarmFightingSpell();
@@ -104,7 +104,7 @@ public class FightingSpellsTests
     [Fact]
     public void MolotovCocktailFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new MolotovCocktailFightingSpell();
@@ -117,7 +117,7 @@ public class FightingSpellsTests
     [Fact]
     public void ProtectiveTattooFightingSpellCreated_Cast_MonstersDead()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new ProtectiveTattooFightingSpell();
@@ -130,7 +130,7 @@ public class FightingSpellsTests
     [Fact]
     public void ThePowerOfKsivaFightingSpellCreated_Cast_WashBonusAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new ThePowerOfKsivaFightingSpell();
@@ -144,7 +144,7 @@ public class FightingSpellsTests
     [Fact]
     public void ZelenkaFightingSpellCreated_Cast_DamageBonusAddedToFightingStrength()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var spell = new ZelenkaFightingSpell();

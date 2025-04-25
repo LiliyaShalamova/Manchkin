@@ -11,7 +11,7 @@ public class CutOffTheBranchLevelLossCurseTests
     [Fact]
     public void CutOffTheBranchLevelLossCurseCreated_Curse_PlayerLevelDecreased()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.IncreaseLevel(5);
         var levelBeforePunish = player.Level;
         

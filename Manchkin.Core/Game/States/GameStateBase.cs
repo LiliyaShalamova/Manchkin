@@ -9,7 +9,7 @@ using Manchkin.Core.Players;
 namespace Manchkin.Core.Game.States;
 
 // Базовый класс состояния: доступных методов нет
-internal abstract class GameStateBase(GameProcessor gameProcessor)
+internal abstract class GameStateBase(IGameProcessor gameProcessor)
 {
     /// <summary>
     /// Генератор дверей и сокровищ
@@ -19,14 +19,14 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
     /// <summary>
     /// Массив карт сброса дверей
     /// </summary>
-    private readonly Stack<IDoor> _doorsReset  = [];
+    protected Stack<IDoor> DoorsReset { get; } = [];
 
     /// <summary>
     /// Массив карт сброса сокровищ
     /// </summary>
-    private readonly Stack<ITreasure> _treasuresReset = [];
+    protected Stack<ITreasure> TreasuresReset { get; } = [];
     
-    protected readonly GameProcessor GameProcessor = gameProcessor;
+    protected readonly IGameProcessor GameProcessor = gameProcessor;
     
     protected abstract List<Command> AllowedCommands { get; }
     
@@ -99,10 +99,10 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
             switch (card)
             {
                 case ITreasure treasure:
-                    _treasuresReset.Push(treasure);
+                    TreasuresReset.Push(treasure);
                     break;
                 case IDoor door:
-                    _doorsReset.Push(door);
+                    DoorsReset.Push(door);
                     break;
                 default:
                     throw new ArgumentException("Invalid card type");
@@ -137,10 +137,11 @@ internal abstract class GameStateBase(GameProcessor gameProcessor)
         foreach (var c in clothes)
         {
             var returnedClothes = player.Inventory.PutOn(c);
+            player.Cards = player.Cards.Remove(c);
             player.Cards = player.Cards.AddRange(returnedClothes);
         }
-
-        Reset(player, clothes);
+        
+        //Reset(player, clothes);
     }
     
     protected void ResetCards(Player player, ICard[] cards)

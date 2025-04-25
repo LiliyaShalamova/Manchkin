@@ -10,7 +10,7 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние игры, когда доступны только основные команды без дверей
 /// </summary>
-internal class StartState(GameProcessor game) : GameStateBase(game), IState
+internal class StartState(IGameProcessor game) : GameStateBase(game), IState
 {
     protected override List<Command> AllowedCommands { get; } = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];
 
@@ -43,7 +43,7 @@ internal class StartState(GameProcessor game) : GameStateBase(game), IState
             GameProcessor.SwitchToNextPlayer();
             return new CommandResultWith<bool>(true, true);
         }
-        GameProcessor.ChangeState(new FirstMoveState(GameProcessor));
+        GameProcessor.ChangeState(new FirstMoveState(GameProcessor)); // сделать через дженерик
         GameProcessor.SwitchToNextPlayer();
         return new CommandResultWith<bool>(true, true);
     }

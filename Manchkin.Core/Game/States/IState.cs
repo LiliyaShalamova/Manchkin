@@ -13,7 +13,7 @@ internal interface IState
     CommandResult Drop(ICard[] cards);
     CommandResultWith<bool> Sell(ITreasure[] treasures);
     CommandResultWith<bool> Finish();
-    CommandResultWith<bool> Curse(Players.Player to, ICurse curse);
+    CommandResultWith<bool> Curse(Player to, ICurse curse);
     CommandResultWith<bool> Cast(IFightingSpell spell);
     CommandResultWith<bool> Cast(IOtherSpell spell);
     CommandResultWith<bool> Monster(IMonster monster);

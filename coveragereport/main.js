@@ -216,16 +216,17 @@ var assemblies = [
       { "name": "Manchkin.Core.Cube.RandomCube", "rp": "Manchkin.Core_RandomCube.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Fight", "rp": "Manchkin.Core_Fight.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 42, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Game.Game", "rp": "Manchkin.Core_Game.html", "cl": 0, "ucl": 72, "cal": 72, "tl": 129, "cb": 0, "tb": 16, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.GameConfig", "rp": "Manchkin.Core_GameConfig.html", "cl": 0, "ucl": 41, "cal": 41, "tl": 91, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.GameProcessor", "rp": "Manchkin.Core_GameProcessor.html", "cl": 0, "ucl": 19, "cal": 19, "tl": 58, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.GameConfig", "rp": "Manchkin.Core_GameConfig.html", "cl": 0, "ucl": 65, "cal": 65, "tl": 81, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.GameProcessor", "rp": "Manchkin.Core_GameProcessor.html", "cl": 17, "ucl": 2, "cal": 19, "tl": 58, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.IGameProcessor", "rp": "Manchkin.Core_IGameProcessor.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Game.States.CommandResult", "rp": "Manchkin.Core_CommandResult.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Game.States.CommandResultWith<T>", "rp": "Manchkin.Core_CommandResultWith_1.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.States.FightState", "rp": "Manchkin.Core_FightState.html", "cl": 0, "ucl": 71, "cal": 71, "tl": 104, "cb": 0, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.States.FightState", "rp": "Manchkin.Core_FightState.html", "cl": 2, "ucl": 69, "cal": 71, "tl": 104, "cb": 0, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Game.States.FinishState", "rp": "Manchkin.Core_FinishState.html", "cl": 0, "ucl": 29, "cal": 29, "tl": 54, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.States.FirstMoveState", "rp": "Manchkin.Core_FirstMoveState.html", "cl": 0, "ucl": 47, "cal": 47, "tl": 82, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.States.GameStateBase", "rp": "Manchkin.Core_GameStateBase.html", "cl": 0, "ucl": 85, "cal": 85, "tl": 162, "cb": 0, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.States.FirstMoveState", "rp": "Manchkin.Core_FirstMoveState.html", "cl": 7, "ucl": 40, "cal": 47, "tl": 82, "cb": 1, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.States.GameStateBase", "rp": "Manchkin.Core_GameStateBase.html", "cl": 66, "ucl": 24, "cal": 90, "tl": 163, "cb": 9, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Game.States.SecondMoveState", "rp": "Manchkin.Core_SecondMoveState.html", "cl": 0, "ucl": 39, "cal": 39, "tl": 68, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Game.States.StartState", "rp": "Manchkin.Core_StartState.html", "cl": 0, "ucl": 33, "cal": 33, "tl": 61, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Game.States.StartState", "rp": "Manchkin.Core_StartState.html", "cl": 33, "ucl": 0, "cal": 33, "tl": 61, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.CardRegistrar", "rp": "Manchkin.Core_CardRegistrar.html", "cl": 0, "ucl": 80, "cal": 80, "tl": 108, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.Cards.Doors.Curses.CurseArmorLoss", "rp": "Manchkin.Core_CurseArmorLoss.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.Cards.Doors.Curses.CurseClothesWithHighestBonusLoss", "rp": "Manchkin.Core_CurseClothesWithHighestBonusLoss.html", "cl": 64, "ucl": 1, "cal": 65, "tl": 101, "cb": 49, "tb": 50, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -288,13 +289,13 @@ var assemblies = [
       { "name": "Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells.TreasuresBonusOtherSpell", "rp": "Manchkin.Core_TreasuresBonusOtherSpell.html", "cl": 8, "ucl": 4, "cal": 12, "tl": 41, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.Cards.Treasures.Spells.OtherSpells.WantedRingOtherSpell", "rp": "Manchkin.Core_WantedRingOtherSpell.html", "cl": 4, "ucl": 4, "cal": 8, "tl": 36, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.CardsGenerator", "rp": "Manchkin.Core_CardsGenerator.html", "cl": 0, "ucl": 17, "cal": 17, "tl": 36, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Generators.CardsStorage", "rp": "Manchkin.Core_CardsStorage.html", "cl": 0, "ucl": 35, "cal": 35, "tl": 66, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Generators.CardsStorage", "rp": "Manchkin.Core_CardsStorage.html", "cl": 35, "ucl": 0, "cal": 35, "tl": 66, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.PlayersGenerator", "rp": "Manchkin.Core_PlayersGenerator.html", "cl": 0, "ucl": 29, "cal": 29, "tl": 53, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.RandomEnumValueGenerator", "rp": "Manchkin.Core_RandomEnumValueGenerator.html", "cl": 0, "ucl": 14, "cal": 14, "tl": 25, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Generators.RandomNumber", "rp": "Manchkin.Core_RandomNumber.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Parser.CardParser", "rp": "Manchkin.Core_CardParser.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Players.Inventory", "rp": "Manchkin.Core_Inventory.html", "cl": 124, "ucl": 7, "cal": 131, "tl": 203, "cb": 72, "tb": 76, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Manchkin.Core.Players.Player", "rp": "Manchkin.Core_Player.html", "cl": 32, "ucl": 0, "cal": 32, "tl": 60, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Players.Inventory", "rp": "Manchkin.Core_Inventory.html", "cl": 169, "ucl": 6, "cal": 175, "tl": 218, "cb": 142, "tb": 150, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Manchkin.Core.Players.Player", "rp": "Manchkin.Core_Player.html", "cl": 32, "ucl": 0, "cal": 32, "tl": 60, "cb": 4, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Manchkin.Core.Players.PublicPlayer", "rp": "Manchkin.Core_PublicPlayer.html", "cl": 9, "ucl": 1, "cal": 10, "tl": 58, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
@@ -322,12 +323,6 @@ var riskHotspots = [
       { "value": 6, "exceeded": false },
     ]},
   {
-    "assembly": "Manchkin.Core", "class": "Manchkin.Core.Game.States.GameStateBase", "reportPath": "Manchkin.Core_GameStateBase.html", "methodName": "Reset(Manchkin.Core.Players.Player,T[])", "methodShortName": "Reset(...)", "fileIndex": 0, "line": 95,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
     "assembly": "Manchkin.Core", "class": "Manchkin.Core.Generators.Cards.Doors.Curses.CurseClothesWithHighestBonusLoss", "reportPath": "Manchkin.Core_CurseClothesWithHighestBonusLoss.html", "methodName": "Curse(Manchkin.Core.Players.Player)", "methodShortName": "Curse(...)", "fileIndex": 0, "line": 23,
     "metrics": [
       { "value": 26, "exceeded": false },
@@ -340,16 +335,34 @@ var riskHotspots = [
       { "value": 24, "exceeded": true },
     ]},
   {
+    "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "CheckBigClothes(System.Collections.Generic.List`1<Manchkin.Core.Cards.Treasures.Clothes.IClothes>)", "methodShortName": "CheckBigClothes(...)", "fileIndex": 0, "line": 160,
+    "metrics": [
+      { "value": 25, "exceeded": false },
+      { "value": 24, "exceeded": true },
+    ]},
+  {
     "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "CheckBigClothes(System.Collections.Generic.List`1<Manchkin.Core.Cards.Treasures.Clothes.IClothes>)", "methodShortName": "CheckBigClothes(...)", "fileIndex": 0, "line": 145,
     "metrics": [
       { "value": 25, "exceeded": false },
       { "value": 24, "exceeded": true },
     ]},
   {
+    "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "PutOnWeapon(Manchkin.Core.Cards.Treasures.Clothes.IWeapon,System.Collections.Generic.List`1<Manchkin.Core.Cards.Treasures.Clothes.IClothes>)", "methodShortName": "PutOnWeapon(...)", "fileIndex": 0, "line": 114,
+    "metrics": [
+      { "value": 20, "exceeded": false },
+      { "value": 20, "exceeded": true },
+    ]},
+  {
     "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "PutOnWeapon(Manchkin.Core.Cards.Treasures.Clothes.IWeapon,System.Collections.Generic.List`1<Manchkin.Core.Cards.Treasures.Clothes.IClothes>)", "methodShortName": "PutOnWeapon(...)", "fileIndex": 0, "line": 99,
     "metrics": [
       { "value": 20, "exceeded": false },
       { "value": 20, "exceeded": true },
+    ]},
+  {
+    "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "PutOn(Manchkin.Core.Cards.Treasures.Clothes.IClothes)", "methodShortName": "PutOn(...)", "fileIndex": 0, "line": 69,
+    "metrics": [
+      { "value": 18, "exceeded": false },
+      { "value": 18, "exceeded": true },
     ]},
   {
     "assembly": "Manchkin.Core", "class": "Manchkin.Core.Players.Inventory", "reportPath": "Manchkin.Core_Inventory.html", "methodName": "PutOn(Manchkin.Core.Cards.Treasures.Clothes.IClothes)", "methodShortName": "PutOn(...)", "fileIndex": 0, "line": 54,

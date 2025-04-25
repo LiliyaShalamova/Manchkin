@@ -13,7 +13,7 @@ public class CurseArmorLossTests
     [Fact]
     public void CurseArmorLossCreated_Curse_PlayerTorsoIsNull()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Inventory.Torso = new BigVest();
         
         _curseArmorLoss.Curse(player);

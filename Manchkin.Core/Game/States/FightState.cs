@@ -8,7 +8,7 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Состояние битвы
 /// </summary>
-internal class FightState(GameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
+internal class FightState(IGameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
 {
     protected override List<Command> AllowedCommands { get; } = [Command.Cast, Command.Run, Command.Fight];
 

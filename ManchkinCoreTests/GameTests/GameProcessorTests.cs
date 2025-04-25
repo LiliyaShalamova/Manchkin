@@ -15,7 +15,7 @@ public class GameProcessorTests
     {
         var iCubeMock = new Mock<ICube>();
         var iCardsGeneratorMock = new Mock<ICardsGenerator>();
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         
         var gameProcessor = new GameProcessor(iCubeMock.Object, [player], iCardsGeneratorMock.Object);
         
@@ -29,7 +29,7 @@ public class GameProcessorTests
     {
         var iCubeMock = new Mock<ICube>();
         var iCardsGeneratorMock = new Mock<ICardsGenerator>();
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [player], iCardsGeneratorMock.Object);
         var newState = new FightState(gameProcessor);
         
@@ -43,8 +43,8 @@ public class GameProcessorTests
     {
         var iCubeMock = new Mock<ICube>();
         var iCardsGeneratorMock = new Mock<ICardsGenerator>();
-        var firstPlayer = new TestHelper().GeneratePlayer();
-        var lastPlayer = new TestHelper().GeneratePlayer();
+        var firstPlayer = new TestHelper().GenerateEmptyPlayer();
+        var lastPlayer = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [firstPlayer, lastPlayer], iCardsGeneratorMock.Object);
         
         gameProcessor.SwitchToNextPlayer();
@@ -57,8 +57,8 @@ public class GameProcessorTests
     {
         var iCubeMock = new Mock<ICube>();
         var iCardsGeneratorMock = new Mock<ICardsGenerator>();
-        var firstPlayer = new TestHelper().GeneratePlayer();
-        var lastPlayer = new TestHelper().GeneratePlayer();
+        var firstPlayer = new TestHelper().GenerateEmptyPlayer();
+        var lastPlayer = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [firstPlayer, lastPlayer], iCardsGeneratorMock.Object);
         gameProcessor.SwitchToNextPlayer();
         

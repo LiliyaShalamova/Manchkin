@@ -12,7 +12,7 @@ namespace Manchkin.Core.Game.States;
 /// </summary>
 internal class FirstMoveState : GameStateBase, IState
 {
-    internal FirstMoveState(GameProcessor gameProcessor) : base(gameProcessor)
+    internal FirstMoveState(IGameProcessor gameProcessor) : base(gameProcessor)
     {
         var currentPlayer = gameProcessor.CurrentPlayer;
         if (currentPlayer.IsDead)

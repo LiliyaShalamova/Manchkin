@@ -12,7 +12,7 @@ public class PaintedLevelLossCurseTests
     [Fact]
     public void PaintedLevelLossCurseCreated_Curse_PlayerLevelDecreased()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.IncreaseLevel(5);
         var levelBeforePunish = player.Level;
         

@@ -10,7 +10,7 @@ namespace Manchkin.Core.Game.States;
 /// <summary>
 /// Второй ход игрока, когда необходимо либо выбить вторую дверь, либо сразиться с монстром с руки
 /// </summary>
-internal class SecondMoveState(GameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
+internal class SecondMoveState(IGameProcessor gameProcessor) : GameStateBase(gameProcessor), IState
 {
     protected override List<Command> AllowedCommands { get; } = [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door, Command.Monster];
 

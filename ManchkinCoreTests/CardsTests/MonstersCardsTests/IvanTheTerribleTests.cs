@@ -11,7 +11,7 @@ public class IvanTheTerribleTests
     [Fact]
     public void IvanTheTerribleCreated_Punish_PlayerVestIsNull()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.Inventory.PutOn(new BigVest());
         
         _ivanTheTerrible.Punish(player);

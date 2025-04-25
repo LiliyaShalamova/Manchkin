@@ -10,7 +10,7 @@ public class PlayerClassLossMonsterTests
     [Fact]
     public void PlayerClassLossMonsterCreated_Punish_PlayerLevelDecreased()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         
         _playerClassLossMonster.Punish(player);
 

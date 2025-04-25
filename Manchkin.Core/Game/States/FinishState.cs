@@ -7,7 +7,7 @@ using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game.States;
 
-internal class FinishState(GameProcessor game) : GameStateBase(game), IState
+internal class FinishState(IGameProcessor game) : GameStateBase(game), IState
 {
     protected override List<Command> AllowedCommands { get; } =
         [Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish];

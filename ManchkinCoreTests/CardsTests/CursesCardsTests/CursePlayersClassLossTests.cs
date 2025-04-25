@@ -11,7 +11,7 @@ public class CursePlayersClassLossTests
     [Fact]
     public void CursePlayersClassLossCreated_Curse_PlayersClassIsNull()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         
         _cursePlayersClassLoss.Curse(player);
 

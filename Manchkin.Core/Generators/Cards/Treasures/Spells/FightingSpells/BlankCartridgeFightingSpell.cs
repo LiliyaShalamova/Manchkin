@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
@@ -25,7 +26,7 @@ internal class BlankCartridgeFightingSpell : IFightingSpell
     /// </summary>
     public int DamageBonus => 4;
 
-    public void Cast(Fight fight)
+    public void Cast(IFight fight)
     {
         fight.AddFightingStrength(DamageBonus);
     }

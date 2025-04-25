@@ -14,7 +14,7 @@ namespace Manchkin.Core.Game;
 /// </summary>
 public class Game
 {
-    private GameProcessor GameProcessor { get; }
+    private IGameProcessor GameProcessor { get; }
 
     /// <summary>
     /// Количество уровней в игре

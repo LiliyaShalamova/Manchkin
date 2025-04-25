@@ -1,5 +1,6 @@
 ﻿using Manchkin.Core.Cards;
 using Manchkin.Core.Cards.Treasures.Spells;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Generators.Cards.Treasures.Spells.FightingSpells;
 
@@ -28,7 +29,7 @@ internal class HematogenFightingSpell : IFightingSpell
     /// </summary>
     public int DamageBonus { get; } = 2;
     
-    public void Cast(Fight fight)
+    public void Cast(IFight fight)
     {
         fight.AddFightingStrength(DamageBonus);
     }

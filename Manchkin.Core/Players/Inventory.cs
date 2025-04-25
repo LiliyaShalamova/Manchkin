@@ -36,8 +36,23 @@ public class Inventory
     /// <summary>
     /// Дополнительные вещи, например, титул
     /// </summary>
-    public ImmutableList<IAdditional> Additional { get; internal set; } = [];
+    public ImmutableList<IAdditional>? Additional { get; internal set; } = [];
 
+    internal Inventory()
+    {
+    }
+    
+    internal Inventory(ISmut? head = null, IWeapon? leftHand = null, IWeapon? rightHand = null, IVest? torso = null,
+        IShoes? legs = null, ImmutableList<IAdditional>? additional = null)
+    {
+        Head = head;
+        LeftHand = leftHand;
+        RightHand = rightHand;
+        Torso = torso;
+        Legs = legs;
+        Additional = additional;
+    }
+    
     public int GetCommonBonus()
     {
         var bonus = (Head?.Bonus ?? 0) + (LeftHand?.Bonus ?? 0) + (RightHand?.Bonus ?? 0) +

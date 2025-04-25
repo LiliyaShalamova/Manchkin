@@ -10,7 +10,7 @@ public class GameConfig
     /// <summary>
     /// Количество игроков
     /// </summary>
-    public int PlayersCount { get; init; }
+    public int PlayersCount { get; init; } = 3;
     
     /// <summary>
     /// Количество карт в руке каждого типа на старте игры

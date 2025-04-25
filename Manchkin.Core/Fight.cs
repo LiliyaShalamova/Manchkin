@@ -1,27 +1,28 @@
 ﻿using Manchkin.Core.Cards.Doors;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core;
 
-public class Fight
+internal class Fight : IFight
 {
     /// <summary>
     /// Игрок в бою
     /// </summary>
-    internal readonly Players.Player Player;
-    
+    public Player Player { get; }
+
     /// <summary>
     /// Монстры в бою
     /// </summary>
-    public readonly List<IMonster> Monsters;
-    
+    public List<IMonster> Monsters { get; }
+
     /// <summary>
     /// При броске кубика на _washBonus и выше - смываемся
     /// </summary>
-    public int WashBonus = 5;
-    
-    public int FightingStrengthBonus;
+    public int WashBonus { get; set; } = 5;
 
-    internal Fight(Players.Player player, IMonster monster)
+    public int FightingStrengthBonus { get; private set; }
+
+    internal Fight(Player player, IMonster monster)
     {
         Player = player;
         Monsters =

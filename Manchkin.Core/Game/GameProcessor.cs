@@ -1,10 +1,11 @@
 ﻿using Manchkin.Core.Cube;
 using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
+using Manchkin.Core.Players;
 
 namespace Manchkin.Core.Game;
 
-internal class GameProcessor
+internal class GameProcessor : IGameProcessor
 {
     /// <summary>
     /// Текущее состояние игры
@@ -14,12 +15,12 @@ internal class GameProcessor
     /// <summary>
     /// Кубик
     /// </summary>
-    public ICube Cube { get; private set; }
+    public ICube Cube { get; }
     
     /// <summary>
     /// Текущий бой
     /// </summary>
-    public Fight? CurrentFight { get; set; }
+    public IFight? CurrentFight { get; set; }
     
     /// <summary>
     /// Текущий игрок

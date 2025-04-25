@@ -11,7 +11,7 @@ public class FightTests
     [Fact]
     public void FightInitialization()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         
         var fight = new Fight(player, monster);
@@ -24,7 +24,7 @@ public class FightTests
     [Fact]
     public void FightCreated_AddMonster_MonsterAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster1 = new BabaYaga();
         var monster2 = new LittleGreyWolf();
         var fight = new Fight(player, monster1);
@@ -39,7 +39,7 @@ public class FightTests
     [Fact]
     public void FightCreated_AddFightingStrength_Added()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var monster = new BabaYaga();
         var fight = new Fight(player, monster);
         var fightingBonus = 5;

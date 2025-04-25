@@ -28,7 +28,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_SmutWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         player.Inventory.Head = new Ukokoshnik();
         
@@ -40,7 +40,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_VestWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         player.Inventory.Torso = new BigVest();
         
@@ -52,7 +52,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_ShoesWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         player.Inventory.Legs = new BigShoes();
         
@@ -64,7 +64,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_LeftOneHandWeaponWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         player.Inventory.LeftHand = new SmallWeapon();
         
@@ -76,7 +76,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_RightOneHandWeaponWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         var leftHandWeapon = new SmallWeapon();
         var rightHandWeapon = new BigWeapon();
@@ -92,7 +92,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_TwoHandWeaponWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         var weapon = new SmallTwoHandsWeapon();
         player.Inventory.LeftHand = weapon;
@@ -107,7 +107,7 @@ public class CurseClothesWithHighestBonusLossTests
     [Fact]
     public void CurseClothesWithHighestBonusLossCreated_Curse_AdditionalBonusWithHighestBonusLost()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var curse = new CurseClothesWithHighestBonusLoss();
         var title = new TrulyImpressiveTitle();
         player.Inventory.PutOn(title);

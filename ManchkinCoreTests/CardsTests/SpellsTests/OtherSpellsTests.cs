@@ -16,7 +16,7 @@ public class OtherSpellsTests
     [Fact]
     public void CookPorridgeFromAxeGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -29,7 +29,7 @@ public class OtherSpellsTests
     [Fact]
     public void CookPorridgeFromAxeGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -43,7 +43,7 @@ public class OtherSpellsTests
     [Fact]
     public void FindRussianTraceGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new FindRussianTraceGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -56,7 +56,7 @@ public class OtherSpellsTests
     [Fact]
     public void FindRussianTraceGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new FindRussianTraceGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -70,7 +70,7 @@ public class OtherSpellsTests
     [Fact]
     public void GoToBathhouseGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new GoToBathhouseGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -83,7 +83,7 @@ public class OtherSpellsTests
     [Fact]
     public void GoToBathhouseGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new GoToBathhouseGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -97,7 +97,7 @@ public class OtherSpellsTests
     [Fact]
     public void PaintGrassGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new PaintGrassGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -110,7 +110,7 @@ public class OtherSpellsTests
     [Fact]
     public void PaintGrassGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new PaintGrassGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -124,7 +124,7 @@ public class OtherSpellsTests
     [Fact]
     public void ResolveCubanMissileCrisisGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new ResolveCubanMissileCrisisGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -137,7 +137,7 @@ public class OtherSpellsTests
     [Fact]
     public void ResolveCubanMissileCrisisGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new ResolveCubanMissileCrisisGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -151,7 +151,7 @@ public class OtherSpellsTests
     [Fact]
     public void TakeMeteoritePhotoGetLevelOtherSpellCreated_Cast_LevelAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new TakeMeteoritePhotoGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
 
@@ -164,7 +164,7 @@ public class OtherSpellsTests
     [Fact]
     public void TakeMeteoritePhotoGetLevelOtherSpellCreated_Cast_LevelNotAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Level = 9;
         var spell = new TakeMeteoritePhotoGetLevelOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -178,7 +178,7 @@ public class OtherSpellsTests
     [Fact]
     public void WantedRingOtherSpellCreated_Cast_CursesRemoved()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.AddCurse(new CurseArmorLoss());
         var spell = new WantedRingOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
@@ -192,7 +192,7 @@ public class OtherSpellsTests
     [Fact]
     public void TreasuresBonusOtherSpellCreated_Cast_TreasuresAdded()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         var spell = new TreasuresBonusOtherSpell();
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
         var treasure = new TrulyImpressiveTitle();

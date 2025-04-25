@@ -14,12 +14,12 @@ public class Player : PublicPlayer
     /// </summary>
     public int FightingStrength => Level + Inventory.GetCommonBonus();
 
-    internal Player(Sex sex, Color color, ImmutableList<ICard> cards)
+    internal Player(Sex sex, Color color, ImmutableList<ICard> cards, Inventory? inventory = null)
     {
         Sex = sex;
         Color = color;
         Level = 1;
-        Inventory = new Inventory();
+        Inventory = inventory ?? new Inventory();
         Curses = [];
         Cards = cards;
         IsDead = false;

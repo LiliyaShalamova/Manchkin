@@ -11,7 +11,7 @@ public class ViyTests
     [Fact]
     public void ViyCreated_Punish_PlayerLevelDecreased()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.IncreaseLevel(5);
         var levelBeforePunish = player.Level;
         

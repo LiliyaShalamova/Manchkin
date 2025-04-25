@@ -38,7 +38,7 @@ public class PlayerTests
     [Fact]
     public void PlayerCreated_IncreaseLevel_LevelIncreased()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         
         player.IncreaseLevel(2);
         
@@ -48,7 +48,7 @@ public class PlayerTests
     [Fact]
     public void FirstLevelPlayerCreated_DecreaseLevel_LevelNotIncreased()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         
         player.DecreaseLevel(1);
         
@@ -58,7 +58,7 @@ public class PlayerTests
     [Fact]
     public void SecondLevelPlayerCreated_DecreaseLevel_LevelDecreased()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.IncreaseLevel(1);
         
         player.DecreaseLevel(1);
@@ -69,7 +69,7 @@ public class PlayerTests
     [Fact]
     public void PlayerWithCurses_RemoveCurses_CursesRemoved()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.AddCurse(new PaintedLevelLossCurse());
         
         player.RemoveCurses();
@@ -81,7 +81,7 @@ public class PlayerTests
     public void PlayerWithoutCurses_AddCurses_CursesAdded()
     {
         var curse = new PaintedLevelLossCurse();
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         
         player.AddCurse(curse);
         
@@ -92,7 +92,7 @@ public class PlayerTests
     [Fact]
     public void PlayerAlive_Die_PlayerDead()
     {
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.Cards = player.Cards.Add(new Ukokoshnik());
         player.Inventory.Head = new Ukokoshnik();
         player.Inventory.LeftHand = new SwordLollipop();
@@ -119,7 +119,7 @@ public class PlayerTests
     public void PlayerCreated_GetFightingStrength_FightingStrengthCorrect()
     {
         var smut = new Ukokoshnik();
-        var player = _testHelper.GeneratePlayer();
+        var player = _testHelper.GenerateEmptyPlayer();
         player.IncreaseLevel(1);
         player.Inventory.Head = smut;
         

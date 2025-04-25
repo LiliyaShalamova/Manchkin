@@ -11,7 +11,7 @@ public class ShoesLossMonsterTests
     [Fact]
     public void ShoesLossMonsterCreated_Punish_PlayerShoesIsNull()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.Inventory.Legs = new BigShoes();
         
         _shoesLossMonster.Punish(player);

@@ -12,7 +12,7 @@ public class CurseShoesLossTests
     [Fact]
     public void CurseShoesLossCreated_Curse_PlayerLegsIsNull()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.Inventory.Legs = new BigShoes();
         
         _curseShoesLoss.Curse(player);

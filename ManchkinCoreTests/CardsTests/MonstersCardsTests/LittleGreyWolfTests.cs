@@ -10,7 +10,7 @@ public class LittleGreyWolfTests
     [Fact]
     public void LittleGreyWolfCreated_Punish_PlayerLevelDecreased()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         player.IncreaseLevel(5);
         var levelBeforePunish = player.Level;
         

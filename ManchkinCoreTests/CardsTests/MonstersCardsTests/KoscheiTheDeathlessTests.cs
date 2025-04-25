@@ -10,7 +10,7 @@ public class KoscheiTheDeathlessTests
     [Fact]
     public void KoscheiTheDeathlessCreated_Punish_PlayerDied()
     {
-        var player = new TestHelper().GeneratePlayer();
+        var player = new TestHelper().GenerateEmptyPlayer();
         
         _koscheiTheDeathless.Punish(player);
 
