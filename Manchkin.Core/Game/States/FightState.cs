@@ -29,12 +29,12 @@ internal class FightState(IGameProcessor gameProcessor) : GameStateBase(gameProc
         var currentPlayer = GameProcessor.CurrentPlayer;
         var value = GameProcessor.Cube.Throw();
         if (!Enum.IsDefined(typeof(CubeFace), value))
-            throw new ArgumentOutOfRangeException("Значение грани куба должно быть от 1 до 6");
+            throw new ArgumentOutOfRangeException(nameof(value), "Значение грани куба должно быть от 1 до 6");
         var washed = (int)value >= GameProcessor.CurrentFight!.WashBonus;
         Reset(currentPlayer, GameProcessor.CurrentFight!.Monsters.ToArray());
         if (washed)
         {
-            GetReward(currentPlayer);
+            //GetReward(currentPlayer);
             GameProcessor.CurrentFight = null;
         }
         else
