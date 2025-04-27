@@ -25,7 +25,7 @@ internal class GameProcessor : IGameProcessor
     /// <summary>
     /// Текущий игрок
     /// </summary>
-    public Players.Player CurrentPlayer => Players[_currentPlayer];
+    public Player CurrentPlayer => Players[_currentPlayer];
     
     /// <summary>
     /// Индекс текущего игрока
