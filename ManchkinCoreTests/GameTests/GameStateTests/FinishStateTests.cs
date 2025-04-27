@@ -17,28 +17,27 @@ using Xunit;
 
 namespace ManchkinCoreTests.GameTests.GameStateTests;
 
-public class StartStateTests
+public class FinishStateTests
 {
-    private readonly StartState _state;
+    private readonly FinishState _state;
     private readonly TestHelper _testHelper = new();
     private readonly Mock<IGameProcessor> _iGameProcessorMock = new(MockBehavior.Strict);
-    
 
-    public StartStateTests()
+    public FinishStateTests()
     {
         var cardsGeneratorMock = new Mock<ICardsGenerator>();
         _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardsGeneratorMock.Object);
-        _state = new StartState(_iGameProcessorMock.Object);
+        _state = new FinishState(_iGameProcessorMock.Object);
     }
-
+    
     [Fact]
-    public void StartStateCreated_GetAllowedCommands_CommandsCorrect()
+    public void FinishStateCreated_GetAllowedCommands_CommandsCorrect()
     {
         _state.GetAllowCommands().Should().BeEquivalentTo([Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish]);
     }
 
     [Fact]
-    public void StartStateCreated_Dress_ClothesDressed()
+    public void FinishStateCreated_Dress_ClothesDressed()
     {
         var clothes1 = new Ukokoshnik();
         var clothes2 = new Ushanka();
@@ -55,7 +54,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_DropTreasure_Dropped()
+    public void FinishStateCreated_DropTreasure_Dropped()
     {
         var treasure = new Ukokoshnik();
         var player = _testHelper.GeneratePlayerWith([treasure]);
@@ -69,7 +68,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_DropDoor_Dropped()
+    public void FinishStateCreated_DropDoor_Dropped()
     {
         var door = new ShoesLossMonster();
         var player = _testHelper.GeneratePlayerWith([door]);
@@ -83,7 +82,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_SellTreasures_Success()
+    public void FinishStateCreated_SellTreasures_Success()
     {
         var treasure1 = new Ukokoshnik();
         var treasure2 = new Ushanka();
@@ -99,7 +98,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_SellTreasures_NotSuccess()
+    public void FinishStateCreated_SellTreasures_NotSuccess()
     {
         var treasure1 = new Ukokoshnik();
         var player = _testHelper.GeneratePlayerWith([treasure1]);
@@ -114,7 +113,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_FinishForLastPlayer_SwitchedToFirstPlayer()
+    public void FinishStateCreated_FinishForLastPlayer_SwitchedToFirstPlayer()
     {
         var player1 = _testHelper.GenerateEmptyPlayer();
         var player2 = _testHelper.GenerateEmptyPlayer();
@@ -131,23 +130,24 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_FinishForNotLastPlayer_SwitchedToNextPlayer()
+    public void FinishStateCreated_FinishForNotLastPlayer_SwitchedToNextPlayer()
     {
         var player1 = _testHelper.GenerateEmptyPlayer();
         var player2 = _testHelper.GenerateEmptyPlayer();
         _iGameProcessorMock.Setup(x => x.Players).Returns([player1, player2]);
         _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player1);
-        _iGameProcessorMock.Setup(x => x.SwitchToNextPlayer()); // надо ли переопределять методы switch и change. Надо, сделать strict и переопределять все вызовы, можно null
+        _iGameProcessorMock.Setup(x => x.ChangeState(It.IsAny<FirstMoveState>()));
+        _iGameProcessorMock.Setup(x => x.SwitchToNextPlayer());
         
         var result = _state.Finish();
         
         result.Should().BeEquivalentTo(new CommandResultWith<bool>(true, true));
-        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FirstMoveState>()), Times.Never);
+        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FirstMoveState>()), Times.Once);
         _iGameProcessorMock.Verify(x => x.SwitchToNextPlayer(), Times.Once);
     }
     
     [Fact]
-    public void StartStateCreated_FinishWithCardsMoreThenAllowed_NotSwitchedToNextPlayer()
+    public void FinishStateCreated_FinishWithCardsMoreThenAllowed_NotSwitchedToNextPlayer()
     {
         var cards = ImmutableList.Create<ICard>(new Ukokoshnik(), new Ushanka(), new InvisibilityCap(),
             new ShoesLossMonster(), new BabaYaga(), new Viy());
@@ -163,7 +163,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_Curse_Success()
+    public void FinishStateCreated_Curse_Success()
     {
         var curse = new CurseArmorLoss();
         var player1 = _testHelper.GeneratePlayerWith([curse]);
@@ -180,7 +180,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_Cast_Success()
+    public void FinishStateCreated_Cast_Success()
     {
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var player = _testHelper.GeneratePlayerWith([spell]);
@@ -194,7 +194,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Cast_NotSuccess()
+    public void FinishStateCreated_Cast_NotSuccess()
     {
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var player = _testHelper.GeneratePlayerWith([spell]);
@@ -209,7 +209,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_Fight_CommandNotAllowed()
+    public void FinishStateCreated_Fight_CommandNotAllowed()
     {
         var result = _state.Fight();
         
@@ -217,7 +217,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Monster_CommandNotAllowed()
+    public void FinishStateCreated_Monster_CommandNotAllowed()
     {
         var result = _state.Monster(new BabaYaga());
         
@@ -225,7 +225,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Run_CommandNotAllowed()
+    public void FinishStateCreated_Run_CommandNotAllowed()
     {
         var result = _state.Run();
         
@@ -233,7 +233,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_CastFightingSpell_CommandNotAllowed()
+    public void FinishStateCreated_CastFightingSpell_CommandNotAllowed()
     {
         var result = _state.Cast(new ZelenkaFightingSpell());
         
@@ -241,7 +241,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_PullDoor_CommandNotAllowed()
+    public void FinishStateCreated_PullDoor_CommandNotAllowed()
     {
         var result = _state.PullDoor();
         

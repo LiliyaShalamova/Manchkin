@@ -6,15 +6,15 @@ using Manchkin.Core.Generators;
 using Moq;
 using Xunit;
 
-namespace ManchkinCoreTests.GameProcessorTests;
+namespace ManchkinCoreTests.GameTests;
 
 public class GameProcessorTests
 {
     [Fact]
     public void GameProcessorInitializesCorrectly()
     {
-        var iCubeMock = new Mock<ICube>();
-        var iCardsGeneratorMock = new Mock<ICardsGenerator>();
+        var iCubeMock = new Mock<ICube>(MockBehavior.Strict);
+        var iCardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
         var player = new TestHelper().GenerateEmptyPlayer();
         
         var gameProcessor = new GameProcessor(iCubeMock.Object, [player], iCardsGeneratorMock.Object);
@@ -27,8 +27,8 @@ public class GameProcessorTests
     [Fact]
     public void GameProcessorCreated_ChangeState_CurrentStateChanged()
     {
-        var iCubeMock = new Mock<ICube>();
-        var iCardsGeneratorMock = new Mock<ICardsGenerator>();
+        var iCubeMock = new Mock<ICube>(MockBehavior.Strict);
+        var iCardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
         var player = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [player], iCardsGeneratorMock.Object);
         var newState = new FightState(gameProcessor);
@@ -41,8 +41,8 @@ public class GameProcessorTests
     [Fact]
     public void GameProcessorCreated_SwitchToNextPlayer_PlayerChangedToNextPlayer()
     {
-        var iCubeMock = new Mock<ICube>();
-        var iCardsGeneratorMock = new Mock<ICardsGenerator>();
+        var iCubeMock = new Mock<ICube>(MockBehavior.Strict);
+        var iCardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
         var firstPlayer = new TestHelper().GenerateEmptyPlayer();
         var lastPlayer = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [firstPlayer, lastPlayer], iCardsGeneratorMock.Object);
@@ -55,8 +55,8 @@ public class GameProcessorTests
     [Fact]
     public void GameProcessorCreated_SwitchToNextPlayer_PlayerChangedToFirstPlayer()
     {
-        var iCubeMock = new Mock<ICube>();
-        var iCardsGeneratorMock = new Mock<ICardsGenerator>();
+        var iCubeMock = new Mock<ICube>(MockBehavior.Strict);
+        var iCardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
         var firstPlayer = new TestHelper().GenerateEmptyPlayer();
         var lastPlayer = new TestHelper().GenerateEmptyPlayer();
         var gameProcessor = new GameProcessor(iCubeMock.Object, [firstPlayer, lastPlayer], iCardsGeneratorMock.Object);

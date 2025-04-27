@@ -31,7 +31,7 @@ public class FightStateTests
 
     public FightStateTests()
     {
-        var cardGeneratorMock = new Mock<ICardsGenerator>();
+        var cardGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
         _treasure = new TrulyImpressiveTitle();
         cardGeneratorMock.Setup(x => x.GetTreasureCard()).Returns(_treasure);
         _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardGeneratorMock.Object);
@@ -49,7 +49,7 @@ public class FightStateTests
     {
         var spellMock = new Mock<IFightingSpell>();
         var player = _testHelper.GeneratePlayerWith([spellMock.Object]);
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
         _iGameProcessorMock.Setup(x => x.CurrentFight).Returns(fightMock.Object);
 
@@ -68,9 +68,9 @@ public class FightStateTests
         var monster2 = new Viy();
         var monsters = new List<IMonster> { monster1, monster2 };
         var player = _testHelper.GeneratePlayerWith(monsters.ToImmutableList<ICard>());
-        var cubeMock = new Mock<ICube>();
+        var cubeMock = new Mock<ICube>(MockBehavior.Strict);
         cubeMock.Setup(x => x.Throw()).Returns(CubeFace.Five);
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns(monsters);
         fightMock.Setup(x => x.WashBonus).Returns(5);
         _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
@@ -99,9 +99,9 @@ public class FightStateTests
         var monster2 = new Viy();
         var monsters = new List<IMonster> { monster1, monster2 };
         var player = _testHelper.GeneratePlayerWith(monsters.ToImmutableList<ICard>());
-        var cubeMock = new Mock<ICube>();
+        var cubeMock = new Mock<ICube>(MockBehavior.Strict);
         cubeMock.Setup(x => x.Throw()).Returns(CubeFace.Four);
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns(monsters);
         fightMock.Setup(x => x.WashBonus).Returns(5);
         fightMock.Setup(x => x.Player).Returns(player);
@@ -128,9 +128,9 @@ public class FightStateTests
         var monster2 = new Viy();
         var monsters = new List<IMonster> { monster1, monster2 };
         var player = _testHelper.GeneratePlayerWith(monsters.ToImmutableList<ICard>());
-        var cubeMock = new Mock<ICube>();
+        var cubeMock = new Mock<ICube>(MockBehavior.Strict);
         cubeMock.Setup(x => x.Throw()).Returns((CubeFace)7);
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns(monsters);
         fightMock.Setup(x => x.WashBonus).Returns(5);
         fightMock.Setup(x => x.Player).Returns(player);
@@ -160,7 +160,7 @@ public class FightStateTests
         };
         var player = _testHelper.GeneratePlayerWith(playerCards.ToImmutableList());
         player.Inventory.PutOn(new BigWeapon());
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns([monster1, monster2]);
         fightMock.Setup(x => x.FightingStrengthBonus).Returns(0);
         _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
@@ -187,7 +187,7 @@ public class FightStateTests
         var monsters = new List<IMonster> { monster1, monster2 };
         var player = _testHelper.GeneratePlayerWith(monsters.ToImmutableList<ICard>());
         player.Inventory.PutOn(new BigWeapon());
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns(monsters);
         fightMock.Setup(x => x.FightingStrengthBonus).Returns(0);
         _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
@@ -215,7 +215,7 @@ public class FightStateTests
         var monsters = new List<IMonster> { monster1, monster2 };
         var player = _testHelper.GeneratePlayerWith(monsters.ToImmutableList<ICard>());
         player.Inventory.PutOn(new BigWeapon());
-        var fightMock = new Mock<IFight>();
+        var fightMock = new Mock<IFight>(MockBehavior.Strict);
         fightMock.Setup(x => x.Monsters).Returns(monsters);
         fightMock.Setup(x => x.FightingStrengthBonus).Returns(0);
         fightMock.Setup(x => x.Player).Returns(player);

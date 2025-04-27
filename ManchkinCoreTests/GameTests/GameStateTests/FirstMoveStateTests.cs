@@ -1,7 +1,6 @@
-﻿using System.Collections.Immutable;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Manchkin.Core;
-using Manchkin.Core.Cards;
+using Manchkin.Core.Cards.Doors;
 using Manchkin.Core.Game;
 using Manchkin.Core.Game.States;
 using Manchkin.Core.Generators;
@@ -17,28 +16,31 @@ using Xunit;
 
 namespace ManchkinCoreTests.GameTests.GameStateTests;
 
-public class StartStateTests
+public class FirstMoveStateTests
 {
-    private readonly StartState _state;
+    private readonly FirstMoveState _state;
     private readonly TestHelper _testHelper = new();
     private readonly Mock<IGameProcessor> _iGameProcessorMock = new(MockBehavior.Strict);
-    
 
-    public StartStateTests()
+    public FirstMoveStateTests()
     {
-        var cardsGeneratorMock = new Mock<ICardsGenerator>();
+        var cardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
+        var player = _testHelper.GenerateEmptyPlayer();
+        player.Level = 2;
+        player.IsDead = false;
         _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardsGeneratorMock.Object);
-        _state = new StartState(_iGameProcessorMock.Object);
+        _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
+        _state = new FirstMoveState(_iGameProcessorMock.Object);
     }
-
+    
     [Fact]
-    public void StartStateCreated_GetAllowedCommands_CommandsCorrect()
+    public void FirstMoveStateCreated_GetAllowedCommands_CommandsCorrect()
     {
-        _state.GetAllowCommands().Should().BeEquivalentTo([Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Finish]);
+        _state.GetAllowCommands().Should().BeEquivalentTo([Command.Dress, Command.Drop, Command.Sell, Command.Cast, Command.Curse, Command.Door]);
     }
-
+    
     [Fact]
-    public void StartStateCreated_Dress_ClothesDressed()
+    public void FirstMoveStateCreated_Dress_ClothesDressed()
     {
         var clothes1 = new Ukokoshnik();
         var clothes2 = new Ushanka();
@@ -55,7 +57,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_DropTreasure_Dropped()
+    public void FirstMoveStateCreated_DropTreasure_Dropped()
     {
         var treasure = new Ukokoshnik();
         var player = _testHelper.GeneratePlayerWith([treasure]);
@@ -69,7 +71,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_DropDoor_Dropped()
+    public void FirstMoveStateCreated_DropDoor_Dropped()
     {
         var door = new ShoesLossMonster();
         var player = _testHelper.GeneratePlayerWith([door]);
@@ -83,7 +85,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_SellTreasures_Success()
+    public void FirstMoveStateCreated_SellTreasures_Success()
     {
         var treasure1 = new Ukokoshnik();
         var treasure2 = new Ushanka();
@@ -99,7 +101,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_SellTreasures_NotSuccess()
+    public void FirstMoveStateCreated_SellTreasures_NotSuccess()
     {
         var treasure1 = new Ukokoshnik();
         var player = _testHelper.GeneratePlayerWith([treasure1]);
@@ -112,58 +114,9 @@ public class StartStateTests
         player.Level.Should().Be(1);
         //проверить, что карта не сброшена в сброс сокровищ
     }
-
-    [Fact]
-    public void StartStateCreated_FinishForLastPlayer_SwitchedToFirstPlayer()
-    {
-        var player1 = _testHelper.GenerateEmptyPlayer();
-        var player2 = _testHelper.GenerateEmptyPlayer();
-        _iGameProcessorMock.Setup(x => x.Players).Returns([player1, player2]);
-        _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player2);
-        _iGameProcessorMock.Setup(x => x.ChangeState(It.IsAny<FirstMoveState>()));
-        _iGameProcessorMock.Setup(x => x.SwitchToNextPlayer());
-        
-        var result = _state.Finish();
-        
-        result.Should().BeEquivalentTo(new CommandResultWith<bool>(true, true));
-        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FirstMoveState>()), Times.Once);
-        _iGameProcessorMock.Verify(x => x.SwitchToNextPlayer(), Times.Once);
-    }
     
     [Fact]
-    public void StartStateCreated_FinishForNotLastPlayer_SwitchedToNextPlayer()
-    {
-        var player1 = _testHelper.GenerateEmptyPlayer();
-        var player2 = _testHelper.GenerateEmptyPlayer();
-        _iGameProcessorMock.Setup(x => x.Players).Returns([player1, player2]);
-        _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player1);
-        _iGameProcessorMock.Setup(x => x.SwitchToNextPlayer()); // надо ли переопределять методы switch и change. Надо, сделать strict и переопределять все вызовы, можно null
-        
-        var result = _state.Finish();
-        
-        result.Should().BeEquivalentTo(new CommandResultWith<bool>(true, true));
-        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FirstMoveState>()), Times.Never);
-        _iGameProcessorMock.Verify(x => x.SwitchToNextPlayer(), Times.Once);
-    }
-    
-    [Fact]
-    public void StartStateCreated_FinishWithCardsMoreThenAllowed_NotSwitchedToNextPlayer()
-    {
-        var cards = ImmutableList.Create<ICard>(new Ukokoshnik(), new Ushanka(), new InvisibilityCap(),
-            new ShoesLossMonster(), new BabaYaga(), new Viy());
-        var player = _testHelper.GeneratePlayerWith(cards);
-        _iGameProcessorMock.Setup(x => x.Players).Returns([player]);
-        _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
-        
-        var result = _state.Finish();
-        
-        result.Should().BeEquivalentTo(new CommandResultWith<bool>(true, false));
-        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FirstMoveState>()), Times.Never);
-        _iGameProcessorMock.Verify(x => x.SwitchToNextPlayer(), Times.Never);
-    }
-
-    [Fact]
-    public void StartStateCreated_Curse_Success()
+    public void FirstMoveStateCreated_Curse_Success()
     {
         var curse = new CurseArmorLoss();
         var player1 = _testHelper.GeneratePlayerWith([curse]);
@@ -180,7 +133,7 @@ public class StartStateTests
     }
 
     [Fact]
-    public void StartStateCreated_Cast_Success()
+    public void FirstMoveStateCreated_Cast_Success()
     {
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var player = _testHelper.GeneratePlayerWith([spell]);
@@ -194,7 +147,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Cast_NotSuccess()
+    public void FirstMoveStateCreated_Cast_NotSuccess()
     {
         var spell = new CookPorridgeFromAxeGetLevelOtherSpell();
         var player = _testHelper.GeneratePlayerWith([spell]);
@@ -207,9 +160,9 @@ public class StartStateTests
         player.Level.Should().Be(9);
         player.Cards.Should().BeEmpty();
     }
-
+    
     [Fact]
-    public void StartStateCreated_Fight_CommandNotAllowed()
+    public void FirstMoveStateCreated_Fight_CommandNotAllowed()
     {
         var result = _state.Fight();
         
@@ -217,7 +170,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Monster_CommandNotAllowed()
+    public void FirstMoveStateCreated_Monster_CommandNotAllowed()
     {
         var result = _state.Monster(new BabaYaga());
         
@@ -225,7 +178,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_Run_CommandNotAllowed()
+    public void FirstMoveStateCreated_Run_CommandNotAllowed()
     {
         var result = _state.Run();
         
@@ -233,7 +186,7 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_CastFightingSpell_CommandNotAllowed()
+    public void FirstMoveStateCreated_CastFightingSpell_CommandNotAllowed()
     {
         var result = _state.Cast(new ZelenkaFightingSpell());
         
@@ -241,10 +194,55 @@ public class StartStateTests
     }
     
     [Fact]
-    public void StartStateCreated_PullDoor_CommandNotAllowed()
+    public void FirstMoveStateCreated_PullDoor_DoorIsMonster()
     {
-        var result = _state.PullDoor();
+        var door = new Viy();
+        var cardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
+        cardsGeneratorMock.Setup(x => x.GetDoorCard()).Returns(door);
+        _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardsGeneratorMock.Object);
+        _iGameProcessorMock.Setup(x => x.ChangeState(It.IsAny<FightState>()));
+        _iGameProcessorMock.SetupSet(x => x.CurrentFight = It.IsAny<IFight>());
+        var state = new FirstMoveState(_iGameProcessorMock.Object);
         
-        result.Should().BeEquivalentTo(new CommandResult(false));
+        var result = state.PullDoor();
+        
+        result.Should().BeEquivalentTo(new CommandResultWith<IDoor>(true, door));
+        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<FightState>()), Times.Once());
+        _iGameProcessorMock.VerifySet(x => x.CurrentFight = It.IsAny<IFight>(), Times.Once());
+    }
+    
+    [Fact]
+    public void FirstMoveStateCreated_PullDoor_DoorIsCurse()
+    {
+        var door = new PaintedLevelLossCurse();
+        var cardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
+        cardsGeneratorMock.Setup(x => x.GetDoorCard()).Returns(door);
+        _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardsGeneratorMock.Object);
+        _iGameProcessorMock.Setup(x => x.ChangeState(It.IsAny<SecondMoveState>()));
+        var state = new FirstMoveState(_iGameProcessorMock.Object);
+        
+        var result = state.PullDoor();
+        
+        result.Should().BeEquivalentTo(new CommandResultWith<IDoor>(true, door));
+        _iGameProcessorMock.Verify(x => x.ChangeState(It.IsAny<SecondMoveState>()), Times.Once());
+        _iGameProcessorMock.Object.CurrentPlayer.Level.Should().Be(1);
+        //проверить сброс
+    }
+
+    [Fact]
+    public void FirstMoveStateCreated_InitializationWithDeadPlayer_DealCardsToPlayer()
+    {
+        var player = _testHelper.GenerateEmptyPlayer();
+        player.IsDead = true;
+        var cardsGeneratorMock = new Mock<ICardsGenerator>(MockBehavior.Strict);
+        cardsGeneratorMock.Setup(x => x.GetDoorCard()).Returns(new Viy());
+        cardsGeneratorMock.Setup(x => x.GetTreasureCard()).Returns(new Ukokoshnik());
+        _iGameProcessorMock.Setup(x => x.CurrentPlayer).Returns(player);
+        _iGameProcessorMock.Setup(x => x.CardsGenerator).Returns(cardsGeneratorMock.Object);
+
+        var state = new FirstMoveState(_iGameProcessorMock.Object);
+
+        player.Cards.Should().HaveCount(8);
+        player.IsDead.Should().BeFalse();
     }
 }
